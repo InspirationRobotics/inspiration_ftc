@@ -1,3 +1,4 @@
 include ':FtcRobotController', ':openCVLibrary3', ':DogeCV'
 include ':TeamCode'
 include ':OpenCV'
+include ':opencvsdk'

@@ -8,4 +8,5 @@ dependencies {
     implementation (name: 'tensorflow-lite-0.0.0-nightly', ext:'aar')
     implementation project(':openCVLibrary3')
     implementation project(':DogeCV')
+    implementation project(path: ':opencvsdk', configuration:'default')
 }
