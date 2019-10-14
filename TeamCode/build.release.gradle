@@ -6,5 +6,6 @@ dependencies {
     implementation (name: 'WirelessP2p-release', ext:'aar')
     implementation (name: 'tfod-release', ext:'aar')
     implementation (name: 'tensorflow-lite-0.0.0-nightly', ext:'aar')
-    implementation project(path: ':OpenCV', configuration:'default')
+    implementation project(':CV')
+    implementation project(':openCVLibrary3')
 }
