@@ -137,7 +137,7 @@ public class SkystoneDetector extends OpenCVPipeline {
     }
 
     public boolean isVerifiedSkystone() {
-        if (Math.abs(bounding_rect_gold_global.br().y - bounding_rect_global.br().y) < 100 && (bounding_rect_global.br().y != 0d && bounding_rect_gold_global.br().y != 0d)) {
+        if (Math.abs(bounding_rect_gold_global.br().y - bounding_rect_global.br().y) < 30 && (bounding_rect_global.br().y != 0d && bounding_rect_gold_global.br().y != 0d)) {
             return true;
         }
         return false;
