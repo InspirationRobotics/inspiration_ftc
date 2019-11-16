@@ -22,10 +22,10 @@ public class Robot {
     }
 
     public void initHw () {
-        leftFront = ahwmap.dcMotor.get("leftFront");
-        leftBack = ahwmap.dcMotor.get("leftBack");
-        rightFront = ahwmap.dcMotor.get("rightFront");
-        rightBack = ahwmap.dcMotor.get("rightBack");
+        leftFront = ahwmap.dcMotor.get("lf");
+        leftBack = ahwmap.dcMotor.get("lb");
+        rightFront = ahwmap.dcMotor.get("rf");
+        rightBack = ahwmap.dcMotor.get("rb");
     }
 
 }
