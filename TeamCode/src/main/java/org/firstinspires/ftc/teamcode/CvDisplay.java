@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
-import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
+
+import com.inspiration.inspcv.CameraViewDisplay;
+import org.firstinspires.ftc.teamcode.CV.SkystoneDetector;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -10,18 +12,27 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class CvDisplay extends LinearOpMode {
 
     public HardwareMap ahwmap;
-    public SamplingOrderDetector detector = new SamplingOrderDetector();
+    public SkystoneDetector detector = new SkystoneDetector();
 
     public void setHardwareMap(HardwareMap hwMap) {
         ahwmap = hwMap;
     }
 
     public void runOpMode () {
+        waitForStart();
+
         setHardwareMap(hardwareMap);
         detector.init(ahwmap.appContext, CameraViewDisplay.getInstance());
         detector.enable();
-        sleep(4000);
-        detector.disable();
+        while (opModeIsActive()) {
+            telemetry.addData("detection:", detector.getDetectionStatus());
+            telemetry.update();
+            sleep(20);
+            if (isStopRequested()) {
+                detector.disable();
+            }
+        }
+
     }
 
 }
