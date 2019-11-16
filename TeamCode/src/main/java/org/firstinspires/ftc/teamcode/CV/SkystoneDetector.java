@@ -19,13 +19,12 @@ import java.util.List;
 
 public class SkystoneDetector extends OpenCVPipeline {
 
-    private byte detection = 0; /* detection status */
     private boolean showContours = true;
 
     /* bounding rect and contours */
-    Rect bounding_rect;
+    Rect bounding_rect_global = new Rect();
     private List<MatOfPoint> contours = new ArrayList<>();
-    Rect bounding_rect_gold;
+    Rect bounding_rect_gold_global = new Rect();
     private List<MatOfPoint> contours_gold = new ArrayList<>();
 
     public synchronized void setShowCountours(boolean enabled) {
@@ -37,23 +36,27 @@ public class SkystoneDetector extends OpenCVPipeline {
 
     public Mat processFrame(Mat rgba, Mat gray) {
 
+        /* bounding boxes */
+        Rect bounding_rect = new Rect();
+        Rect bounding_rect_gold = new Rect();
+
         /* matricies: hsv, thresholded, and rgba/thresholded cropped */
         Mat hsv = new Mat();
+        Mat grey = new Mat();
         Mat thresholded = new Mat();
         Mat thresholded_gold = new Mat();
-
-        /* kernel for dilation and roi for cropping */
-        Mat kernel = new Mat(30, 30, 0);
 
         /* draw a bounding box around black */
 
         /* change the colorspace */
-        Imgproc.cvtColor(rgba, hsv, Imgproc.COLOR_RGB2HSV, 3);
+        Imgproc.cvtColor(rgba, grey, Imgproc.COLOR_RGB2GRAY, 3);
 
-        /* threshold, blur, and dilate */
-        Core.inRange(hsv, new Scalar(0, 0, 0), new Scalar(255, 255, 10), thresholded);
+        /* threshold, blur, erode, and dilate */
+        Core.inRange(grey, new Scalar(20), new Scalar(50), thresholded);
         Imgproc.blur(thresholded, thresholded, new Size(15, 15));
-        Imgproc.dilate(thresholded, thresholded, kernel);
+        Imgproc.erode(thresholded, thresholded, new Mat(35, 35, 0));
+        Imgproc.dilate(thresholded, thresholded, new Mat(15, 15, 0));
+
 
         /* find contours */
         contours = new ArrayList<>();
@@ -67,7 +70,7 @@ public class SkystoneDetector extends OpenCVPipeline {
             for(int i = 0; i < contours.size(); i++ ) /* iterate through the contours */
             {
                 double area = Imgproc.contourArea(contours.get(i));  /* get contour area */
-                if( area > largest_area )
+                if ( area > largest_area )
                 {
                     largest_area = area; /* save the largest contour area */
 
@@ -77,18 +80,19 @@ public class SkystoneDetector extends OpenCVPipeline {
             }
 
             /* draw the contours and the bounding rect */
-            Imgproc.drawContours(rgba, contours, -1, new Scalar(255, 255, 0), 1, 8);
-            Imgproc.rectangle(rgba, bounding_rect.tl(), bounding_rect.br(), new Scalar(0, 255, 0), 3);
+            Imgproc.drawContours(rgba, contours, -1, new Scalar(0, 255, 0), 1, 8);
+
         }
 
         thresholded.release();
 
-        /* draw a bounding box around yellow */
+        /* change colorspace */
+        Imgproc.cvtColor(rgba, hsv, Imgproc.COLOR_RGB2HSV, 3);
 
-        /* threshold, blur, and dilate */
-        Core.inRange(hsv, new Scalar(20, 0, 0), new Scalar(255, 255, 255), thresholded_gold);
+        /* threshold, blur, and erode */
+        Core.inRange(hsv, new Scalar(0, 180, 150), new Scalar(30, 255, 255), thresholded_gold);
         Imgproc.blur(thresholded_gold, thresholded_gold, new Size(15, 15));
-        Imgproc.dilate(thresholded_gold, thresholded_gold, kernel);
+        Imgproc.erode(thresholded_gold, thresholded_gold, new Mat(30, 30, 0));
 
         /* find contours */
         contours_gold = new ArrayList<>();
@@ -113,25 +117,50 @@ public class SkystoneDetector extends OpenCVPipeline {
 
             /* draw the contours and the bounding rect */
             Imgproc.drawContours(rgba, contours_gold, -1, new Scalar(255, 255, 0), 1, 8);
-            Imgproc.rectangle(rgba, bounding_rect_gold.tl(), bounding_rect.br(), new Scalar(0, 0, 0), 3);
+
         }
 
+        if (bounding_rect_gold != null && bounding_rect != null) {
+            Imgproc.rectangle(rgba, bounding_rect.tl(), bounding_rect.br(), new Scalar(0, 255, 0), 3);
+            Imgproc.rectangle(rgba, bounding_rect_gold.tl(), bounding_rect_gold.br(), new Scalar(255, 255, 0), 3);
+        }
+
+        bounding_rect_global = bounding_rect;
+        bounding_rect_gold_global = bounding_rect_gold;
+
         hsv.release();
-        kernel.release();
         thresholded_gold.release();
+        grey.release();
 
         /* return the rgba matrix */
         return rgba;
     }
 
-    public byte getDetectionStatus() {
-        /* check whether the bounding box exists */
-        if (bounding_rect != null) {
-            /* ... and then check to see whether the edge of the bounding rect is within the given parameters, and is the correct size */
-            if (bounding_rect.width > 300 && (bounding_rect.x < 300 && bounding_rect.x > 200) /* make these constant */) {
-                detection = 1;
-            } else { detection = 0; }
+    public boolean isVerifiedSkystone() {
+        if (Math.abs(bounding_rect_gold_global.br().y - bounding_rect_global.br().y) < 100 && (bounding_rect_global.br().y != 0d && bounding_rect_gold_global.br().y != 0d)) {
+            return true;
         }
-        return detection;
+        return false;
     }
+
+    public boolean skystoneIsInPlace() {
+        /* ... and then check to see whether the edge of the bounding rect is within the given parameters, and is the correct size */
+        if (this.isVerifiedSkystone() && bounding_rect_global.width > 300 && (bounding_rect_global.x < 300 && bounding_rect_global.x > 200) /* make these constant */) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean robotInPosition() {
+        if (isVerifiedSkystone() && skystoneIsInPlace()) {
+            return true;
+        }
+        return false;
+    }
+
+    public double[] returnCoords() {
+        double[] coords = {bounding_rect_global.br().y, bounding_rect_gold_global.br().y};
+        return coords;
+    }
+
 }
