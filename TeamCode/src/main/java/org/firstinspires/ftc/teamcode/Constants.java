@@ -33,6 +33,11 @@ public abstract class Constants {
     public final String FRONT_DISTANCE_SENSOR_NAME = "frontDist";
     public final String BACK_DISTANCE_SENSOR_NAME = "backDist";
 
+    public final String LEFT_FRONT_MOTOR_NAME = "lf";
+    public final String LEFT_BACK_MOTOR_NAME = "lb";
+    public final String RIGHT_FRONT_MOTOR_NAME = "rf";
+    public final String RIGHT_BACK_MOTOR_NAME = "rb";
+
     public final double LEFT_DIST_BIAS = 0;
     public final double RIGHT_DIST_BIAS = 0;
     public final double FRONT_DIST_BIAS = 0;
