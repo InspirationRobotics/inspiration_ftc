@@ -66,7 +66,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  */
 
 @TeleOp(name="Concept: VuMark Id", group ="Concept")
-@Disabled
 public class ConceptVuMarkIdentification extends LinearOpMode {
 
     public static final String TAG = "Vuforia VuMark Sample";
@@ -102,7 +101,11 @@ public class ConceptVuMarkIdentification extends LinearOpMode {
          * Once you've obtained a license key, copy the string from the Vuforia web site
          * and paste it in to your code on the next line, between the double quotes.
          */
-        parameters.vuforiaLicenseKey = " -- YOUR NEW VUFORIA KEY GOES HERE  --- ";
+        parameters.vuforiaLicenseKey =
+                "AffveYv/////AAAAGQ5VbB9zQUgjlHWrneVac2MnNgfMDlq6EwI3tyURgRK6CHargOTFidfzKod6GLQwGD4m9MPLkR+0NfUrnY8+o8FqA" +
+                        "KcQbrAsjk8ONdkWYTPZDfoBRgDLNWRuB7LU1MOp9KqAWpXBJjvH5JCKF/Hxz+beHfVqdWQ0BVZdgGMXG4yEzLN5AI+4NIkQeL" +
+                        "vI7Cwz5pIlksoH+rb/e6+YExoWZbQWhDTiRiemlWjvDM1z2a0kteGDz0wTyHz48IkV4M0YsSQIFKwu3YB2a1vkB9FiRfMrBI+" +
+                        "CyInjgNoO8V0EEOtRc6Vqsf3XbF3fGXricZUhl7RIl5M/IkFOgeAZ4ML+JcrjTqfZb2Yh3JNx1me524cK";
 
         /*
          * We also indicate which camera on the RC that we wish to use.

@@ -16,7 +16,7 @@ public class Paraguay extends ExtendedOpMode {
     @Override
     public void init () {
         robot.setHardwareMap(hardwareMap);
-        robot.initHw();
+        robot.initDrivebase();
     }
 
     @Override
