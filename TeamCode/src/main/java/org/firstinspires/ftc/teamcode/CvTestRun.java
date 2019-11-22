@@ -17,7 +17,7 @@ public class CvTestRun extends ExtendedLinearOpMode {
         robot.setHardwareMap(hardwareMap);
         detector.init(robot.ahwmap.appContext, CameraViewDisplay.getInstance());
         detector.enable();
-        robot.initHw();
+        robot.initDrivebase();
         waitForStart();
 
         while(!detector.isVerifiedSkystone()){setPower(0.12, 0.12);}
