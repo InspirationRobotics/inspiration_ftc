@@ -43,6 +43,13 @@ public abstract class Constants {
     public final double FRONT_DIST_BIAS = 0;
     public final double BACK_DIST_BIAS = 0;
 
+    // Paraguay Robot
+    public final String TILTER_MOTOR_NAME = "tilter";
+    public final String LEFT_COLLECTOR_NAME = "leftCollector";
+    public final String RIGHT_COLLECTOR_NAME = "rightCollector";
+    public final String AUTO_ARM_NAME = "autoArm";
+    public final String FOUNDATION_BACK_NAME = "foundationBack";
+    public final String FOUNDATION_FRONT_NAME = "foundationFront";
 
     /* --------------------------------------*
     Program Specific Constants

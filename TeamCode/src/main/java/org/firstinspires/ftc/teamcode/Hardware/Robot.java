@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Hardware.Constants;
 import org.firstinspires.ftc.teamcode.Hardware.DistanceSensorType;
@@ -23,6 +24,13 @@ public class Robot {
     public DcMotor leftBack;
     public DcMotor rightFront;
     public DcMotor rightBack;
+
+    public DcMotor tilter;
+    public DcMotor leftCollector;
+    public DcMotor rightCollector;
+    public Servo autoArm;
+    public Servo foundationFront;
+    public Servo foundationBack;
 
     public DistanceSensor distanceFront;
     public DistanceSensor distanceBack;
@@ -66,6 +74,19 @@ public class Robot {
             mrDistanceLeft = ahwmap.get(ModernRoboticsI2cRangeSensor.class, constants.LEFT_DISTANCE_SENSOR_NAME);
             mrDistanceRight = ahwmap.get(ModernRoboticsI2cRangeSensor.class, constants.RIGHT_DISTANCE_SENSOR_NAME);
         }
+    }
+
+    public void initTilter() {
+        tilter = ahwmap.dcMotor.get(constants.TILTER_MOTOR_NAME);
+
+        leftCollector = ahwmap.dcMotor.get(constants.LEFT_COLLECTOR_NAME);
+        rightCollector = ahwmap.dcMotor.get(constants.RIGHT_COLLECTOR_NAME);
+    }
+
+    public void initParaguayFoundationMover() {
+        autoArm = ahwmap.servo.get(constants.AUTO_ARM_NAME);
+        foundationBack = ahwmap.servo.get(constants.FOUNDATION_BACK_NAME);
+        foundationFront = ahwmap.servo.get(constants.FOUNDATION_FRONT_NAME);
     }
 
 }
