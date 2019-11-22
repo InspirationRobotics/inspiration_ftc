@@ -1,7 +1,10 @@
-# cv_display
+# Inspiration Robotics
+### FIRST Tech Challenge (FTC) Team #11128
 
-The purpose of this branch is to determine how to enable a camera feed in the robot controller app.
+Please visit our website [here!](https://team11128.wixsite.com/main "Inspiration Robotics Homepage")
 
-10-10-2019
-- DogeCV was added so it can be modified and explored. The objective is to figure out how DogeCV draws the camera view onto the robot controller interface.
-- An autonomous OpMode was added. It enables vision, waits 4 seconds, and disables vision.
+This is the main repository for FTC Team Inspiration #11128's code for the 2019-20 SkyStone season
+
+Here is where our latest and greatest code will be situated! We update it constamtly to reflect new changes. To learn more in-depth how the code works, please go deeper to see the individual folders and programs in this repo.
+
+For any questions, pkease contact us at our social medias and emails. To find them, go [here!](https://team11128.wixsite.com/main/contact "Inspiration Robotics Contact Page")
