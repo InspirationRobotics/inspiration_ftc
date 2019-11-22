@@ -36,6 +36,9 @@ public class SkystoneDetector extends OpenCVPipeline {
 
     public Mat processFrame(Mat rgba, Mat gray) {
 
+        Size size = new Size(352,198);
+        Imgproc.resize(rgba, rgba, size);
+
         /* bounding boxes */
         Rect bounding_rect = new Rect();
         Rect bounding_rect_gold = new Rect();
@@ -90,7 +93,7 @@ public class SkystoneDetector extends OpenCVPipeline {
         Imgproc.cvtColor(rgba, hsv, Imgproc.COLOR_RGB2HSV, 3);
 
         /* threshold, blur, and erode */
-        Core.inRange(hsv, new Scalar(0, 180, 150), new Scalar(30, 255, 255), thresholded_gold);
+        Core.inRange(hsv, new Scalar(0, 180, 100), new Scalar(30, 255, 255), thresholded_gold);
         Imgproc.blur(thresholded_gold, thresholded_gold, new Size(15, 15));
         Imgproc.erode(thresholded_gold, thresholded_gold, new Mat(30, 30, 0));
 
@@ -138,6 +141,7 @@ public class SkystoneDetector extends OpenCVPipeline {
 
     public boolean isVerifiedSkystone() {
         if (Math.abs(bounding_rect_gold_global.br().y - bounding_rect_global.br().y) < 30 && (bounding_rect_global.br().y != 0d && bounding_rect_gold_global.br().y != 0d)) {
+            if (Math.abs(bounding_rect_gold_global.tl().y - bounding_rect_global.tl().y) < 90 && (bounding_rect_global.tl().y != 0d && bounding_rect_gold_global.tl().y != 0d))
             return true;
         }
         return false;
