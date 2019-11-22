@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.FOS;
+package org.firstinspires.ftc.teamcode.Hardware;
 
 public enum DistanceSensorType {
     REV,

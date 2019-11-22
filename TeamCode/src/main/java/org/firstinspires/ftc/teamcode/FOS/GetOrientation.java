@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.FOS;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.Hardware.Constants;
 
 public class GetOrientation {
 

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -6,7 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.FOS.DistanceSensorType;
+import org.firstinspires.ftc.teamcode.Hardware.Constants;
+import org.firstinspires.ftc.teamcode.Hardware.DistanceSensorType;
 
 /**
  * Created by rishi on 2019-10-13
@@ -16,22 +17,22 @@ import org.firstinspires.ftc.teamcode.FOS.DistanceSensorType;
 
 public class Robot {
 
-    Constants constants;
+    public Constants constants;
 
-    DcMotor leftFront;
-    DcMotor leftBack;
-    DcMotor rightFront;
-    DcMotor rightBack;
+    public DcMotor leftFront;
+    public DcMotor leftBack;
+    public DcMotor rightFront;
+    public DcMotor rightBack;
 
-    DistanceSensor distanceFront;
-    DistanceSensor distanceBack;
-    DistanceSensor distanceLeft;
-    DistanceSensor distanceRight;
+    public DistanceSensor distanceFront;
+    public DistanceSensor distanceBack;
+    public DistanceSensor distanceLeft;
+    public DistanceSensor distanceRight;
 
-    ModernRoboticsI2cRangeSensor mrDistanceFront;
-    ModernRoboticsI2cRangeSensor mrDistanceBack;
-    ModernRoboticsI2cRangeSensor mrDistanceLeft;
-    ModernRoboticsI2cRangeSensor mrDistanceRight;
+    public ModernRoboticsI2cRangeSensor mrDistanceFront;
+    public ModernRoboticsI2cRangeSensor mrDistanceBack;
+    public ModernRoboticsI2cRangeSensor mrDistanceLeft;
+    public ModernRoboticsI2cRangeSensor mrDistanceRight;
 
     public HardwareMap ahwmap;
 
