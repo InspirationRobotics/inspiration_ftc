@@ -42,6 +42,18 @@ public class Robot {
     public ModernRoboticsI2cRangeSensor mrDistanceLeft;
     public ModernRoboticsI2cRangeSensor mrDistanceRight;
 
+    //River
+    public DcMotor extension;
+    public DcMotor intake;
+    public DcMotor leftLift;
+    public DcMotor rightLift;
+    public Servo leftFoundation;
+    public Servo rightFoundation;
+    public Servo leftExtension;
+    public Servo rightExtension;
+    public Servo wrist;
+    public Servo grabber;
+
     public HardwareMap ahwmap;
 
     public void setHardwareMap(HardwareMap hwMap) {
@@ -89,6 +101,27 @@ public class Robot {
         autoArm = ahwmap.servo.get(constants.AUTO_ARM_NAME);
         foundationBack = ahwmap.servo.get(constants.FOUNDATION_BACK_NAME);
         foundationFront = ahwmap.servo.get(constants.FOUNDATION_FRONT_NAME);
+    }
+
+    public void initRiver() {
+        leftFront = ahwmap.dcMotor.get(constants.LEFT_FRONT_MOTOR_NAME);
+        leftBack = ahwmap.dcMotor.get(constants.LEFT_BACK_MOTOR_NAME);
+        rightFront = ahwmap.dcMotor.get(constants.RIGHT_FRONT_MOTOR_NAME);
+        rightBack = ahwmap.dcMotor.get(constants.RIGHT_BACK_MOTOR_NAME);
+
+        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        extension = ahwmap.dcMotor.get(constants.EXTENSION_MOTOR_NAME);
+        intake = ahwmap.dcMotor.get(constants.INTAKE_MOTOR_NAME);
+        leftLift = ahwmap.dcMotor.get(constants.EXTENSION_MOTOR_NAME);
+        rightLift = ahwmap.dcMotor.get(constants.EXTENSION_MOTOR_NAME);
+        leftFoundation = ahwmap.servo.get(constants.LEFT_FOUNDAION_SERVO_NAME);
+        rightFoundation = ahwmap.servo.get(constants.RIGHT_FOUNDAION_SERVO_NAME);
+        leftExtension = ahwmap.servo.get(constants.LEFT_EXTENSION_SERVO_NAME);
+        rightExtension = ahwmap.servo.get(constants.RIGHT_EXTENSION_SERVO_NAME);
+        wrist = ahwmap.servo.get(constants.WRIST_SERVO_NAME);
+        grabber = ahwmap.servo.get(constants.GRABBER_SERVO_NAME);
     }
 
 }

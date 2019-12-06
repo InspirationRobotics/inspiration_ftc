@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
 @Autonomous(name="CVDisplay", group="CV")
-public class CvDisplay extends LinearOpMode {
+public class SkyStoneVisionTest extends LinearOpMode {
 
     public HardwareMap ahwmap;
     public SkystoneDetector detector = new SkystoneDetector();

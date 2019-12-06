@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @Autonomous(name="CV Test Run", group="CV")
-public class CvTestRun extends ExtendedLinearOpMode {
+public class SkyStoneTestDrive extends ExtendedLinearOpMode {
 
     public SkystoneDetector detector = new SkystoneDetector();
 
