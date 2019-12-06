@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.CV;
 
 import com.inspiration.inspcv.OpenCVPipeline;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.opencv.core.Core;
 import org.opencv.core.Rect;
@@ -36,7 +37,9 @@ public class SkystoneDetector extends OpenCVPipeline {
 
     public Mat processFrame(Mat rgba, Mat gray) {
 
-        Size size = new Size(352,198);
+        //Size size = new Size(352,198);
+        Size size = new Size(400,300);
+
         Imgproc.resize(rgba, rgba, size);
 
         /* bounding boxes */
@@ -52,7 +55,9 @@ public class SkystoneDetector extends OpenCVPipeline {
         /* draw a bounding box around black */
 
         /* change the colorspace */
+        //Imgproc.cvtColor(rgba, grey, Imgproc.COLOR_RGB2GRAY, 3);
         Imgproc.cvtColor(rgba, grey, Imgproc.COLOR_RGB2GRAY, 3);
+
 
         /* threshold, blur, erode, and dilate */
         Core.inRange(grey, new Scalar(20), new Scalar(50), thresholded);

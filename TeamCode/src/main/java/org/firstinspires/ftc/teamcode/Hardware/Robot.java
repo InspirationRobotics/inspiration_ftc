@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.Hardware.DistanceSensorType;
 
 public class Robot {
 
-    public Constants constants;
+    public Constants constants = new Constants();
 
     public DcMotor leftFront;
     public DcMotor leftBack;
@@ -81,6 +81,8 @@ public class Robot {
 
         leftCollector = ahwmap.dcMotor.get(constants.LEFT_COLLECTOR_NAME);
         rightCollector = ahwmap.dcMotor.get(constants.RIGHT_COLLECTOR_NAME);
+
+        rightCollector.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void initParaguayFoundationMover() {

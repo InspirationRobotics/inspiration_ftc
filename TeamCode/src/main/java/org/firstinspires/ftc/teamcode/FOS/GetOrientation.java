@@ -5,13 +5,13 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Hardware.Constants;
 
-public class GetOrientation {
+public abstract class GetOrientation {
 
     Constants constants;
-    DistanceSensor dsLeft;
-    DistanceSensor dsRight;
-    DistanceSensor dsFront;
-    DistanceSensor dsBack;
+    public DistanceSensor dsLeft;
+    public DistanceSensor dsRight;
+    public DistanceSensor dsFront;
+    public DistanceSensor dsBack;
 
     public void setDistanceSensors(DistanceSensor distLeft, DistanceSensor distRight, DistanceSensor distFront, DistanceSensor distBack) {
         dsLeft = distLeft;
@@ -26,13 +26,13 @@ public class GetOrientation {
         double returnedDistance;
 
         if (last_position_x >= constants.FIELD_HALFWAY_POINT) {
-            double measuredDistance = dsLeft.getDistance(DistanceUnit.INCH);
-            returnedDistance = (2*constants.FIELD_HALFWAY_POINT) - measuredDistance + constants.LEFT_DIST_BIAS;
+            double measuredDistance = dsRight.getDistance(DistanceUnit.INCH);
+            returnedDistance = (2*constants.FIELD_HALFWAY_POINT) - measuredDistance + constants.RIGHT_DIST_BIAS;
         }
 
         else {
-            double measuredDistance = dsRight.getDistance(DistanceUnit.INCH);
-            returnedDistance = measuredDistance + constants.RIGHT_DIST_BIAS;
+            double measuredDistance = dsLeft.getDistance(DistanceUnit.INCH);
+            returnedDistance = measuredDistance + constants.LEFT_DIST_BIAS;
         }
 
         return returnedDistance;

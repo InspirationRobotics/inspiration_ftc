@@ -8,7 +8,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
  * All units are in inches
  */
 
-public abstract class Constants {
+public class Constants {
 
     /* --------------------------------------*
     FOS Related Constants
@@ -43,7 +43,7 @@ public abstract class Constants {
     public final double FRONT_DIST_BIAS = 0;
     public final double BACK_DIST_BIAS = 0;
 
-    // Paraguay Robot
+    // PuddleTeleOp Robot
     public final String TILTER_MOTOR_NAME = "tilter";
     public final String LEFT_COLLECTOR_NAME = "leftCollector";
     public final String RIGHT_COLLECTOR_NAME = "rightCollector";

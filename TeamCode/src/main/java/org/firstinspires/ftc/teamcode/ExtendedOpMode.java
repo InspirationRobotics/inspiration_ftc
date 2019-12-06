@@ -30,12 +30,12 @@ public abstract class ExtendedOpMode extends OpMode {
             robot.leftFront.setPower(power);
             robot.leftBack.setPower(-power);
             robot.rightFront.setPower(-power);
-            robot.rightFront.setPower(power);
+            robot.rightBack.setPower(power);
         } else if (direction == "right") {
             robot.leftFront.setPower(-power);
             robot.leftBack.setPower(power);
             robot.rightFront.setPower(power);
-            robot.rightFront.setPower(-power);
+            robot.rightBack.setPower(-power);
         }
     }
 
