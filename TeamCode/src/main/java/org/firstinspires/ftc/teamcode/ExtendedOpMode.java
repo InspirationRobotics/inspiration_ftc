@@ -28,22 +28,35 @@ public abstract class ExtendedOpMode extends OpMode {
     }
 
     public void strafe(double leftTrigger, double rightTrigger) {
-        if (leftTrigger > rightTrigger) {
+
+        while (leftTrigger > 0.2) {
+
             robot.leftFront.setPower(leftTrigger);
             robot.leftBack.setPower(-leftTrigger);
             robot.rightFront.setPower(-leftTrigger);
             robot.rightBack.setPower(leftTrigger);
-        } else if (leftTrigger < rightTrigger) {
-            robot.leftFront.setPower(-rightTrigger);
-            robot.leftBack.setPower(rightTrigger);
-            robot.rightFront.setPower(rightTrigger);
-            robot.rightBack.setPower(-rightTrigger);
-        } else {
-            robot.leftFront.setPower(0);
-            robot.leftBack.setPower(0);
-            robot.rightFront.setPower(0);
-            robot.rightBack.setPower(0);
+
+
+            if (leftTrigger <= 0.2) {
+                break;
+            }
         }
+
+
+
+        while (rightTrigger > 0.2) {
+
+            robot.leftFront.setPower(rightTrigger);
+            robot.leftBack.setPower(-rightTrigger);
+            robot.rightFront.setPower(-rightTrigger);
+            robot.rightBack.setPower(rightTrigger);
+
+
+            if (rightTrigger <= 0.2) {
+                break;
+            }
+        }
+
     }
 
     public void collect(boolean leftBumper, boolean rightBumper) {
@@ -61,26 +74,56 @@ public abstract class ExtendedOpMode extends OpMode {
     }
 
     public void moveDpad(boolean gp1LeftDpad, boolean gp1RightDpad,boolean gp1UpDpad,boolean gp1DownDpad) {
-        if (gp1LeftDpad) {
 
-            strafe(0.5, 0);
+        while (gamepad1.dpad_left) {
 
-        } else if (gp1RightDpad) {
+            robot.leftFront.setPower(0.5);
+            robot.leftBack.setPower(-0.5);
+            robot.rightFront.setPower(-0.5);
+            robot.rightBack.setPower(0.5);
 
-            strafe(0, 0.5);
 
-        } else if (gp1UpDpad) {
+            if (!gamepad1.dpad_left) {
+                break;
+            }
+        }
 
-            setPower(1,1);
 
-        } else if (gp1DownDpad) {
 
-            setPower(-1,-1);
+        while (gamepad1.dpad_right) {
 
-        } else {
+            robot.leftFront.setPower(-0.5);
+            robot.leftBack.setPower(0.5);
+            robot.rightFront.setPower(0.5);
+            robot.rightBack.setPower(-0.5);
 
-            setPower(0,0);
+            if (!gamepad1.dpad_right) {
+                break;
+            }
+        }
 
+        while (gamepad1.dpad_down) {
+
+            robot.leftFront.setPower(-0.5);
+            robot.leftBack.setPower(-0.5);
+            robot.rightFront.setPower(-0.5);
+            robot.rightBack.setPower(-0.5);
+
+            if (!gamepad1.dpad_down) {
+                break;
+            }
+        }
+
+        while (gamepad1.dpad_up) {
+
+            robot.leftFront.setPower(0.5);
+            robot.leftBack.setPower(0.5);
+            robot.rightFront.setPower(0.5);
+            robot.rightBack.setPower(0.5);
+
+            if (!gamepad1.dpad_up) {
+                break;
+            }
         }
     }
 
