@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.ExtendedOpMode;
+import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 
 @TeleOp(name = "River TeleOp", group = "River")
 public class RiverTeleOp extends ExtendedOpMode {
@@ -10,7 +11,7 @@ public class RiverTeleOp extends ExtendedOpMode {
     @Override
     public void init() {
         robot.setHardwareMap(hardwareMap);
-        robot.initRiver();
+        robot.initRiver(RobotVersion.RIVER_SIMPLE);
         telemetry.addLine("Ready to go!");
         telemetry.update();
     }

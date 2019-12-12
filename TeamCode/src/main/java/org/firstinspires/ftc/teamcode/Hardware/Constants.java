@@ -55,10 +55,14 @@ public class Constants {
     public final String WRIST_SERVO_NAME = "wrist";
     public final String GRABBER_SERVO_NAME = "grabber";
 
-    public final double LEFT_FOUNDATION_OPEN_POS = 0;
-    public final double LEFT_FOUNDATION_GRAB_POS = 1;
-    public final double RIGHT_FOUNDATION_OPEN_POS = 1;
-    public final double RIGHT_FOUNDATION_GRAB_POS = 0;
+    public final String INTAKE_DISTANCE_SENSOR_NAME = "intakeDistance";
+    public final String LIFT_MAGLIMIT_SENSOR_NAME = "liftLimit";
+    public final String EXTENSION_MAGLIMIT_SENSOR_NAME = "extensionLimit";
+
+    public final double LEFT_FOUNDATION_OPEN_POS = 1;
+    public final double LEFT_FOUNDATION_GRAB_POS = 0;
+    public final double RIGHT_FOUNDATION_OPEN_POS = 0;
+    public final double RIGHT_FOUNDATION_GRAB_POS = 1;
 
     public final double LEFT_EXTENSION_EXTENDED = 1;
     public final double LEFT_EXTENSION_COMPACTED = 0;
@@ -80,6 +84,8 @@ public class Constants {
     /* --------------------------------------*
     Program Specific Constants
     *----------------------------------------*/
+
+    public final double DIST_SENSOR_THRESHOLD = 5;
 
 
 }

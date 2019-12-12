@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -37,10 +38,10 @@ public class Robot {
     public DistanceSensor distanceLeft;
     public DistanceSensor distanceRight;
 
-    public ModernRoboticsI2cRangeSensor mrDistanceFront;
-    public ModernRoboticsI2cRangeSensor mrDistanceBack;
-    public ModernRoboticsI2cRangeSensor mrDistanceLeft;
-    public ModernRoboticsI2cRangeSensor mrDistanceRight;
+//    public ModernRoboticsI2cRangeSensor mrDistanceFront;
+//    public ModernRoboticsI2cRangeSensor mrDistanceBack;
+//    public ModernRoboticsI2cRangeSensor mrDistanceLeft;
+//    public ModernRoboticsI2cRangeSensor mrDistanceRight;
 
     //River
     public DcMotor extension;
@@ -53,6 +54,10 @@ public class Robot {
     public Servo rightExtension;
     public Servo wrist;
     public Servo grabber;
+
+    public DistanceSensor intakeDistance;
+    public DigitalChannel liftLimit;
+    public DigitalChannel extensionLimit;
 
     public HardwareMap ahwmap;
 
@@ -81,11 +86,18 @@ public class Robot {
         }
 
         else {
-            mrDistanceFront = ahwmap.get(ModernRoboticsI2cRangeSensor.class, constants.FRONT_DISTANCE_SENSOR_NAME);
-            mrDistanceBack = ahwmap.get(ModernRoboticsI2cRangeSensor.class, constants.BACK_DISTANCE_SENSOR_NAME);
-            mrDistanceLeft = ahwmap.get(ModernRoboticsI2cRangeSensor.class, constants.LEFT_DISTANCE_SENSOR_NAME);
-            mrDistanceRight = ahwmap.get(ModernRoboticsI2cRangeSensor.class, constants.RIGHT_DISTANCE_SENSOR_NAME);
+            distanceFront = ahwmap.get(ModernRoboticsI2cRangeSensor.class, constants.FRONT_DISTANCE_SENSOR_NAME);
+            distanceBack = ahwmap.get(ModernRoboticsI2cRangeSensor.class, constants.BACK_DISTANCE_SENSOR_NAME);
+            distanceLeft = ahwmap.get(ModernRoboticsI2cRangeSensor.class, constants.LEFT_DISTANCE_SENSOR_NAME);
+            distanceRight = ahwmap.get(ModernRoboticsI2cRangeSensor.class, constants.RIGHT_DISTANCE_SENSOR_NAME);
         }
+    }
+
+    public void initRiverSensors() {
+        intakeDistance = ahwmap.get(DistanceSensor.class, constants.INTAKE_DISTANCE_SENSOR_NAME);
+
+        liftLimit = ahwmap.get(DigitalChannel.class, constants.LIFT_MAGLIMIT_SENSOR_NAME);
+        extensionLimit = ahwmap.get(DigitalChannel.class, constants.EXTENSION_MAGLIMIT_SENSOR_NAME);
     }
 
     public void initTilter() {
@@ -103,7 +115,7 @@ public class Robot {
         foundationFront = ahwmap.servo.get(constants.FOUNDATION_FRONT_NAME);
     }
 
-    public void initRiver() {
+    public void initRiver(RobotVersion robotVersion) {
         leftFront = ahwmap.dcMotor.get(constants.LEFT_FRONT_MOTOR_NAME);
         leftBack = ahwmap.dcMotor.get(constants.LEFT_BACK_MOTOR_NAME);
         rightFront = ahwmap.dcMotor.get(constants.RIGHT_FRONT_MOTOR_NAME);
@@ -122,6 +134,13 @@ public class Robot {
         rightExtension = ahwmap.servo.get(constants.RIGHT_EXTENSION_SERVO_NAME);
         wrist = ahwmap.servo.get(constants.WRIST_SERVO_NAME);
         grabber = ahwmap.servo.get(constants.GRABBER_SERVO_NAME);
+
+        if (robotVersion == RobotVersion.RIVER) {
+            initDistanceSensors(DistanceSensorType.REV);
+            initRiverSensors();
+        } else {
+            //do nothing
+        }
     }
 
 }
