@@ -20,7 +20,7 @@ public class SkyStoneTestDrive extends ExtendedLinearOpMode {
         robot.initDrivebase();
         waitForStart();
 
-        while(!detector.isVerifiedSkystone()){setPower(0.12, 0.12);}
+        while(!detector.isVerifiedSkystone()){setPower(0.20, 0.20);}
         setPower(0, 0);
         detector.disable();
 
