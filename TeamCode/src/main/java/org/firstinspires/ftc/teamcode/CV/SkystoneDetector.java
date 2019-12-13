@@ -92,7 +92,7 @@ public class SkystoneDetector extends OpenCVPipeline {
 
 
         /* threshold, blur, erode, and dilate */
-        Core.inRange(grey, new Scalar(10), new Scalar(50), thresholded);
+        Core.inRange(grey, new Scalar(0), new Scalar(50), thresholded);
 //        Imgproc.blur(thresholded, thresholded, new Size(15, 15));
         Imgproc.erode(thresholded, thresholded, new Mat(15, 15, 0));
 //        Imgproc.dilate(thresholded, thresholded, new Mat(15, 15, 0));
