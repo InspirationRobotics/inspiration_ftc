@@ -16,6 +16,13 @@ public class Constants {
 
     public final double FIELD_HALFWAY_POINT = 144;
 
+    public final String VUFORIA_KEY = "AffveYv/////AAAAGQ5VbB9zQUgjlHWrneVac2MnNgfMDlq6EwI3tyURgRK6C" +
+            "HargOTFidfzKod6GLQwGD4m9MPLkR+0NfUrnY8+o8FqAKcQbrAsjk8ONdkWYTPZDfoBRgDLNWRuB7LU1MOp9KqAWpXB" +
+            "JjvH5JCKF/Hxz+beHfVqdWQ0BVZdgGMXG4yEzLN5AI+4NIkQeLvI7Cwz5pIlksoH+rb/e6+YExoWZbQWhDTiRiemlWjvDM" +
+            "1z2a0kteGDz0wTyHz48IkV4M0YsSQIFKwu3YB2a1vkB9FiRfMrBI+CyInjgNoO8V0EEOtRc6Vqsf3XbF3fGXricZUhl7RIl5" +
+            "M/IkFOgeAZ4ML+JcrjTqfZb2Yh3JNx1me524cK";
+
+
 
     /* --------------------------------------*
     Vision Related Constants
@@ -63,6 +70,9 @@ public class Constants {
     public final double LEFT_FOUNDATION_GRAB_POS = 0;
     public final double RIGHT_FOUNDATION_OPEN_POS = 0;
     public final double RIGHT_FOUNDATION_GRAB_POS = 1;
+    public final double WRIST_INSIDE_POS = 0;
+    public final double WRIST_SIDE_POS = 1;
+    public final double WRIST_OUTSIDE_POS = 1;
 
     public final double LEFT_EXTENSION_EXTENDED = 1;
     public final double LEFT_EXTENSION_COMPACTED = 0;
@@ -71,6 +81,22 @@ public class Constants {
 
     public final double GRABBER_OPEN_POS = 1;
     public final double GRABBER_GRAB_POS = 0;
+
+    public final double INTAKE_MOTOR_INTAKE_SPEED = 1;
+    public final double INTAKE_MOTOR_OUTTAKE_SPEED = -1;
+    public final double EXTENSION_EXTEND_SPEED = 1;
+    public final double EXTENSION_COMPACT_SPEED = -1;
+
+    public final double LIFT_INCREASE_HEIGHT_SPEED = 1;
+    public final double LIFT_LOWER_HEIGHT_SPEED = -1;
+
+    public final double COUNTS_PER_MOTOR_REV    = 1680 ;    // eg: TETRIX Motor Encoder
+    public final double DRIVE_GEAR_REDUCTION    = 0.75 ;     // This is < 1.0 if geared UP
+    public final double WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    public final double COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
+
+
+    public final String IMU_NAME = "imu";
 
 
     // PuddleTeleOp Robot
@@ -86,6 +112,9 @@ public class Constants {
     *----------------------------------------*/
 
     public final double DIST_SENSOR_THRESHOLD = 5;
+    public final double P_TURN_COEFF = 0.1;
+    public final double HEADING_THRESHOLD = 1.5;
+    public final double DISTANCE_THRESHOLD = 2;
 
 
 }
