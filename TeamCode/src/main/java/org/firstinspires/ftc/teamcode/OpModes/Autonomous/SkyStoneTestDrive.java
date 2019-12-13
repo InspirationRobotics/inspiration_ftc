@@ -5,11 +5,9 @@ import org.firstinspires.ftc.teamcode.CV.SkystoneDetector;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
-@Autonomous(name="CV Test Run", group="CV")
+@Autonomous(name="SkystoneTestDrive", group="Competition")
 public class SkyStoneTestDrive extends ExtendedLinearOpMode {
-
     public SkystoneDetector detector = new SkystoneDetector();
 
     @Override
@@ -20,9 +18,8 @@ public class SkyStoneTestDrive extends ExtendedLinearOpMode {
         robot.initDrivebase();
         waitForStart();
 
-        while(!detector.isVerifiedSkystone()){setPower(0.20, 0.20);}
+        while(!detector.isVerifiedSkystone("blue")){setPower(-0.50, -0.50);}
         setPower(0, 0);
         detector.disable();
-
     }
 }
