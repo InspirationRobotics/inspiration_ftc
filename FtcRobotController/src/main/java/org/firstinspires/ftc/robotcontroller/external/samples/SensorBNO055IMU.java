@@ -55,7 +55,7 @@ import java.util.Locale;
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
 @TeleOp(name = "Sensor: BNO055 IMU", group = "Sensor")
-@Disabled                            // Comment this out to add to the opmode list
+//@Disabled                            // Comment this out to add to the opmode list
 public class SensorBNO055IMU extends LinearOpMode
     {
     //----------------------------------------------------------------------------------------------
@@ -67,7 +67,8 @@ public class SensorBNO055IMU extends LinearOpMode
 
     // State used for updating telemetry
     Orientation angles;
-    Acceleration gravity;
+    //Acceleration gravity;
+    Position position;
 
     //----------------------------------------------------------------------------------------------
     // Main logic
@@ -84,7 +85,7 @@ public class SensorBNO055IMU extends LinearOpMode
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
         parameters.loggingEnabled      = true;
         parameters.loggingTag          = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        //parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
@@ -121,7 +122,8 @@ public class SensorBNO055IMU extends LinearOpMode
                 // to do that in each of the three items that need that info, as that's
                 // three times the necessary expense.
                 angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                gravity  = imu.getGravity();
+                //gravity  = imu.getGravity();
+                position = imu.getPosition();
                 }
             });
 
@@ -155,19 +157,43 @@ public class SensorBNO055IMU extends LinearOpMode
                 });
 
         telemetry.addLine()
-            .addData("grvty", new Func<String>() {
-                @Override public String value() {
-                    return gravity.toString();
+                .addData("position x", new Func<String>() {
+                    @Override public String value() {
+                        return String.valueOf(position.x);
                     }
                 })
-            .addData("mag", new Func<String>() {
-                @Override public String value() {
-                    return String.format(Locale.getDefault(), "%.3f",
-                            Math.sqrt(gravity.xAccel*gravity.xAccel
-                                    + gravity.yAccel*gravity.yAccel
-                                    + gravity.zAccel*gravity.zAccel));
+
+                .addData("position y", new Func<String>() {
+                    @Override public String value() {
+                        return String.valueOf(position.y);
+                    }
+                })
+
+                .addData("position z", new Func<String>() {
+                    @Override public String value() {
+                        return String.valueOf(position.z);
                     }
                 });
+
+//                .addData("position overall", new Func<String>() {
+//                    @Override public String value() {
+//                        return String.valueOf(position.x);
+//                    }
+
+//        telemetry.addLine()
+//            .addData("grvty", new Func<String>() {
+//                @Override public String value() {
+//                    return gravity.toString();
+//                    }
+//                })
+//            .addData("mag", new Func<String>() {
+//                @Override public String value() {
+//                    return String.format(Locale.getDefault(), "%.3f",
+//                            Math.sqrt(gravity.xAccel*gravity.xAccel
+//                                    + gravity.yAccel*gravity.yAccel
+//                                    + gravity.zAccel*gravity.zAccel));
+//                    }
+//                });
     }
 
     //----------------------------------------------------------------------------------------------

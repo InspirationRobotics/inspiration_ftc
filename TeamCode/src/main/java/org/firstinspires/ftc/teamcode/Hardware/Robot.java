@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -8,6 +9,8 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Hardware.Constants;
 import org.firstinspires.ftc.teamcode.Hardware.DistanceSensorType;
 
@@ -59,7 +62,14 @@ public class Robot {
     public DigitalChannel liftLimit;
     public DigitalChannel extensionLimit;
 
+    public BNO055IMU imu;
+    public Orientation angles;
+    public Acceleration gravity;
+
     public HardwareMap ahwmap;
+
+    public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+
 
     public void setHardwareMap(HardwareMap hwMap) {
         ahwmap = hwMap;
@@ -141,6 +151,26 @@ public class Robot {
         } else {
             //do nothing
         }
+    }
+
+    public void initIMU() {
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+
+        imu = ahwmap.get(BNO055IMU.class, constants.IMU_NAME);
+        imu.initialize(parameters);
+    }
+
+    public double getHeading() {
+
+        double heading;
+
+        heading = angles.firstAngle;
+
+        return heading;
     }
 
 }
