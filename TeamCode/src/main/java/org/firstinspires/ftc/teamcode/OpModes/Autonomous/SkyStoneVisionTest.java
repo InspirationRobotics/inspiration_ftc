@@ -25,7 +25,7 @@ public class SkyStoneVisionTest extends LinearOpMode {
         detector.init(ahwmap.appContext, CameraViewDisplay.getInstance());
         detector.enable();
         while (opModeIsActive()) {
-            telemetry.addData("detection:", detector.isVerifiedSkystone());
+            telemetry.addData("detection:", detector.isVerifiedSkystone("blue"));
             telemetry.addData("coordinates black", detector.returnCoords()[0]);
             telemetry.addData("coordinates gold", detector.returnCoords()[1]);
             telemetry.update();

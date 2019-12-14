@@ -116,7 +116,7 @@ public class SkystoneDetector extends OpenCVPipeline {
 
                     /* get a bounding rectangle based on the largest contour */
                     working_bounding_rect = Imgproc.boundingRect(contours.get(i));
-                    if (working_bounding_rect.tl().y >= bounding_rect_gold.tl().y /* && working_bounding_rect.br().y <= bounding_rect_gold.br().y */) {
+                    if (working_bounding_rect.area() > 500 && working_bounding_rect.tl().y >= bounding_rect_gold.tl().y /* && working_bounding_rect.br().y <= bounding_rect_gold.br().y */) {
                         largest_area = area;
                         bounding_rect = working_bounding_rect;
                     }
@@ -149,24 +149,16 @@ public class SkystoneDetector extends OpenCVPipeline {
         return rgba;
     }
 
-    public boolean isVerifiedSkystone() {
+    public boolean isVerifiedSkystone(String side) {
         if (Math.abs(bounding_rect_gold_global.br().y - bounding_rect_global.br().y) < 30 && (bounding_rect_global.br().y != 0d && bounding_rect_gold_global.br().y != 0d)) {
             if (Math.abs(bounding_rect_gold_global.tl().y - bounding_rect_global.tl().y) < 90 && (bounding_rect_global.tl().y != 0d && bounding_rect_gold_global.tl().y != 0d))
-            return true;
-        }
-        return false;
-    }
+                if (side == "blue")
+                    if (bounding_rect_gold_global.br().x < bounding_rect_global.br().x)
+                        return true;
+                else if (side == "red")
+                    if (bounding_rect_gold_global.br().x > bounding_rect_global.br().x)
+                        return true;
 
-    public boolean skystoneIsInPlace() {
-        /* ... and then check to see whether the edge of the bounding rect is within the given parameters, and is the correct size */
-        if (this.isVerifiedSkystone() && bounding_rect_global.width > 300 && (bounding_rect_global.x < 300 && bounding_rect_global.x > 200) /* make these constant */) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean robotInPosition() {
-        if (isVerifiedSkystone() && skystoneIsInPlace()) {
             return true;
         }
         return false;
