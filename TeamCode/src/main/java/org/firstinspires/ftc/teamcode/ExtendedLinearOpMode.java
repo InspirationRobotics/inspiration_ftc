@@ -30,20 +30,19 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         detector.disable();
     }
 
-    public boolean skyStoneIsVisible() {
+    public boolean skyStoneIsVisible(String side) {
         boolean visible = false;
 
-        if (detector.isVerifiedSkystone()) {
+        if (detector.isVerifiedSkystone(side)) {
             visible = true;
         }
 
-        else if (!detector.isVerifiedSkystone()) {
+        else if (!detector.isVerifiedSkystone(side)) {
             visible = false;
         }
 
         return visible;
     }
-
 
     public void setPower (double left_power, double right_power) {
 

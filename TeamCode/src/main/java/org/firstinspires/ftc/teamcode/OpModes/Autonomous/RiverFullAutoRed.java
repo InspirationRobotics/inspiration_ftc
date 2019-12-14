@@ -27,7 +27,7 @@ public class RiverFullAutoRed extends ExtendedLinearOpMode {
 
         encoderDrive(22, 22, 0.8, 4);
 
-        while (!skyStoneIsVisible()) {
+        while (!skyStoneIsVisible("red")) {
             strafeGyro(180, 0);
         }
 

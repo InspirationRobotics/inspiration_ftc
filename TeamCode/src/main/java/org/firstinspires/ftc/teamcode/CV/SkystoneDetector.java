@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.CV;
 
 import com.inspiration.inspcv.OpenCVPipeline;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.opencv.core.Core;
 import org.opencv.core.Rect;
@@ -27,6 +26,7 @@ public class SkystoneDetector extends OpenCVPipeline {
     private List<MatOfPoint> contours = new ArrayList<>();
     Rect bounding_rect_gold_global = new Rect();
     private List<MatOfPoint> contours_gold = new ArrayList<>();
+    private Rect roi = new Rect(66, 0, 66, 352);
 
     public synchronized void setShowCountours(boolean enabled) {
         showContours = enabled;
@@ -39,6 +39,7 @@ public class SkystoneDetector extends OpenCVPipeline {
 
         Size size = new Size(198, 352);
         Imgproc.resize(rgba, rgba, size);
+        rgba = new Mat(rgba.clone(), roi);
 
         /* bounding boxes */
         Rect bounding_rect = new Rect();
@@ -116,7 +117,7 @@ public class SkystoneDetector extends OpenCVPipeline {
 
                     /* get a bounding rectangle based on the largest contour */
                     working_bounding_rect = Imgproc.boundingRect(contours.get(i));
-                    if (working_bounding_rect.area() > 500 && working_bounding_rect.tl().y >= bounding_rect_gold.tl().y /* && working_bounding_rect.br().y <= bounding_rect_gold.br().y */) {
+                    if (working_bounding_rect.area() > 300 && working_bounding_rect.tl().y >= bounding_rect_gold.tl().y /* && working_bounding_rect.br().y <= bounding_rect_gold.br().y */) {
                         largest_area = area;
                         bounding_rect = working_bounding_rect;
                     }
@@ -125,7 +126,6 @@ public class SkystoneDetector extends OpenCVPipeline {
 
             /* draw the contours and the bounding rect */
             Imgproc.drawContours(rgba, contours, -1, new Scalar(0, 255, 0), 1, 8);
-
         }
 
         thresholded.release();

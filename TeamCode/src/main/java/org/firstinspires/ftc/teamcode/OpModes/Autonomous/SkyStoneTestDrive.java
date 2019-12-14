@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 @Autonomous(name="SkystoneTestDrive", group="Competition")
 public class SkyStoneTestDrive extends ExtendedLinearOpMode {
     public SkystoneDetector detector = new SkystoneDetector();
+    int initialPos;
 
     @Override
     public void runOpMode () {
@@ -17,9 +18,16 @@ public class SkyStoneTestDrive extends ExtendedLinearOpMode {
         detector.enable();
         robot.initDrivebase();
         waitForStart();
+        initialPos = robot.leftBack.getCurrentPosition();
 
-        while(!detector.isVerifiedSkystone("blue")){setPower(-0.50, -0.50);}
+        while(!detector.isVerifiedSkystone("blue")){
+            setPower(-0.20, -0.20);
+            telemetry.addData("encoders", robot.leftBack.getCurrentPosition() - initialPos);
+            telemetry.update();
+        }
         setPower(0, 0);
         detector.disable();
+        sleep(2000);
+
     }
 }
