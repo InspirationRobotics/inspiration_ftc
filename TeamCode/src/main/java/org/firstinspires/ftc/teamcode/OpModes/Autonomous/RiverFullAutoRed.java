@@ -25,7 +25,7 @@ public class RiverFullAutoRed extends ExtendedLinearOpMode {
 
         intake(robot.constants.INTAKE_MOTOR_OUTTAKE_SPEED, 1, false);
 
-        encoderDrive(22, 22, 0.8, 4);
+        encoderDrive(22, 22, 0.8, 4, 6);
 
         while (!skyStoneIsVisible()) {
             strafeGyro(180, 0);
@@ -49,7 +49,7 @@ public class RiverFullAutoRed extends ExtendedLinearOpMode {
 
         gyroTurn(-180, 0.5, 4);
 
-        encoderDrive(-16, -16, 0.8, 4);
+        encoderDrive(-16, -16, 0.8, 4, 6);
 
         robot.leftFoundation.setPosition(robot.constants.LEFT_FOUNDATION_GRAB_POS);
         robot.rightFoundation.setPosition(robot.constants.RIGHT_FOUNDATION_GRAB_POS);
@@ -64,16 +64,18 @@ public class RiverFullAutoRed extends ExtendedLinearOpMode {
 
         lift(robot.constants.LIFT_LOWER_HEIGHT_SPEED, 3);
 
-        encoderDrive(30, 30, 0.8, 5);
+        encoderDrive(30, 30, 0.8, 5, 6);
 
         robot.leftFoundation.setPosition(robot.constants.LEFT_FOUNDATION_OPEN_POS);
         robot.rightFoundation.setPosition(robot.constants.RIGHT_FOUNDATION_OPEN_POS);
 
-        encoderDrive(2, 2, 0.8, 1);
+        //encoderDrive(2, 2, 0.8, 1);
+        encoderDrive(2, 2, 0.1, 24, 6);
 
         wallAlign(36, Direction.RIGHT, robot.distanceLeft, -180, 7);
 
-        encoderDrive(-24, -24, 0.7, 4);
+        //encoderDrive(-24, -24, 0.7, 4);
+        encoderDrive(-24, -24, 0.1, .24, 6);
 
         wallAlign(58, Direction.RIGHT, robot.distanceLeft, -180, 6);
 

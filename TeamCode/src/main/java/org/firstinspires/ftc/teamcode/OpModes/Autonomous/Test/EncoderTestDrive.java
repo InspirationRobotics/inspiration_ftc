@@ -1,16 +1,13 @@
-package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
+package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Test;
 
 import com.inspiration.inspcv.CameraViewDisplay;
-import org.firstinspires.ftc.teamcode.CV.SkystoneDetector;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+import org.firstinspires.ftc.teamcode.CV.SkystoneDetector;
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
-@Autonomous(name="CV Test Run", group="CV")
-public class SkyStoneTestDrive extends ExtendedLinearOpMode {
-
-    public SkystoneDetector detector = new SkystoneDetector();
+@Autonomous(name="Encoder Test Drive", group="Test")
+public class EncoderTestDrive extends ExtendedLinearOpMode {
 
     @Override
     public void runOpMode () {
@@ -23,5 +20,10 @@ public class SkyStoneTestDrive extends ExtendedLinearOpMode {
         while(!detector.isVerifiedSkystone()){setPower(0.20, 0.20);}
         setPower(0, 0);
         detector.disable();
+
+        encoderDrive(8, 8, 0.1, .215, 6);
+
+        stopMotors();
+
     }
 }
