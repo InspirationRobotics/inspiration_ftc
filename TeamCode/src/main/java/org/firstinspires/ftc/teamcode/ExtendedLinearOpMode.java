@@ -410,7 +410,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         robot.rightBack.setPower(powerRightBack);
     }
 
-    public void encoderDrive(double left_in, double right_in, double speed, double timeoutS) {
+    public void encoderDrive(double left_in, double right_in, double speed_l, double speed_r, double timeoutS) {
 
         int left_distanceEnc = (int) (robot.constants.COUNTS_PER_INCH * left_in);
         int right_distanceEnc =  (int) (robot.constants.COUNTS_PER_INCH * right_in);
@@ -428,7 +428,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
             // reset the timeout time and start motion.
             runtime.reset();
-            setPower(Math.abs(speed), Math.abs(speed));
+            setPower(Math.abs(speed_l), Math.abs(speed_r));
 
             while ((opModeIsActive() && runtime.seconds() < timeoutS) && robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy() && robot.rightBack.isBusy()) {
 
@@ -436,7 +436,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
                 telemetry.addData("Target Distance Left (in)", left_in);
                 telemetry.addData("Target Distance Right (in)", right_in);
                 telemetry.addData("TickLeft", left_distanceEnc);
-                telemetry.addData("TickRight", right_distanceEnc);
+                telemetry.addData("TickRight05", right_distanceEnc);
                 telemetry.update();
                 //just one more test...
             }
