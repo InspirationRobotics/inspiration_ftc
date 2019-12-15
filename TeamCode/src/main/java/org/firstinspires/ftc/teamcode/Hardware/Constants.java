@@ -31,14 +31,14 @@ public class Constants {
 
 
 
-    /* --------------------------------------*
+    /*--------------------------------------*
     Robot-Specific  Constants
     *----------------------------------------*/
 
-    public final String LEFT_DISTANCE_SENSOR_NAME = "leftDist";
-    public final String RIGHT_DISTANCE_SENSOR_NAME = "rightDist";
-    public final String FRONT_DISTANCE_SENSOR_NAME = "frontDist";
-    public final String BACK_DISTANCE_SENSOR_NAME = "backDist";
+    public final String LEFT_DISTANCE_SENSOR_NAME = "distanceLeft";
+    public final String RIGHT_DISTANCE_SENSOR_NAME = "distanceRight";
+    public final String FRONT_DISTANCE_SENSOR_NAME = "distanceFront";
+    public final String BACK_DISTANCE_SENSOR_NAME = "distanceBack";
 
     public final String LEFT_FRONT_MOTOR_NAME = "lf";
     public final String LEFT_BACK_MOTOR_NAME = "lb";
@@ -97,6 +97,8 @@ public class Constants {
 
 
     public final String IMU_NAME = "imu";
+
+    public final double DISTANCE_SENSOR_COLLECTOR_OFFSET = 9;
 
 
     // PuddleTeleOp Robot
