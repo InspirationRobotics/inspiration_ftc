@@ -84,8 +84,8 @@ public class Robot {
         rightFront = ahwmap.dcMotor.get(constants.RIGHT_FRONT_MOTOR_NAME);
         rightBack = ahwmap.dcMotor.get(constants.RIGHT_BACK_MOTOR_NAME);
 
-        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
 
@@ -118,6 +118,7 @@ public class Robot {
         leftCollector = ahwmap.dcMotor.get(constants.LEFT_COLLECTOR_NAME);
         rightCollector = ahwmap.dcMotor.get(constants.RIGHT_COLLECTOR_NAME);
 
+//        leftCollector.setDirection(DcMotorSimple.Direction.REVERSE);
         rightCollector.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
@@ -138,8 +139,8 @@ public class Robot {
 
         extension = ahwmap.dcMotor.get(constants.EXTENSION_MOTOR_NAME);
         intake = ahwmap.dcMotor.get(constants.INTAKE_MOTOR_NAME);
-        leftLift = ahwmap.dcMotor.get(constants.EXTENSION_MOTOR_NAME);
-        rightLift = ahwmap.dcMotor.get(constants.EXTENSION_MOTOR_NAME);
+        leftLift = ahwmap.dcMotor.get(constants.LIFT_LEFT_MOTOR_NAME);
+        rightLift = ahwmap.dcMotor.get(constants.RIGHT_LIFT_MOTOR_NAME);
         leftFoundation = ahwmap.servo.get(constants.LEFT_FOUNDAION_SERVO_NAME);
         rightFoundation = ahwmap.servo.get(constants.RIGHT_FOUNDAION_SERVO_NAME);
         leftExtension = ahwmap.servo.get(constants.LEFT_EXTENSION_SERVO_NAME);

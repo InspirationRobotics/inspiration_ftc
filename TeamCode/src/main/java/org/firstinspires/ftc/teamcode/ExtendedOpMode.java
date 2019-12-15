@@ -29,7 +29,7 @@ public abstract class ExtendedOpMode extends OpMode {
 
     public void strafe(double leftTrigger, double rightTrigger) {
 
-        while (leftTrigger > 0.2) {
+        while (gamepad1.left_trigger > 0.2) {
 
             robot.leftFront.setPower(leftTrigger);
             robot.leftBack.setPower(-leftTrigger);
@@ -37,7 +37,7 @@ public abstract class ExtendedOpMode extends OpMode {
             robot.rightBack.setPower(leftTrigger);
 
 
-            if (leftTrigger <= 0.2) {
+            if (gamepad1.left_trigger <= 0.2) {
                 robot.leftFront.setPower(0);
                 robot.leftBack.setPower(0);
                 robot.rightFront.setPower(0);
@@ -49,15 +49,15 @@ public abstract class ExtendedOpMode extends OpMode {
             // matched for kept and right because logically, you should be able to move left
         }
 
-        while (rightTrigger > 0.2) {
+        while (gamepad1.right_trigger > 0.2) {
 
-            robot.leftFront.setPower(-leftTrigger);
-            robot.leftBack.setPower(leftTrigger);
-            robot.rightFront.setPower(leftTrigger);
-            robot.rightBack.setPower(-leftTrigger);
+            robot.leftFront.setPower(-rightTrigger);
+            robot.leftBack.setPower(rightTrigger);
+            robot.rightFront.setPower(rightTrigger);
+            robot.rightBack.setPower(-rightTrigger);
 
 
-            if (rightTrigger <= 0.2) {
+            if (gamepad1.right_trigger <= 0.2) {
                 robot.leftFront.setPower(0);
                 robot.leftBack.setPower(0);
                 robot.rightFront.setPower(0);
@@ -89,7 +89,7 @@ public abstract class ExtendedOpMode extends OpMode {
 
         // move robot @ 50 percent power based off gp1 dpad inputs, if you couldn't read exactly one line above
 
-        while (gamepad1.dpad_left) {
+        while (gp1LeftDpad) {
 
             robot.leftFront.setPower(0.5);
             robot.leftBack.setPower(-0.5);
@@ -97,19 +97,19 @@ public abstract class ExtendedOpMode extends OpMode {
             robot.rightBack.setPower(0.5);
 
 
-            if (!gamepad1.dpad_left) {
+            if (!gp1LeftDpad) {
                 break;
             }
         }
 
-        while (gamepad1.dpad_right) {
+        while (gp1RightDpad) {
 
             robot.leftFront.setPower(-0.5);
             robot.leftBack.setPower(0.5);
             robot.rightFront.setPower(0.5);
             robot.rightBack.setPower(-0.5);
 
-            if (!gamepad1.dpad_right) {
+            if (!gp1RightDpad) {
                 break;
             }
         }
@@ -141,6 +141,9 @@ public abstract class ExtendedOpMode extends OpMode {
 
     public void extend(double gp2RightJoystick) {
         //move horizontal extension of collector the speed of gp2 right joystick y. thank you for attendindg my Ted Talk
+//      // if the limit switch is being not being triggered . . .
+//        if (!robot.extensionLimit.getState())
+////            robot.extension.setPower(gp2RightJoystick);
         robot.extension.setPower(gp2RightJoystick);
     }
 
