@@ -20,7 +20,6 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
     public SkystoneDetector detector = new SkystoneDetector();
     private ElapsedTime runtime = new ElapsedTime();
 
-
     public void initDetector() {
         detector.init(robot.ahwmap.appContext, CameraViewDisplay.getInstance());
         detector.enable();
@@ -215,6 +214,39 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         robot.rightFront.setPower(powerRightFront);
         robot.rightBack.setPower(powerRightBack);
 
+    }
+
+    public void strafeNoAngle(double speed) {
+
+        setMotorRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        robot.leftFront.setPower(speed);
+        robot.leftBack.setPower(-speed);
+        robot.rightFront.setPower(-speed);
+        robot.rightBack.setPower(speed);
+
+    }
+
+    public double getSkystoneId(){
+        double distUnclipped;
+        double distClipped;
+        distUnclipped = robot.distanceRight.getDistance(DistanceUnit.INCH) + robot.constants.DISTANCE_SENSOR_COLLECTOR_OFFSET;
+
+        if (distUnclipped % 8 <= 4) {
+            distClipped = distUnclipped - (distUnclipped % 8);
+        } else if (distUnclipped % 8 >= 4) {
+            distClipped = distUnclipped + (8 - distUnclipped % 8);
+        } else
+            distClipped = distUnclipped;
+
+        /* calculate the skystone id by dividing the clipped distance by 8 */
+        return distClipped / 8;
+
+    }
+
+    public double getTargetAngle() {
+        double targetAngle = getSkystoneId() * 8 - robot.constants.DISTANCE_SENSOR_COLLECTOR_OFFSET;
+        return targetAngle;
     }
 
     public void moveToPos(double targetX, double targetY) {
