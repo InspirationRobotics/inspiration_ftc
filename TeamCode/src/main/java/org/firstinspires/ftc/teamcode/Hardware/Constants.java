@@ -74,6 +74,9 @@ public class Constants {
     public final double WRIST_SIDE_POS = 1;
     public final double WRIST_OUTSIDE_POS = 1;
 
+    public final double CAPSTONE_UP = 1;
+    public final double CAPSTONE_DOWN = 0;
+
     public final double LEFT_EXTENSION_EXTENDED = 1;
     public final double LEFT_EXTENSION_COMPACTED = 0;
     public final double RIGHT_EXTENSION_EXTENDED = 0;

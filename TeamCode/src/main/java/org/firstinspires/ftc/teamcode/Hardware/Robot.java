@@ -35,6 +35,7 @@ public class Robot {
     public Servo autoArm;
     public Servo foundationFront;
     public Servo foundationBack;
+    public Servo capStone;
 
     public DistanceSensor distanceFront;
     public DistanceSensor distanceBack;
@@ -47,16 +48,17 @@ public class Robot {
 //    public ModernRoboticsI2cRangeSensor mrDistanceRight;
 
     //River
-    public DcMotor extension;
-    public DcMotor intake;
-    public DcMotor leftLift;
-    public DcMotor rightLift;
-    public Servo leftFoundation;
-    public Servo rightFoundation;
-    public Servo leftExtension;
-    public Servo rightExtension;
-    public Servo wrist;
-    public Servo grabber;
+    public DcMotor extension; //for the collector extension
+    public DcMotor intake; //for the intake motors inside of the collector
+    public DcMotor leftLift; //will actuate the vertical lift (need to be used in tangent with left righLift and vice versa)
+    public DcMotor rightLift; //will actuate the vertical lift
+    public Servo leftFoundation; // actuate the foundation mover (need to be used in tangent with right foundation and vice versa)
+    public Servo rightFoundation; // actuate teh foundation mover
+    public Servo leftExtension; //for the grabber extension (need to be used in tangent with the rightExtension
+    public Servo rightExtension; //for the grabber extension
+    public Servo wrist; // able to be rotated to allow the robot longer reach
+    public Servo grabber; //grabbing the nubs on the stone
+    public Servo capstone;
 
     public DistanceSensor intakeDistance;
     public DigitalChannel liftLimit;

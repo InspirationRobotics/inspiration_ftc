@@ -26,8 +26,10 @@ public class RiverTeleOp extends ExtendedOpMode {
         extend(gamepad2.left_stick_y);
         lift(gamepad2.right_stick_y);
         foundationMover(gamepad2.x, gamepad2.y);
-        extendDepositor(gamepad2.dpad_left, gamepad2.dpad_right);
+        //extendDepositor(gamepad2.dpad_left, gamepad2.dpad_right);
         grabBlock(gamepad2.left_bumper, gamepad2.right_bumper);
+        grabExtension(gamepad2.dpad_up, gamepad2.dpad_down);
+        capstone(gamepad2.dpad_left, gamepad2.dpad_right);
     }
 
 
