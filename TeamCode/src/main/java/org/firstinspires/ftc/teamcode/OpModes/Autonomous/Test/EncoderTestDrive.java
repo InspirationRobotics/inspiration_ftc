@@ -17,7 +17,7 @@ public class EncoderTestDrive extends ExtendedLinearOpMode {
         robot.initDrivebase();
         waitForStart();
 
-        while(!detector.isVerifiedSkystone()){setPower(0.20, 0.20);}
+        while(!detector.isVerifiedSkystone("blue")){setPower(0.20, 0.20);}
         setPower(0, 0);
         detector.disable();
 
