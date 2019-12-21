@@ -147,6 +147,7 @@ public class Robot {
         rightExtension = ahwmap.servo.get(constants.RIGHT_EXTENSION_SERVO_NAME);
         wrist = ahwmap.servo.get(constants.WRIST_SERVO_NAME);
         grabber = ahwmap.servo.get(constants.GRABBER_SERVO_NAME);
+        capstone = ahwmap.servo.get(constants.CAPSTONE_NAME);
 
         if (robotVersion == RobotVersion.RIVER) {
             initDistanceSensors(DistanceSensorType.REV);

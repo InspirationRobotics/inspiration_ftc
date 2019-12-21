@@ -61,6 +61,7 @@ public class Constants {
     public final String RIGHT_EXTENSION_SERVO_NAME = "rightExtension";
     public final String WRIST_SERVO_NAME = "wrist";
     public final String GRABBER_SERVO_NAME = "grabber";
+    public final String CAPSTONE_NAME = "capstone";
 
     public final String INTAKE_DISTANCE_SENSOR_NAME = "intakeDistance";
     public final String LIFT_MAGLIMIT_SENSOR_NAME = "liftLimit";
