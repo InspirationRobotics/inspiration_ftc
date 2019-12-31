@@ -273,7 +273,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         stopMotors();
     }
 
-    public void wallAlign(double targetDist, Direction direction, DistanceSensor inputDistance, double maintainedAngle, double timeoutS) {
+    /*public void wallAlign(double targetDist, Direction direction, DistanceSensor inputDistance, double maintainedAngle, double timeoutS) {
 
         long startTime = System.currentTimeMillis();
         long endTime = (long)(startTime + (1000*timeoutS));
@@ -293,6 +293,8 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
             }
         }
+
+
 
         else if(direction == Direction.BACKWARD) {
             while(Math.abs(inputDistance.getDistance(DistanceUnit.INCH) - targetDist) > robot.constants.DISTANCE_THRESHOLD && opModeIsActive() && endTime > System.currentTimeMillis()) {
@@ -344,8 +346,24 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
         stopMotors();
 
-    }
+    }*/
 
+    public void wallAlign(double speed, double distance) {
+        runtime.reset();
+
+        while(opModeIsActive() && !onTargetDistance(speed, distance, constants.P_WALL_COEFF) && (runtime.seconds() < 3)){
+            telemetry.update();
+            idle();
+            sleep(200);
+        }
+
+
+        setPower(0);
+        telemetry.addLine("Wall Align complete");
+        telemetry.update();
+
+    }
+    
     public void gyroTurn(double targetAngle, double speed, double timeoutS) {
 
         long startTime = System.currentTimeMillis();
