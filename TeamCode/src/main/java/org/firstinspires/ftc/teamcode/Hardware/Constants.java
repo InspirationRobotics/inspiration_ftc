@@ -115,12 +115,18 @@ public class Constants {
 
     /* --------------------------------------*
     Program Specific Constants
-    *----------------------------------------*/
+    *---------------------------------------*/
 
     public final double DIST_SENSOR_THRESHOLD = 5;
     public final double P_TURN_COEFF = 0.1;
     public final double HEADING_THRESHOLD = 1.5;
     public final double DISTANCE_THRESHOLD = 2;
 
+    // Waterfall Robot
+    public final double CLAW_COLLECT_OPEN = 1;
+    public final double CLAW_COLLECT_CLOSE = 0;
+
+    public final double CLAW_COLLECT_EXTEND = 1;
+    public final double CLAW_COLLECT_RETRACT = 0;
 
 }
