@@ -75,8 +75,9 @@ public class Robot {
     //Waterfall
     public Servo leftClawCollect;
     public Servo rightClawCollect;
-    public Servo pivotLinear;
-    public Servo pivotRotation;
+    public Servo rightPivot;
+    public Servo leftPivot;
+
     public DcMotor leftIntake;
     public DcMotor rightIntake;
 

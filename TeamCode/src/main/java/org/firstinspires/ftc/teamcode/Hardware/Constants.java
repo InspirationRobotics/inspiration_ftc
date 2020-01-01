@@ -94,8 +94,8 @@ public class Constants {
     public final double LIFT_INCREASE_HEIGHT_SPEED = 1;
     public final double LIFT_LOWER_HEIGHT_SPEED = -1;
 
-    public final double COUNTS_PER_MOTOR_REV    = 1680 ;
-    public final double DRIVE_GEAR_REDUCTION    = 0.5 ;     // This is < 1.0 if geared UP (32 teeth to 16 teeth)
+    public final double COUNTS_PER_MOTOR_REV    = 537.6 ;
+    public final double DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP (32 teeth to 16 teeth)
     public final double WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     public final double COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
