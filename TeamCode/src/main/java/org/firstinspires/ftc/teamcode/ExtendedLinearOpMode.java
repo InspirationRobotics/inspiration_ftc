@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 import com.inspiration.inspcv.CameraViewDisplay;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -348,22 +350,76 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
     }*/
 
-    public void wallAlign(double speed, double distance) {
+    public void wallAlign(double speed, double distance, DistanceSensor inputDistance, Direction direction) {
         runtime.reset();
 
-        while(opModeIsActive() && !onTargetDistance(speed, distance, constants.P_WALL_COEFF) && (runtime.seconds() < 3)){
+        while(opModeIsActive() && !onTargetDistance(speed, distance, robot.constants.P_WALL_COEFF, inputDistance, direction) && (runtime.seconds() < 3)){
             telemetry.update();
             idle();
             sleep(200);
         }
 
 
-        setPower(0);
+        setPower(0, 0);
         telemetry.addLine("Wall Align complete");
         telemetry.update();
 
     }
-    
+
+    boolean onTargetDistance(double speed, double distance, double PCoeff, DistanceSensor inputDistance, Direction direction){
+        double errorDistance;
+        double steer;
+        boolean onTarget = false;
+        double finalSpeed;
+
+        //determine turm power based on error
+        errorDistance = getErrorDistance(distance, inputDistance);
+
+        if (Math.abs(errorDistance) <= robot.constants.DISTANCE_THRESHOLD){
+
+            steer = 0.0;
+            finalSpeed = 0.0;
+            onTarget = true;
+        }
+        else{
+
+            double steerMultiplier = 1;
+
+            if (direction == Direction.FORWARD) {
+                steerMultiplier = 1;
+            } else if (direction == Direction.BACKWARD) {
+                steerMultiplier = -1;
+            }
+
+            steer = getSteerError(errorDistance, PCoeff);
+            finalSpeed = speed * steer * steerMultiplier;
+        }
+
+        setMotorRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        setPower(finalSpeed, finalSpeed);
+
+        telemetry.addData("Target distance","%5.2f",distance);
+        telemetry.addData("Error/Steer", "%5.2f/%5.2f", errorDistance, steer);
+        telemetry.addData("speed", "%5.2f/%5.2f", finalSpeed, finalSpeed);
+
+        return onTarget;
+    }
+    public double getErrorDistance(double targetDistance, DistanceSensor inputDistance){
+
+        double robotError;
+        robotError = inputDistance.getDistance(DistanceUnit.INCH) - targetDistance;
+
+        telemetry.addData("Robot Error","%5.2f",robotError);
+        telemetry.update();
+
+        return robotError;
+
+    }
+
+    public double getSteerError(double error , double PCoeff){
+        return Range.clip(error * PCoeff, -1 , 1);
+    }
+
     public void gyroTurn(double targetAngle, double speed, double timeoutS) {
 
         long startTime = System.currentTimeMillis();
@@ -553,6 +609,59 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
         robot.leftLift.setPower(0);
         robot.rightLift.setPower(0);
+    }
+
+    public void doEncoderTurn(double speed, int angle) {
+
+        int tgAngle = Math.abs(angle);
+        double distance;
+        double leftDistance;
+        double rightDistance;
+
+        setMotorRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        distance = ((robot.constants.ENCODERS_PER_DEGREE * tgAngle) / robot.constants.COUNTS_PER_INCH);
+
+
+        telemetry.addLine("Target Positions Calculated");
+        telemetry.update();
+
+
+        if (angle > 0) {
+            rightDistance = -distance;
+            leftDistance = distance;
+
+
+            encoderDrive(leftDistance, rightDistance, speed, speed, 5.5);
+        } else if (angle < 0) {
+            leftDistance = -distance;
+            rightDistance = distance;
+
+
+            encoderDrive(leftDistance, rightDistance, speed, speed, 5.5);
+        }
+
+        else {
+
+            encoderDrive(0, 0, speed, speed, 5.5);
+
+        }
+
+    }
+
+    public void initIMU(HardwareMap ahawmp) {
+
+        robot.imu = hardwareMap.get(BNO055IMU.class, robot.constants.IMU_NAME);
+
+        //Initialize IMU parameters
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        robot.imu.initialize(parameters);
     }
 
 }

@@ -66,11 +66,11 @@ public class Robot {
 
     public BNO055IMU imu;
     public Orientation angles;
-    public Acceleration gravity;
+    //public Acceleration gravity;
 
     public HardwareMap ahwmap;
 
-    public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+    public BNO055IMU.Parameters parameters;
 
     //Waterfall
     public Servo clawCollectL;
@@ -96,7 +96,7 @@ public class Robot {
     }
 
 
-    public void initDrivebase () {
+    public void initDrivebase() {
         leftFront = ahwmap.dcMotor.get(constants.LEFT_FRONT_MOTOR_NAME);
         leftBack = ahwmap.dcMotor.get(constants.LEFT_BACK_MOTOR_NAME);
         rightFront = ahwmap.dcMotor.get(constants.RIGHT_FRONT_MOTOR_NAME);
@@ -113,9 +113,7 @@ public class Robot {
             distanceBack = ahwmap.get(DistanceSensor.class, constants.BACK_DISTANCE_SENSOR_NAME);
             distanceLeft = ahwmap.get(DistanceSensor.class, constants.LEFT_DISTANCE_SENSOR_NAME);
             distanceRight = ahwmap.get(DistanceSensor.class, constants.RIGHT_DISTANCE_SENSOR_NAME);
-        }
-
-        else {
+        } else {
             distanceFront = ahwmap.get(ModernRoboticsI2cRangeSensor.class, constants.FRONT_DISTANCE_SENSOR_NAME);
             distanceBack = ahwmap.get(ModernRoboticsI2cRangeSensor.class, constants.BACK_DISTANCE_SENSOR_NAME);
             distanceLeft = ahwmap.get(ModernRoboticsI2cRangeSensor.class, constants.LEFT_DISTANCE_SENSOR_NAME);
@@ -176,11 +174,11 @@ public class Robot {
     }
 
     public void initIMU() {
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
 
         imu = ahwmap.get(BNO055IMU.class, constants.IMU_NAME);
         imu.initialize(parameters);

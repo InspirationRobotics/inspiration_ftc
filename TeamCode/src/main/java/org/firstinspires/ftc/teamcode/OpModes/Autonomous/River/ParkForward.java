@@ -1,25 +1,29 @@
-package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Test;
+package org.firstinspires.ftc.teamcode.OpModes.Autonomous.River;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
-import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 
 @Disabled
-@Autonomous(name = "River Auto Red Full", group = "River")
-public class SimpleMotorThing extends ExtendedLinearOpMode {
+@Autonomous(name = "Park Reverse")
+public class ParkForward extends ExtendedLinearOpMode {
 
     @Override
     public void runOpMode() {
 
         robot.setHardwareMap(hardwareMap);
         robot.initRiver(RobotVersion.RIVER);
+        initDetector();
+        //robot.initIMU();
+        //initIMU(hardwareMap);
 
-        robot.intake.setPower(1);
-        sleep(1000);
-        robot.intake.setPower(0);
+        telemetry.addLine("Ready to go!");
+        telemetry.update();
 
+        waitForStart();
+
+        encoderDrive(4,4,0.8,0.8,5);
     }
 }

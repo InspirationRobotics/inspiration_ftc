@@ -94,8 +94,8 @@ public class Constants {
     public final double LIFT_INCREASE_HEIGHT_SPEED = 1;
     public final double LIFT_LOWER_HEIGHT_SPEED = -1;
 
-    public final double COUNTS_PER_MOTOR_REV    = 1680 ;    // eg: TETRIX Motor Encoder
-    public final double DRIVE_GEAR_REDUCTION    = 0.75 ;     // This is < 1.0 if geared UP
+    public final double COUNTS_PER_MOTOR_REV    = 1680 ;
+    public final double DRIVE_GEAR_REDUCTION    = 0.5 ;     // This is < 1.0 if geared UP (32 teeth to 16 teeth)
     public final double WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     public final double COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
@@ -119,6 +119,7 @@ public class Constants {
 
     public final double DIST_SENSOR_THRESHOLD = 5;
     public final double P_TURN_COEFF = 0.1;
+    public final double P_WALL_COEFF = 0.15;
     public final double HEADING_THRESHOLD = 1.5;
     public final double DISTANCE_THRESHOLD = 2;
 
@@ -128,5 +129,10 @@ public class Constants {
 
     public final double CLAW_COLLECT_EXTEND = 1;
     public final double CLAW_COLLECT_RETRACT = 0;
+    public final double ROBOT_WIDTH_IN = 15;
+    public final double ROBOT_CIRCUMFERENCE = (ROBOT_WIDTH_IN * Math.PI);
+    public final double ENCODERS_PER_360 = (ROBOT_CIRCUMFERENCE*(COUNTS_PER_INCH));
+    public final double ENCODERS_PER_DEGREE = (ENCODERS_PER_360/360);
+
 
 }

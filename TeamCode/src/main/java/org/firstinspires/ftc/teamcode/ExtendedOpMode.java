@@ -71,6 +71,16 @@ public abstract class ExtendedOpMode extends OpMode {
 
     }
 
+    public void sideArmRight(boolean bButton, boolean aButton, boolean xButton, boolean yButton){
+        if(aButton){
+            robot.clawCollectR.setPosition(CLAW_COLLECT_OPEN);
+        } else if (bButton){
+            robot.clawCollectL.setPosition(CLAW_COLLECT_CLOSE);
+        } else if (xButton){
+            robot.
+        }
+    }
+
     public void collect(boolean leftBumper, boolean rightBumper)  {
         //Left is outtake, right is intake. (they are the bumpers on gp1)
         //Power 1 intakes

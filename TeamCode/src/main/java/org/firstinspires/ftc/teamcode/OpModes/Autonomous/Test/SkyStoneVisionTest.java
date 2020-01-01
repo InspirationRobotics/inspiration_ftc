@@ -1,14 +1,16 @@
-package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
+package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Test;
 
 import com.inspiration.inspcv.CameraViewDisplay;
 import org.firstinspires.ftc.teamcode.CV.SkystoneDetector;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
 @Autonomous(name="CVDisplay", group="CV")
+//@Disabled
 public class SkyStoneVisionTest extends LinearOpMode {
 
     public HardwareMap ahwmap;
