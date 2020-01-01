@@ -72,6 +72,24 @@ public class Robot {
 
     public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
+    //Waterfall
+    public Servo clawCollectL;
+    public Servo clawCollectR;
+    public Servo pivotLinear;
+    public Servo pivotRotation;
+    public DcMotor leftIntake;
+    public DcMotor rightIntake;
+
+    /*
+    These are the devices/hardware that is the same between River and Watefall:
+
+    public DcMotor intake; //for the intake motors inside of the collector
+    public DcMotor leftLift; //will actuate the vertical lift (need to be used in tangent with left righLift and vice versa)
+    public DcMotor rightLift; //will actuate the vertical lift
+    public Servo leftFoundation; // actuate the foundation mover (need to be used in tangent with right foundation and vice versa)
+    public Servo rightFoundation; // actuate teh foundation mover
+    */
+
 
     public void setHardwareMap(HardwareMap hwMap) {
         ahwmap = hwMap;
