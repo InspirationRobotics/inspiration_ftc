@@ -73,11 +73,13 @@ public abstract class ExtendedOpMode extends OpMode {
 
     public void sideArmRight(boolean bButton, boolean aButton, boolean xButton, boolean yButton){
         if(aButton){
-            robot.clawCollectR.setPosition(CLAW_COLLECT_OPEN);
+            robot.rightClawCollect.setPosition(robot.constants.CLAW_COLLECT_OPEN);
         } else if (bButton){
-            robot.clawCollectL.setPosition(CLAW_COLLECT_CLOSE);
+            robot.leftClawCollect.setPosition(robot.constants.CLAW_COLLECT_CLOSE);
         } else if (xButton){
-            robot.
+            robot.leftClawCollect.setPosition(robot.constants.CLAW_COLLECT_EXTEND);
+        } else if (yButton) {
+            robot.leftClawCollect.setPosition(robot.constants.CLAW_COLLECT_EXTEND);
         }
     }
 

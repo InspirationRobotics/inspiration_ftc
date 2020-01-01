@@ -556,6 +556,25 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
     }
 
+    public void strafeDistSensor(double distance, Direction direction, DistanceSensor inputDistance, double timeoutMS) {
+
+        double lfP = 0;
+        double lbP = 0;
+        double rfP = 0;
+        double rbP = 0;
+
+        if (direction == Direction.LEFT) {
+
+        }
+        double startTime = System.currentTimeMillis();
+        double endTime = startTime + timeoutMS;
+
+
+        while ((inputDistance.getDistance(DistanceUnit.INCH) < distance) && (System.currentTimeMillis() < endTime)) {
+
+        }
+    }
+
     public void setMotorRunMode(DcMotor.RunMode runmode) {
         robot.leftFront.setMode(runmode);
         robot.rightFront.setMode(runmode);

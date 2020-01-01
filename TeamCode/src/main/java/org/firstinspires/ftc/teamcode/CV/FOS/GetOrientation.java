@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.FOS;
+package org.firstinspires.ftc.teamcode.CV.FOS;
 
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 
