@@ -564,15 +564,29 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         double rbP = 0;
 
         if (direction == Direction.LEFT) {
-
+            lfP = -1;
+            lbP = 1;
+            rfP = 1;
+            rbP = -1;
+        } else if (direction == Direction.RIGHT) {
+            lfP = 1;
+            lbP = -1;
+            rfP = -1;
+            rbP = 1;
         }
+
         double startTime = System.currentTimeMillis();
         double endTime = startTime + timeoutMS;
 
 
         while ((inputDistance.getDistance(DistanceUnit.INCH) < distance) && (System.currentTimeMillis() < endTime)) {
-
+            robot.leftFront.setPower(lfP);
+            robot.leftBack.setPower(lbP);
+            robot.rightFront.setPower(rfP);
+            robot.rightBack.setPower(rbP);
         }
+
+        stopMotors();
     }
 
     public void setMotorRunMode(DcMotor.RunMode runmode) {

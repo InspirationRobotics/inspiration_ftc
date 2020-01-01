@@ -134,5 +134,13 @@ public class Constants {
     public final double ENCODERS_PER_360 = (ROBOT_CIRCUMFERENCE*(COUNTS_PER_INCH));
     public final double ENCODERS_PER_DEGREE = (ENCODERS_PER_360/360);
 
+    public final double LEFT_SKYSTONE_WALL_DIST = 24;
+    public final double CENTER_SKYSTONE_WALL_DIST = 32;
+    public final double RIGHT_SKYSTONE_WALL_DIST = 40;
+
+    public final double BACK_DS_OFFSET_SKYSTONE = 6;
+    public final double FRONT_DS_OFFSET_SKYSTONE = 4;
+
+
 
 }
