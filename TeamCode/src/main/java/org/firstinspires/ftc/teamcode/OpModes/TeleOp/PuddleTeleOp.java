@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.ExtendedOpMode;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.ExtendedOpMode;
  */
 
 @TeleOp(name = "Puddle TeleOp", group = "Puddle")
+@Disabled
 public class PuddleTeleOp extends ExtendedOpMode {
 
     @Override

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
+package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Test;
 
 import com.inspiration.inspcv.CameraViewDisplay;
 import org.firstinspires.ftc.teamcode.CV.SkystoneDetector;

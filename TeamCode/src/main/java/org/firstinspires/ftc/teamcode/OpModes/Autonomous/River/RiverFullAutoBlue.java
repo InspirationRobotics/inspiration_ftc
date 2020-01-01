@@ -1,14 +1,15 @@
-package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
+package org.firstinspires.ftc.teamcode.OpModes.Autonomous.River;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 
-
-@Autonomous(name = "River Auto Red Full", group = "River")
-public class RiverFullAutoRed extends ExtendedLinearOpMode {
+@Disabled
+@Autonomous(name = "River Auto Blue Full", group = "River")
+public class RiverFullAutoBlue extends ExtendedLinearOpMode {
 
     @Override
     public void runOpMode() {
@@ -27,8 +28,8 @@ public class RiverFullAutoRed extends ExtendedLinearOpMode {
 
         encoderDrive(22, 22, 0.8, 4, 6);
 
-        while (!skyStoneIsVisible("red")) {
-            strafeGyro(180, 0);
+        while (!skyStoneIsVisible("blue")) {
+            strafeGyro(0, 0);
         }
 
         stopMotors();
@@ -43,11 +44,11 @@ public class RiverFullAutoRed extends ExtendedLinearOpMode {
 
         robot.grabber.setPosition(robot.constants.GRABBER_GRAB_POS);
 
-        gyroTurn(-90, 0.5, 4);
+        gyroTurn(90, 0.5, 4);
 
-        wallAlign(22, Direction.BACKWARD, robot.distanceBack, -90, 10);
+        //wallAlign(22, Direction.BACKWARD, robot.distanceBack, 90, 10);
 
-        gyroTurn(-180, 0.5, 4);
+        gyroTurn(180, 0.5, 4);
 
         encoderDrive(-16, -16, 0.8, 4, 6);
 
@@ -69,15 +70,13 @@ public class RiverFullAutoRed extends ExtendedLinearOpMode {
         robot.leftFoundation.setPosition(robot.constants.LEFT_FOUNDATION_OPEN_POS);
         robot.rightFoundation.setPosition(robot.constants.RIGHT_FOUNDATION_OPEN_POS);
 
-        //encoderDrive(2, 2, 0.8, 1);
-        encoderDrive(2, 2, 0.1, 24, 6);
+        encoderDrive(2, 2, 0.8, 1, 6);
 
-        wallAlign(36, Direction.RIGHT, robot.distanceLeft, -180, 7);
+        //wallAlign(36, Direction.LEFT, robot.distanceRight, 180, 7);
 
-        //encoderDrive(-24, -24, 0.7, 4);
-        encoderDrive(-24, -24, 0.1, .24, 6);
+        encoderDrive(-24, -24, 0.7, 4, 6);
 
-        wallAlign(58, Direction.RIGHT, robot.distanceLeft, -180, 6);
+        //wallAlign(58, Direction.LEFT, robot.distanceRight, 180, 6);
 
         stopMotors();
     }

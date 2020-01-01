@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 
+@Disabled
 public class IMUTest extends ExtendedLinearOpMode {
 
     @Override

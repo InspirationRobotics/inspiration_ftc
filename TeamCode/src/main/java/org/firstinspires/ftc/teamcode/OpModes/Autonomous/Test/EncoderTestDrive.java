@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Test;
 
 import com.inspiration.inspcv.CameraViewDisplay;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.CV.SkystoneDetector;
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 
+@Disabled
 @Autonomous(name="Encoder Test Drive", group="Test")
 public class EncoderTestDrive extends ExtendedLinearOpMode {
 
