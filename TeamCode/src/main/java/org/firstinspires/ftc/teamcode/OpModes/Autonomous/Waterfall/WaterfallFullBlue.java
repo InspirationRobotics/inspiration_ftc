@@ -60,17 +60,32 @@ public class WaterfallFullBlue extends ExtendedLinearOpMode {
 
         wallAlign(0.8, endDist, robot.distanceBack, Direction.BACKWARD);
 
-        //collect skystone
+        //collect skystone #2
         robot.rightPivot.setPosition(.5);
         robot.rightClawCollect.setPosition(.5);
         robot.rightClawCollect.setPosition(0);
         robot.rightPivot.setPosition(0);
 
+        //return to position in order to deposit
         encoderDrive(80, 80, .7, .7, 5.5);
 
         wallAlign(0.8, 50, robot.distanceBack, Direction.FORWARD);
 
+        //deposit skystone
+        robot.rightPivot.setPosition(0);
+        robot.rightClawCollect.setPosition(.5);
 
+        gyroTurn(-90, 0.7, 2);
+
+        robot.leftFoundation.setPosition(0.5);
+        robot.rightFoundation.setPosition(0.5);
+
+        gyroTurn(-90, 0.7, 2);
+
+        robot.leftFoundation.setPosition(0);
+        robot.rightFoundation.setPosition(0);
+
+        encoderDrive(50, 50, -.7, -.7, 5.5);
 
 
     }
