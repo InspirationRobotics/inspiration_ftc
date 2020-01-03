@@ -11,7 +11,7 @@ public class WaterfallTeleOp extends ExtendedOpMode {
     @Override
     public void init() {
         robot.setHardwareMap(hardwareMap);
-        robot.capstone = hardwareMap.servo.get("capstone");
+        robot.initWaterfall();
         telemetry.addLine("Ready to go!");
         telemetry.update();
     }

@@ -15,6 +15,8 @@ public class WallAlignTest extends ExtendedLinearOpMode {
 
         robot.setHardwareMap(hardwareMap);
         robot.initRiver(RobotVersion.RIVER);
+        initIMU(hardwareMap);
+
 
         telemetry.addLine("Ready to go!");
         telemetry.update();
@@ -22,11 +24,22 @@ public class WallAlignTest extends ExtendedLinearOpMode {
         waitForStart();
 
         wallAlign(1, 20, robot.distanceFront, Direction.FORWARD);
-        wallAlign(1, 20, robot.distanceFront, Direction.FORWARD);
+
+        telemetry.addData("Front distance sensor distance (IN)", robot.distanceFront.getDistance(DistanceUnit.INCH));
+        telemetry.update();
+
+        sleep(1000);
+
+        gyroTurn(180, 0.6, 8);
+
+        sleep(1000);
+
+        wallAlign(1, 30, robot.distanceBack, Direction.BACKWARD);
 
 
         while(opModeIsActive()) {
             telemetry.addData("Front distance sensor distance (IN)", robot.distanceFront.getDistance(DistanceUnit.INCH));
+            telemetry.addData("Back distance sensor distance (IN)", robot.distanceBack.getDistance(DistanceUnit.INCH));
             telemetry.update();
         }
     }

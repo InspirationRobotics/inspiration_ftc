@@ -211,10 +211,12 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
         setMotorRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        double powerLeftFront = Range.clip((0.70710678)*((Math.toDegrees(Math.sin(angle)))+(Math.toDegrees(Math.cos(angle)))), -1, 1);
-        double powerLeftBack = Range.clip((0.70710678)*((-Math.toDegrees(Math.sin(angle)))+(Math.toDegrees(Math.cos(angle)))), -1, 1);
-        double powerRightFront = Range.clip((0.70710678)*((-Math.toDegrees(Math.sin(angle)))+(Math.toDegrees(Math.cos(angle)))), -1, 1);
-        double powerRightBack = Range.clip((0.70710678)*((Math.toDegrees(Math.sin(angle)))+(Math.toDegrees(Math.cos(angle)))), -1, 1);
+        double inputAngle = Math.toRadians(angle);
+
+        double powerLeftFront = Range.clip((0.70710678)*(((Math.sin(inputAngle)))+((Math.cos(inputAngle)))), -1, 1);
+        double powerLeftBack = Range.clip((0.70710678)*((-(Math.sin(inputAngle)))+(Math.cos(inputAngle))), -1, 1);
+        double powerRightFront = Range.clip((0.70710678)*((-Math.sin(inputAngle)))+(Math.cos(inputAngle)), -1, 1);
+        double powerRightBack = Range.clip((0.70710678)*((Math.sin(inputAngle)))+(Math.cos(inputAngle)), -1, 1);
 
         robot.leftFront.setPower(powerLeftFront);
         robot.leftBack.setPower(powerLeftBack);
@@ -444,10 +446,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         stopMotors();
     }
 
-    public boolean onHeading(double speed, double angle, double PCoeff) {
-
-        setMotorRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+    boolean onHeading(double speed, double angle, double PCoeff) {
         double   error ;
         double   steer ;
         boolean  onTarget = false ;
@@ -457,7 +456,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         // determine turn power based on +/- error
         error = getError(angle);
 
-        if (Math.abs(error) <= robot.constants.HEADING_THRESHOLD) {
+        if (Math.abs(error) <= robot.constants.P_TURN_COEFF) {
             steer = 0.0;
             leftSpeed  = 0.0;
             rightSpeed = 0.0;
@@ -472,8 +471,8 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         // Send desired speeds to motors.
         robot.leftFront.setPower(leftSpeed);
         robot.leftBack.setPower(leftSpeed);
-        robot.rightFront.setPower(leftSpeed);
-        robot.rightBack.setPower(leftSpeed);
+        robot.rightFront.setPower(rightSpeed);
+        robot.rightBack.setPower(rightSpeed);
 
         // Display it for the driver.
         telemetry.addData("Target", "%5.2f", angle);
@@ -483,12 +482,18 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         return onTarget;
     }
 
+    /**
+     * getError determines the error between the target angle and the robot's current heading
+     * @param   targetAngle  Desired angle (relative to global reference established at last Gyro Reset).
+     * @return  error angle: Degrees in the range +/- 180. Centered on the robot's frame of reference
+     *          +ve error means the robot should turn LEFT (CCW) to reduce error.
+     */
     public double getError(double targetAngle) {
 
         double robotError;
 
         // calculate error in -179 to +180 range  (
-        robotError = targetAngle - robot.getHeading();
+        robotError = targetAngle - getHeading();
         while (robotError > 180)  robotError -= 360;
         while (robotError <= -180) robotError += 360;
         return robotError;
@@ -502,10 +507,10 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
         setMotorRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        double powerLeftFront = Range.clip((0.70710678)*((Math.toDegrees(Math.sin(angle)))+(Math.toDegrees(Math.cos(angle)))), -1, 1);
-        double powerLeftBack = Range.clip((0.70710678)*((-Math.toDegrees(Math.sin(angle)))+(Math.toDegrees(Math.cos(angle)))), -1, 1);
-        double powerRightFront = Range.clip((0.70710678)*((-Math.toDegrees(Math.sin(angle)))+(Math.toDegrees(Math.cos(angle)))), -1, 1);
-        double powerRightBack = Range.clip((0.70710678)*((Math.toDegrees(Math.sin(angle)))+(Math.toDegrees(Math.cos(angle)))), -1, 1);
+        double powerLeftFront = Range.clip((0.70710678)*((Math.sin(angle)))+(Math.cos(angle)), -1, 1);
+        double powerLeftBack = Range.clip((0.70710678)*((-Math.sin(angle)))+(Math.cos(angle)), -1, 1);
+        double powerRightFront = Range.clip((0.70710678)*((-Math.sin(angle)))+(Math.cos(angle)), -1, 1);
+        double powerRightBack = Range.clip((0.70710678)*((Math.sin(angle)))+(Math.cos(angle)), -1, 1);
 
         powerLeftBack = 0.9*powerLeftBack;
         powerLeftFront = 0.9*powerLeftFront;
@@ -589,13 +594,33 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         double endTime = startTime + timeoutMS;
 
 
-        while ((inputDistance.getDistance(DistanceUnit.INCH) < distance) && (System.currentTimeMillis() < endTime)) {
-            robot.leftFront.setPower(lfP);
-            robot.leftBack.setPower(lbP);
-            robot.rightFront.setPower(rfP);
-            robot.rightBack.setPower(rbP);
+        double error = distance - robot.distanceRight.getDistance(DistanceUnit.INCH);
+        telemetry.addData("Error", error);
+        telemetry.update();
+
+        while ((Math.abs(error) > 2) && (System.currentTimeMillis() < endTime)) {
+
+            telemetry.addData("Error", error);
+            telemetry.update();
+
+            if(error > 0) {
+                robot.leftFront.setPower(-lfP);
+                robot.leftBack.setPower(-lbP);
+                robot.rightFront.setPower(-rfP);
+                robot.rightBack.setPower(-rbP);
+            } else {
+                robot.leftFront.setPower(lfP);
+                robot.leftBack.setPower(lbP);
+                robot.rightFront.setPower(rfP);
+                robot.rightBack.setPower(rbP);
+            }
+
+            error = distance - robot.distanceRight.getDistance(DistanceUnit.INCH);
+
         }
 
+        telemetry.addData("Error", error);
+        telemetry.update();
         stopMotors();
     }
 

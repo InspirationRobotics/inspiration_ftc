@@ -1,14 +1,17 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
+import org.opencv.core.Mat;
+import org.opencv.core.Range;
 
 //@Disabled
-@Autonomous(name = "Strafe Angle Test", group = "Test")
-public class TestStrafe extends ExtendedLinearOpMode {
+@Autonomous(name = "Strafe Distance Test", group = "Test")
+public class TestStrafeDist extends ExtendedLinearOpMode {
 
     @Override
     public void runOpMode() {
@@ -45,10 +48,8 @@ public class TestStrafe extends ExtendedLinearOpMode {
 //
 //        stopMotors();
 
-        double endTime = System.currentTimeMillis() + 5000;
+        strafeDistSensor(26, Direction.LEFT, robot.distanceRight, 6000);
 
-        while((System.currentTimeMillis() < endTime) && opModeIsActive()) {
-            strafe(6);
-        }
+        sleep(1000);
     }
 }

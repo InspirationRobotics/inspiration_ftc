@@ -77,6 +77,7 @@ public class Robot {
     public Servo rightClawCollect;
     public Servo rightPivot;
     public Servo leftPivot;
+    public Servo foundationServo;
 
     public DcMotor leftIntake;
     public DcMotor rightIntake;
@@ -184,14 +185,12 @@ public class Robot {
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        leftIntake = ahwmap.dcMotor.get(constants.INTAKE_MOTOR_NAME);
-        rightIntake = ahwmap.dcMotor.get(constants.INTAKE_MOTOR_NAME);
+        leftIntake = ahwmap.dcMotor.get("leftIntake");
+        rightIntake = ahwmap.dcMotor.get("rightIntake");
         leftLift = ahwmap.dcMotor.get(constants.LIFT_LEFT_MOTOR_NAME);
         rightLift = ahwmap.dcMotor.get(constants.RIGHT_LIFT_MOTOR_NAME);
-        leftFoundation = ahwmap.servo.get(constants.LEFT_FOUNDAION_SERVO_NAME);
-        rightFoundation = ahwmap.servo.get(constants.RIGHT_FOUNDAION_SERVO_NAME);
-        leftExtension = ahwmap.servo.get(constants.LEFT_EXTENSION_SERVO_NAME);
-        rightExtension = ahwmap.servo.get(constants.RIGHT_EXTENSION_SERVO_NAME);
+
+        foundationServo = ahwmap.servo.get("foundationMover");
         grabber = ahwmap.servo.get(constants.GRABBER_SERVO_NAME);
         leftClawCollect = ahwmap.servo.get(constants.LEFT_CLAW_COLLECT_NAME);
         rightClawCollect = ahwmap.servo.get(constants.RIGHT_CLAW_COLLECT_NAME);
