@@ -17,7 +17,7 @@ public class RiverFullAutoBlue extends ExtendedLinearOpMode {
         robot.setHardwareMap(hardwareMap);
         robot.initRiver(RobotVersion.RIVER);
         initDetector();
-        robot.initIMU();
+        //robot.initIMU();
 
         telemetry.addLine("Ready to go!");
         telemetry.update();

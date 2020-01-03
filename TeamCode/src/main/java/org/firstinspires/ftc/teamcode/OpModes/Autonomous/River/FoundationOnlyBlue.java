@@ -18,7 +18,7 @@ public class FoundationOnlyBlue extends ExtendedLinearOpMode {
         robot.setHardwareMap(hardwareMap);
         robot.initRiver(RobotVersion.RIVER);
         initDetector();
-        robot.initIMU();
+        //robot.initIMU();
         initIMU(hardwareMap);
 
         telemetry.addLine("Ready to go!");

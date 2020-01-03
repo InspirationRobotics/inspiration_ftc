@@ -9,6 +9,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.teamcode.CV.SkystoneDetector;
@@ -355,11 +358,11 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
     public void wallAlign(double speed, double distance, DistanceSensor inputDistance, Direction direction) {
         runtime.reset();
 
-        while(opModeIsActive() && !onTargetDistance(speed, distance, robot.constants.P_WALL_COEFF, inputDistance, direction) && (runtime.seconds() < 3)){
+        while(opModeIsActive() && !onTargetDistance(speed, distance, robot.constants.P_WALL_COEFF, inputDistance, direction) && (runtime.seconds() < 6)){
+            telemetry.addData("Distance from wall", robot.distanceFront.getDistance(DistanceUnit.INCH));
             telemetry.update();
             idle();
-            sleep(200);
-        }
+            sleep(200); }
 
 
         setPower(0, 0);
@@ -388,9 +391,9 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
             double steerMultiplier = 1;
 
             if (direction == Direction.FORWARD) {
-                steerMultiplier = 1;
-            } else if (direction == Direction.BACKWARD) {
                 steerMultiplier = -1;
+            } else if (direction == Direction.BACKWARD) {
+                steerMultiplier = 1;
             }
 
             steer = getSteerError(errorDistance, PCoeff);
@@ -419,7 +422,12 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
     }
 
     public double getSteerError(double error , double PCoeff){
-        return Range.clip(error * PCoeff, -1 , 1);
+        if (error < 0) {
+            return Range.clip(error * PCoeff, -0.8 , -0.15);
+        }
+        else {
+            return Range.clip(error * PCoeff, 0.15 , 0.8);
+        }
     }
 
     public void gyroTurn(double targetAngle, double speed, double timeoutS) {
@@ -697,6 +705,9 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         robot.imu.initialize(parameters);
+
+        robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
     }
 
     public SkystonePosition getSkystonePosition(double distanceFromWall, Direction direction) {
@@ -757,6 +768,12 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
         wallAlign(0.7, alignTarget, inputDistance, direction);
 
+    }
+
+    public double getHeading() {
+        robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        return -robot.angles.firstAngle;
     }
 
 }

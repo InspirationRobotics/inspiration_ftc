@@ -14,7 +14,6 @@ public class IMUTest extends ExtendedLinearOpMode {
     public void runOpMode() {
 
         robot.setHardwareMap(hardwareMap);
-        robot.initIMU();
         initIMU(hardwareMap);
 
         telemetry.addLine("Initialized! Ready to go!");
@@ -23,7 +22,8 @@ public class IMUTest extends ExtendedLinearOpMode {
         waitForStart();
 
         while(opModeIsActive()) {
-            telemetry.addData("Heading", robot.angles.firstAngle);
+            telemetry.addData("Heading", getHeading());
+            telemetry.update();
         }
     }
 }

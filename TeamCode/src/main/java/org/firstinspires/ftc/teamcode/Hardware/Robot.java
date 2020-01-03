@@ -81,6 +81,8 @@ public class Robot {
     public DcMotor leftIntake;
     public DcMotor rightIntake;
 
+    public Servo extensionServo;
+
     /*
     These are the devices/hardware that is the same between River and Watefall:
 
@@ -195,6 +197,7 @@ public class Robot {
         rightClawCollect = ahwmap.servo.get(constants.RIGHT_CLAW_COLLECT_NAME);
         rightPivot = ahwmap.servo.get(constants.LEFT_PIVOT_SERVO_NAME);
         leftPivot = ahwmap.servo.get(constants.RIGHT_PIVOT_SERVO_NAME);
+        extensionServo = ahwmap.servo.get(constants.EXTENSION_SERVO_NAME);
 
         distanceFront = ahwmap.get(DistanceSensor.class, constants.FRONT_DISTANCE_SENSOR_NAME);
         distanceBack = ahwmap.get(DistanceSensor.class, constants.BACK_DISTANCE_SENSOR_NAME);
@@ -206,16 +209,16 @@ public class Robot {
         extensionLimit = ahwmap.get(DigitalChannel.class, constants.EXTENSION_MAGLIMIT_SENSOR_NAME);
     }
 
-    public void initIMU() {
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled = true;
-        parameters.loggingTag = "IMU";
-
-        imu = ahwmap.get(BNO055IMU.class, constants.IMU_NAME);
-        imu.initialize(parameters);
-    }
+//    public void initIMU() {
+//        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+//        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+//        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+//        parameters.loggingEnabled = true;
+//        parameters.loggingTag = "IMU";
+//
+//        imu = ahwmap.get(BNO055IMU.class, constants.IMU_NAME);
+//        imu.initialize(parameters);
+//    }
 
     public double getHeading() {
 

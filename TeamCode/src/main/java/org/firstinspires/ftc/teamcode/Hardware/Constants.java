@@ -67,6 +67,7 @@ public class Constants {
     public final String RIGHT_CLAW_COLLECT_NAME = "rightClawCollect";
     public final String LEFT_PIVOT_SERVO_NAME = "leftPivot";
     public final String RIGHT_PIVOT_SERVO_NAME = "rightPivot";
+    public final String EXTENSION_SERVO_NAME = "extension";
 
     public final String INTAKE_DISTANCE_SENSOR_NAME = "intakeDistance";
     public final String LIFT_MAGLIMIT_SENSOR_NAME = "liftLimit";
@@ -124,9 +125,9 @@ public class Constants {
 
     public final double DIST_SENSOR_THRESHOLD = 5;
     public final double P_TURN_COEFF = 0.1;
-    public final double P_WALL_COEFF = 0.15;
+    public final double P_WALL_COEFF = 0.085;
     public final double HEADING_THRESHOLD = 1.5;
-    public final double DISTANCE_THRESHOLD = 2;
+    public final double DISTANCE_THRESHOLD = 1;
 
     // Waterfall Robot
     public final double LEFT_CLAW_COLLECT_OPEN = 0;
