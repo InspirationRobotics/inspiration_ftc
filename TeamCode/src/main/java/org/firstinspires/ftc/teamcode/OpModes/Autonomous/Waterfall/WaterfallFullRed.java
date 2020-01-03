@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 import org.firstinspires.ftc.teamcode.Hardware.SkystonePosition;
 
 @Autonomous(name = "Fall Red Full", group = "Waterfall")
-public class WaterfallFullRed extends ExtendedLinearOpMode {
+public class  WaterfallFullRed extends ExtendedLinearOpMode {
 
     public void runOpMode() {
 
