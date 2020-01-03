@@ -73,10 +73,10 @@ public class Robot {
     public BNO055IMU.Parameters parameters;
 
     //Waterfall
-    public Servo leftClawCollect;
-    public Servo rightClawCollect;
-    public Servo rightPivot;
-    public Servo leftPivot;
+    public Servo frontClawCollect;
+    public Servo backClawCollect;
+    public Servo backPivot;
+    public Servo frontPivot;
     public Servo foundationServo;
 
     public DcMotor leftIntake;
@@ -192,10 +192,10 @@ public class Robot {
 
         foundationServo = ahwmap.servo.get("foundationMover");
         grabber = ahwmap.servo.get(constants.GRABBER_SERVO_NAME);
-        leftClawCollect = ahwmap.servo.get(constants.LEFT_CLAW_COLLECT_NAME);
-        rightClawCollect = ahwmap.servo.get(constants.RIGHT_CLAW_COLLECT_NAME);
-        rightPivot = ahwmap.servo.get(constants.LEFT_PIVOT_SERVO_NAME);
-        leftPivot = ahwmap.servo.get(constants.RIGHT_PIVOT_SERVO_NAME);
+        frontClawCollect = ahwmap.servo.get(constants.FRONT_CLAW_COLLECT_NAME);
+        backClawCollect = ahwmap.servo.get(constants.BACK_CLAW_COLLECT_NAME);
+        backPivot = ahwmap.servo.get(constants.FRONT_PIVOT_SERVO_NAME);
+        frontPivot = ahwmap.servo.get(constants.BACK_PIVOT_SERVO_NAME);
         extensionServo = ahwmap.servo.get(constants.EXTENSION_SERVO_NAME);
 
         distanceFront = ahwmap.get(DistanceSensor.class, constants.FRONT_DISTANCE_SENSOR_NAME);

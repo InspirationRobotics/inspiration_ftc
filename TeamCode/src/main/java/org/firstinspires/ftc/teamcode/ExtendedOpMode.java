@@ -31,10 +31,10 @@ public abstract class ExtendedOpMode extends OpMode {
 
         while (gamepad1.left_trigger > 0.2) {
 
-            robot.leftFront.setPower(leftTrigger);
-            robot.leftBack.setPower(-leftTrigger);
-            robot.rightFront.setPower(-leftTrigger);
-            robot.rightBack.setPower(leftTrigger);
+            robot.leftFront.setPower(gamepad1.left_trigger);
+            robot.leftBack.setPower(-gamepad1.left_trigger);
+            robot.rightFront.setPower(-gamepad1.left_trigger);
+            robot.rightBack.setPower(gamepad1.left_trigger);
 
 
             if (gamepad1.left_trigger <= 0.2) {
@@ -51,10 +51,10 @@ public abstract class ExtendedOpMode extends OpMode {
 
         while (gamepad1.right_trigger > 0.2) {
 
-            robot.leftFront.setPower(-rightTrigger);
-            robot.leftBack.setPower(rightTrigger);
-            robot.rightFront.setPower(rightTrigger);
-            robot.rightBack.setPower(-rightTrigger);
+            robot.leftFront.setPower(-gamepad1.right_trigger);
+            robot.leftBack.setPower(gamepad1.right_trigger);
+            robot.rightFront.setPower(gamepad1.right_trigger);
+            robot.rightBack.setPower(-gamepad1.right_trigger);
 
 
             if (gamepad1.right_trigger <= 0.2) {
@@ -73,17 +73,17 @@ public abstract class ExtendedOpMode extends OpMode {
 
     public void moveAutoArm(){
         if(gamepad2.dpad_left){
-            robot.rightClawCollect.setPosition(robot.constants.RIGHT_CLAW_COLLECT_MID);
-            robot.leftClawCollect.setPosition(robot.constants.LEFT_CLAW_COLLECT_MID);
+            robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_MID);
+            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_MID);
         } else if (gamepad2.dpad_right){
-            robot.rightClawCollect.setPosition(robot.constants.RIGHT_CLAW_COLLECT_GRAB);
-            robot.leftClawCollect.setPosition(robot.constants.LEFT_CLAW_COLLECT_GRAB);
+            robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
+            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_GRAB);
         } else if (gamepad2.dpad_up){
-            robot.rightPivot.setPosition(robot.constants.RIGHT_PIVOT_DOWN);
-            robot.leftPivot.setPosition(robot.constants.LEFT_PIVOT_DOWN);
+            robot.backPivot.setPosition(robot.constants.BACK_PIVOT_DOWN);
+            robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
         } else if (gamepad2.dpad_down) {
-            robot.rightPivot.setPosition(robot.constants.RIGHT_PIVOT_UP);
-            robot.leftPivot.setPosition(robot.constants.LEFT_PIVOT_UP);
+            robot.backPivot.setPosition(robot.constants.BACK_PIVOT_UP);
+            robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
         }
     }
 
@@ -107,11 +107,11 @@ public abstract class ExtendedOpMode extends OpMode {
         //Power -1 outtakes
 
         if(leftBumper) {
-            robot.leftIntake.setPower(1);
-            robot.rightIntake.setPower(-1);
-        } else if (rightBumper) {
             robot.leftIntake.setPower(-1);
             robot.rightIntake.setPower(1);
+        } else if (rightBumper) {
+            robot.leftIntake.setPower(1);
+            robot.rightIntake.setPower(-1);
         } else {
             robot.leftIntake.setPower(0);
             robot.rightIntake.setPower(0);
@@ -197,6 +197,17 @@ public abstract class ExtendedOpMode extends OpMode {
         } else if (gp2Y) {
             robot.leftFoundation.setPosition(robot.constants.LEFT_FOUNDATION_GRAB_POS);
             robot.rightFoundation.setPosition(robot.constants.RIGHT_FOUNDATION_GRAB_POS);
+        }
+    }
+
+    public void foundationMoverFall(boolean gp2X, boolean gp2Y) {
+
+        // move foundation mover @ touch of x or y. x = open, y = grab fn
+        // you're so smart!
+        if (gp2X) {
+            robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
+        } else if (gp2Y) {
+            robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
         }
     }
 

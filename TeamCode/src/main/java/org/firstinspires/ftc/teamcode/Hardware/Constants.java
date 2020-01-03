@@ -63,10 +63,10 @@ public class Constants {
     public final String GRABBER_SERVO_NAME = "grabber";
     public final String CAPSTONE_NAME = "capstone";
 
-    public final String LEFT_CLAW_COLLECT_NAME = "leftClawCollect";
-    public final String RIGHT_CLAW_COLLECT_NAME = "rightClawCollect";
-    public final String LEFT_PIVOT_SERVO_NAME = "leftPivot";
-    public final String RIGHT_PIVOT_SERVO_NAME = "rightPivot";
+    public final String FRONT_CLAW_COLLECT_NAME = "frontClawCollect";
+    public final String BACK_CLAW_COLLECT_NAME = "backClawCollect";
+    public final String FRONT_PIVOT_SERVO_NAME = "frontPivot";
+    public final String BACK_PIVOT_SERVO_NAME = "backPivot";
     public final String EXTENSION_SERVO_NAME = "extension";
 
     public final String INTAKE_DISTANCE_SENSOR_NAME = "intakeDistance";
@@ -125,26 +125,27 @@ public class Constants {
 
     public final double DIST_SENSOR_THRESHOLD = 5;
     public final double P_TURN_COEFF = 0.1;
-    public final double P_WALL_COEFF = 0.085;
+    public final double P_WALL_COEFF = 0.045;
     public final double HEADING_THRESHOLD = 1.5;
     public final double DISTANCE_THRESHOLD = 1;
 
     // Waterfall Robot
-    public final double LEFT_CLAW_COLLECT_OPEN = 0;
-    public final double LEFT_CLAW_COLLECT_MID = 0;
-    public final double LEFT_CLAW_COLLECT_GRAB = 0;
-    public final double RIGHT_CLAW_COLLECT_OPEN = 0;
-    public final double RIGHT_CLAW_COLLECT_MID = 0;
-    public final double RIGHT_CLAW_COLLECT_GRAB = 0;
+    public final double FRONT_CLAW_COLLECT_OPEN = 0.5;
+    public final double FRONT_CLAW_COLLECT_MID = 0.4;
+    public final double FRONT_CLAW_COLLECT_GRAB = 0.3;
+    public final double BACK_CLAW_COLLECT_OPEN = 0.4;
+    public final double BACK_CLAW_COLLECT_MID = 0.25;
+    public final double BACK_CLAW_COLLECT_GRAB = 0.1;
 
-    public final double LEFT_PIVOT_UP = 0;
-    public final double LEFT_PIVOT_MID = 0;
-    public final double LEFT_PIVOT_DOWN = 0;
-    public final double RIGHT_PIVOT_UP = 0;
-    public final double RIGHT_PIVOT_MID = 0;
-    public final double RIGHT_PIVOT_DOWN = 0;
+    public final double FRONT_PIVOT_UP = 0.5;
+    public final double FRONT_PIVOT_MID = 0.7;
+    public final double FRONT_PIVOT_DOWN = 1;
+    public final double BACK_PIVOT_UP = 0;
+    public final double BACK_PIVOT_MID = 0.25;
+    public final double BACK_PIVOT_DOWN = 1;
 
-
+    public final double FOUNDATION_SERVO_OPEN_POS = 1;
+    public final double FOUNDATION_SERVO_GRAB_POS = 0.4;
 
     public final double ROBOT_WIDTH_IN = 15;
     public final double ROBOT_CIRCUMFERENCE = (ROBOT_WIDTH_IN * Math.PI);
