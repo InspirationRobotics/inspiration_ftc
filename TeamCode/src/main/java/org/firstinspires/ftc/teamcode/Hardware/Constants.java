@@ -63,6 +63,11 @@ public class Constants {
     public final String GRABBER_SERVO_NAME = "grabber";
     public final String CAPSTONE_NAME = "capstone";
 
+    public final String LEFT_CLAW_COLLECT_NAME = "leftClawCollect";
+    public final String RIGHT_CLAW_COLLECT_NAME = "rightClawCollect";
+    public final String LEFT_PIVOT_SERVO_NAME = "leftPivot";
+    public final String RIGHT_PIVOT_SERVO_NAME = "rightPivot";
+
     public final String INTAKE_DISTANCE_SENSOR_NAME = "intakeDistance";
     public final String LIFT_MAGLIMIT_SENSOR_NAME = "liftLimit";
     public final String EXTENSION_MAGLIMIT_SENSOR_NAME = "extensionLimit";
@@ -124,11 +129,22 @@ public class Constants {
     public final double DISTANCE_THRESHOLD = 2;
 
     // Waterfall Robot
-    public final double CLAW_COLLECT_OPEN = 1;
-    public final double CLAW_COLLECT_CLOSE = 0;
+    public final double LEFT_CLAW_COLLECT_OPEN = 0;
+    public final double LEFT_CLAW_COLLECT_MID = 0;
+    public final double LEFT_CLAW_COLLECT_GRAB = 0;
+    public final double RIGHT_CLAW_COLLECT_OPEN = 0;
+    public final double RIGHT_CLAW_COLLECT_MID = 0;
+    public final double RIGHT_CLAW_COLLECT_GRAB = 0;
 
-    public final double CLAW_COLLECT_EXTEND = 1;
-    public final double CLAW_COLLECT_RETRACT = 0;
+    public final double LEFT_PIVOT_UP = 0;
+    public final double LEFT_PIVOT_MID = 0;
+    public final double LEFT_PIVOT_DOWN = 0;
+    public final double RIGHT_PIVOT_UP = 0;
+    public final double RIGHT_PIVOT_MID = 0;
+    public final double RIGHT_PIVOT_DOWN = 0;
+
+
+
     public final double ROBOT_WIDTH_IN = 15;
     public final double ROBOT_CIRCUMFERENCE = (ROBOT_WIDTH_IN * Math.PI);
     public final double ENCODERS_PER_360 = (ROBOT_CIRCUMFERENCE*(COUNTS_PER_INCH));
@@ -140,6 +156,19 @@ public class Constants {
 
     public final double BACK_DS_OFFSET_SKYSTONE = 6;
     public final double FRONT_DS_OFFSET_SKYSTONE = 4;
+
+    public final double CLOSE_WALL_LEFT_SKYSTONE_BLUE_ALIGN_DISTANCE = 4;
+    public final double CLOSE_WALL_CENTER_SKYSTONE_BLUE_ALIGN_DISTANCE = 12;
+    public final double CLOSE_WALL_RIGHT_SKYSTONE_BLUE_ALIGN_DISTANCE = 20;
+    public final double FAR_WALL_LEFT_SKYSTONE_BLUE_ALIGN_DISTANCE = 28;
+    public final double FAR_WALL_CENTER_SKYSTONE_BLUE_ALIGN_DISTANCE = 36;
+    public final double FAR_WALL_RIGHT_SKYSTONE_BLUE_ALIGN_DISTANCE = 44;
+    public final double CLOSE_WALL_LEFT_SKYSTONE_RED_ALIGN_DISTANCE = 4;
+    public final double CLOSE_WALL_CENTER_SKYSTONE_RED_ALIGN_DISTANCE = 12;
+    public final double CLOSE_WALL_RIGHT_SKYSTONE_RED_ALIGN_DISTANCE = 20;
+    public final double FAR_WALL_LEFT_SKYSTONE_RED_ALIGN_DISTANCE = 28;
+    public final double FAR_WALL_CENTER_SKYSTONE_RED_ALIGN_DISTANCE = 36;
+    public final double FAR_WALL_RIGHT_SKYSTONE_RED_ALIGN_DISTANCE = 44;
 
 
 

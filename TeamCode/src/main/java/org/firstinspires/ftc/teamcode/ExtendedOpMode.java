@@ -71,15 +71,19 @@ public abstract class ExtendedOpMode extends OpMode {
 
     }
 
-    public void sideArmRight(boolean bButton, boolean aButton, boolean xButton, boolean yButton){
-        if(aButton){
-            robot.rightClawCollect.setPosition(robot.constants.CLAW_COLLECT_OPEN);
-        } else if (bButton){
-            robot.leftClawCollect.setPosition(robot.constants.CLAW_COLLECT_CLOSE);
-        } else if (xButton){
-            robot.leftClawCollect.setPosition(robot.constants.CLAW_COLLECT_EXTEND);
-        } else if (yButton) {
-            robot.leftClawCollect.setPosition(robot.constants.CLAW_COLLECT_EXTEND);
+    public void moveAutoArm(){
+        if(gamepad2.dpad_left){
+            robot.rightClawCollect.setPosition(robot.constants.RIGHT_CLAW_COLLECT_MID);
+            robot.leftClawCollect.setPosition(robot.constants.LEFT_CLAW_COLLECT_MID);
+        } else if (gamepad2.dpad_right){
+            robot.rightClawCollect.setPosition(robot.constants.RIGHT_CLAW_COLLECT_GRAB);
+            robot.leftClawCollect.setPosition(robot.constants.LEFT_CLAW_COLLECT_GRAB);
+        } else if (gamepad2.dpad_up){
+            robot.rightPivot.setPosition(robot.constants.RIGHT_PIVOT_DOWN);
+            robot.leftPivot.setPosition(robot.constants.LEFT_PIVOT_DOWN);
+        } else if (gamepad2.dpad_down) {
+            robot.rightPivot.setPosition(robot.constants.RIGHT_PIVOT_UP);
+            robot.leftPivot.setPosition(robot.constants.LEFT_PIVOT_UP);
         }
     }
 
@@ -97,11 +101,28 @@ public abstract class ExtendedOpMode extends OpMode {
         }
     }
 
+    public void collectWaterfall(boolean leftBumper, boolean rightBumper) {
+        //Left is outtake, right is intake. (they are the bumpers on gp1)
+        //Power 1 intakes
+        //Power -1 outtakes
+
+        if(leftBumper) {
+            robot.leftIntake.setPower(1);
+            robot.rightIntake.setPower(-1);
+        } else if (rightBumper) {
+            robot.leftIntake.setPower(-1);
+            robot.rightIntake.setPower(1);
+        } else {
+            robot.leftIntake.setPower(0);
+            robot.rightIntake.setPower(0);
+        }
+    }
+
     public void moveDpad(boolean gp1LeftDpad, boolean gp1RightDpad,boolean gp1UpDpad,boolean gp1DownDpad) {
 
         // move robot @ 50 percent power based off gp1 dpad inputs, if you couldn't read exactly one line above
 
-        while (gp1LeftDpad) {
+        while (gamepad1.dpad_left) {
 
             robot.leftFront.setPower(0.5);
             robot.leftBack.setPower(-0.5);
@@ -109,19 +130,19 @@ public abstract class ExtendedOpMode extends OpMode {
             robot.rightBack.setPower(0.5);
 
 
-            if (!gp1LeftDpad) {
+            if (!gamepad1.dpad_left) {
                 break;
             }
         }
 
-        while (gp1RightDpad) {
+        while (gamepad1.dpad_right) {
 
             robot.leftFront.setPower(-0.5);
             robot.leftBack.setPower(0.5);
             robot.rightFront.setPower(0.5);
             robot.rightBack.setPower(-0.5);
 
-            if (!gp1RightDpad) {
+            if (!gamepad1.dpad_right) {
                 break;
             }
         }

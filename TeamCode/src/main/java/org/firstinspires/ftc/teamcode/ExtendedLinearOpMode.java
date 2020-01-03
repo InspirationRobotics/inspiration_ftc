@@ -10,9 +10,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.teamcode.CV.SkystoneDetector;
 import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.Hardware.SkystonePosition;
 import org.opencv.core.Mat;
 
 
@@ -695,6 +697,66 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         robot.imu.initialize(parameters);
+    }
+
+    public SkystonePosition getSkystonePosition(double distanceFromWall, Direction direction) {
+
+        if (direction == Direction.FORWARD) {
+            distanceFromWall = distanceFromWall + robot.constants.FRONT_DS_OFFSET_SKYSTONE;
+        } else if (direction == Direction.BACKWARD) {
+            distanceFromWall = distanceFromWall + robot.constants.BACK_DS_OFFSET_SKYSTONE;
+        }
+
+        double l_err = Math.abs(distanceFromWall - robot.constants.LEFT_SKYSTONE_WALL_DIST);
+        double r_err = Math.abs(distanceFromWall - robot.constants.RIGHT_SKYSTONE_WALL_DIST);
+        double c_err = Math.abs(distanceFromWall - robot.constants.CENTER_SKYSTONE_WALL_DIST);
+
+        SkystonePosition retPos;
+        if (l_err <= r_err && l_err <= c_err) {
+            retPos = SkystonePosition.LEFT;
+        } else if (r_err <= c_err && r_err <= l_err) {
+            retPos = SkystonePosition.RIGHT;
+        } else {
+            retPos = SkystonePosition.CENTER;
+        }
+
+        return retPos;
+    }
+
+    public void goToStone(SkystonePosition skystonePosition, String autoSide) {
+
+        double alignTarget = 0;
+        DistanceSensor inputDistance =robot.distanceFront;
+        Direction direction = Direction.FORWARD;
+
+        if (autoSide == "blue") {
+
+            inputDistance = robot.distanceBack;
+            direction = Direction.BACKWARD;
+
+            if (skystonePosition == SkystonePosition.LEFT) {
+                alignTarget = robot.constants.CLOSE_WALL_LEFT_SKYSTONE_BLUE_ALIGN_DISTANCE;
+            } else if (skystonePosition == SkystonePosition.CENTER) {
+                alignTarget = robot.constants.CLOSE_WALL_CENTER_SKYSTONE_BLUE_ALIGN_DISTANCE;
+            } else if (skystonePosition == SkystonePosition.RIGHT) {
+                alignTarget = robot.constants.CLOSE_WALL_RIGHT_SKYSTONE_BLUE_ALIGN_DISTANCE;
+            }
+        } else if (autoSide == "red") {
+
+            inputDistance = robot.distanceFront;
+            direction = Direction.FORWARD;
+
+            if (skystonePosition == SkystonePosition.LEFT) {
+                alignTarget = robot.constants.CLOSE_WALL_LEFT_SKYSTONE_RED_ALIGN_DISTANCE;
+            } else if (skystonePosition == SkystonePosition.CENTER) {
+                alignTarget = robot.constants.CLOSE_WALL_CENTER_SKYSTONE_RED_ALIGN_DISTANCE;
+            } else if (skystonePosition == SkystonePosition.RIGHT) {
+                alignTarget = robot.constants.CLOSE_WALL_RIGHT_SKYSTONE_RED_ALIGN_DISTANCE;
+            }
+        }
+
+        wallAlign(0.7, alignTarget, inputDistance, direction);
+
     }
 
 }

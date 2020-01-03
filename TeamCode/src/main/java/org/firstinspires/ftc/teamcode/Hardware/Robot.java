@@ -84,11 +84,10 @@ public class Robot {
     /*
     These are the devices/hardware that is the same between River and Watefall:
 
-    intake; //for the intake motors inside of the collector
     leftLift; //will actuate the vertical lift (need to be used in tangent with left righLift and vice versa)
     rightLift; //will actuate the vertical lift
     leftFoundation; // actuate the foundation mover (need to be used in tangent with right foundation and vice versa)
-    public Servo rightFoundation; // actuate teh foundation mover
+    rightFoundation; // actuate teh foundation mover
     */
 
 
@@ -172,6 +171,39 @@ public class Robot {
         } else {
             //do nothing
         }
+    }
+
+    public void initWaterfall() {
+        leftFront = ahwmap.dcMotor.get(constants.LEFT_FRONT_MOTOR_NAME);
+        leftBack = ahwmap.dcMotor.get(constants.LEFT_BACK_MOTOR_NAME);
+        rightFront = ahwmap.dcMotor.get(constants.RIGHT_FRONT_MOTOR_NAME);
+        rightBack = ahwmap.dcMotor.get(constants.RIGHT_BACK_MOTOR_NAME);
+
+        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        leftIntake = ahwmap.dcMotor.get(constants.INTAKE_MOTOR_NAME);
+        rightIntake = ahwmap.dcMotor.get(constants.INTAKE_MOTOR_NAME);
+        leftLift = ahwmap.dcMotor.get(constants.LIFT_LEFT_MOTOR_NAME);
+        rightLift = ahwmap.dcMotor.get(constants.RIGHT_LIFT_MOTOR_NAME);
+        leftFoundation = ahwmap.servo.get(constants.LEFT_FOUNDAION_SERVO_NAME);
+        rightFoundation = ahwmap.servo.get(constants.RIGHT_FOUNDAION_SERVO_NAME);
+        leftExtension = ahwmap.servo.get(constants.LEFT_EXTENSION_SERVO_NAME);
+        rightExtension = ahwmap.servo.get(constants.RIGHT_EXTENSION_SERVO_NAME);
+        grabber = ahwmap.servo.get(constants.GRABBER_SERVO_NAME);
+        leftClawCollect = ahwmap.servo.get(constants.LEFT_CLAW_COLLECT_NAME);
+        rightClawCollect = ahwmap.servo.get(constants.RIGHT_CLAW_COLLECT_NAME);
+        rightPivot = ahwmap.servo.get(constants.LEFT_PIVOT_SERVO_NAME);
+        leftPivot = ahwmap.servo.get(constants.RIGHT_PIVOT_SERVO_NAME);
+
+        distanceFront = ahwmap.get(DistanceSensor.class, constants.FRONT_DISTANCE_SENSOR_NAME);
+        distanceBack = ahwmap.get(DistanceSensor.class, constants.BACK_DISTANCE_SENSOR_NAME);
+        distanceLeft = ahwmap.get(DistanceSensor.class, constants.LEFT_DISTANCE_SENSOR_NAME);
+        distanceRight = ahwmap.get(DistanceSensor.class, constants.RIGHT_DISTANCE_SENSOR_NAME);
+
+        intakeDistance = ahwmap.get(DistanceSensor.class, constants.INTAKE_DISTANCE_SENSOR_NAME);
+        liftLimit = ahwmap.get(DigitalChannel.class, constants.LIFT_MAGLIMIT_SENSOR_NAME);
+        extensionLimit = ahwmap.get(DigitalChannel.class, constants.EXTENSION_MAGLIMIT_SENSOR_NAME);
     }
 
     public void initIMU() {
