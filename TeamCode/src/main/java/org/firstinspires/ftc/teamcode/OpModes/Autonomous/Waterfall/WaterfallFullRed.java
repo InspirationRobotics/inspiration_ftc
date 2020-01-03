@@ -54,12 +54,12 @@ public class  WaterfallFullRed extends ExtendedLinearOpMode {
 
 
         //collect skystone
-        robot.leftClawCollect.setPosition(robot.constants.LEFT_CLAW_COLLECT_MID);
-        robot.leftPivot.setPosition(robot.constants.LEFT_PIVOT_DOWN);
-        robot.leftClawCollect.setPosition(robot.constants.LEFT_CLAW_COLLECT_GRAB);
+        robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_MID);
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
+        robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_GRAB);
         sleep(750);
         //robot.rightClawCollect.setPosition(0);
-        robot.leftPivot.setPosition(robot.constants.LEFT_PIVOT_UP);
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
 
         //drive to the build zone
         encoderDrive(-40, -40, .7, .7, 5.5);
@@ -67,32 +67,32 @@ public class  WaterfallFullRed extends ExtendedLinearOpMode {
         wallAlign(0.8, 50, robot.distanceBack, Direction.BACKWARD);
 
         //deposit skystone
-        robot.leftPivot.setPosition(robot.constants.LEFT_PIVOT_DOWN);
-        robot.leftClawCollect.setPosition(robot.constants.LEFT_CLAW_COLLECT_OPEN);
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
+        robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_OPEN);
         sleep(750);
-        robot.leftClawCollect.setPosition(robot.constants.LEFT_CLAW_COLLECT_MID);
-        robot.leftPivot.setPosition(robot.constants.LEFT_PIVOT_UP);
+        robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_MID);
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
 
         encoderDrive(80, 80, .7, .7, 5.5);
         goToStone(skystonePosition, "red");
 
         //collect skystone
-        robot.leftClawCollect.setPosition(robot.constants.LEFT_CLAW_COLLECT_MID);
-        robot.leftPivot.setPosition(robot.constants.LEFT_PIVOT_DOWN);
-        robot.leftClawCollect.setPosition(robot.constants.LEFT_CLAW_COLLECT_GRAB);
+        robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_MID);
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
+        robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_GRAB);
         sleep(750);
         //robot.rightClawCollect.setPosition(0);
-        robot.leftPivot.setPosition(robot.constants.LEFT_PIVOT_UP);
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
 
         encoderDrive(-40, -40, .7, .7, 5.5);
         wallAlign(0.8, 50, robot.distanceBack, Direction.BACKWARD);
 
         //deposit skystone
-        robot.leftPivot.setPosition(robot.constants.LEFT_PIVOT_DOWN);
-        robot.leftClawCollect.setPosition(robot.constants.LEFT_CLAW_COLLECT_OPEN);
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
+        robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_OPEN);
         sleep(750);
-        robot.leftClawCollect.setPosition(robot.constants.LEFT_CLAW_COLLECT_MID);
-        robot.leftPivot.setPosition(robot.constants.LEFT_PIVOT_UP);
+        robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_MID);
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
 
         //go get another set of stones
         if (skystonePosition == SkystonePosition.RIGHT) {
@@ -109,22 +109,22 @@ public class  WaterfallFullRed extends ExtendedLinearOpMode {
             goToStone(skystonePosition, "red");
 
             //collect skystone
-            robot.leftClawCollect.setPosition(robot.constants.LEFT_CLAW_COLLECT_MID);
-            robot.leftPivot.setPosition(robot.constants.LEFT_PIVOT_DOWN);
-            robot.leftClawCollect.setPosition(robot.constants.LEFT_CLAW_COLLECT_GRAB);
+            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_MID);
+            robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
+            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_GRAB);
             sleep(750);
             //robot.rightClawCollect.setPosition(0);
-            robot.leftPivot.setPosition(robot.constants.LEFT_PIVOT_UP);
+            robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
 
             encoderDrive(-40, -40, .7, .7, 5.5);
             wallAlign(0.8, 50, robot.distanceBack, Direction.BACKWARD);
 
             //deposit skystone
-            robot.leftPivot.setPosition(robot.constants.LEFT_PIVOT_DOWN);
-            robot.leftClawCollect.setPosition(robot.constants.LEFT_CLAW_COLLECT_OPEN);
+            robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
+            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_OPEN);
             sleep(750);
-            robot.leftClawCollect.setPosition(robot.constants.LEFT_CLAW_COLLECT_MID);
-            robot.leftPivot.setPosition(robot.constants.LEFT_PIVOT_UP);
+            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_MID);
+            robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
         }
 
         //turn so the back of robot with foundation movers faces the long side of foundation
