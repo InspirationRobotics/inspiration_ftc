@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 
-@Autonomous(name = "Fall Blue Full", group = "Waterfall")
+@Autonomous(name = "Fall Two Block Red", group = "Waterfall")
 public class WaterfallTwoBlockRed extends ExtendedLinearOpMode {
 
     public void runOpMode() {

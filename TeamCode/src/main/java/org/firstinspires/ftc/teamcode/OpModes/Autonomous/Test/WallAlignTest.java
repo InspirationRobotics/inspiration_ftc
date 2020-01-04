@@ -14,7 +14,7 @@ public class WallAlignTest extends ExtendedLinearOpMode {
     public void runOpMode(){
 
         robot.setHardwareMap(hardwareMap);
-        robot.initRiver(RobotVersion.RIVER);
+        robot.initWaterfall();
         initIMU(hardwareMap);
 
 
@@ -23,9 +23,9 @@ public class WallAlignTest extends ExtendedLinearOpMode {
 
         waitForStart();
 
-        wallAlign(1, 20, robot.distanceFront, Direction.FORWARD);
+        wallAlign(1, 20, robot.distanceFrontRight, Direction.FORWARD);
 
-        telemetry.addData("Front distance sensor distance (IN)", robot.distanceFront.getDistance(DistanceUnit.INCH));
+        telemetry.addData("Front distance sensor distance (IN)", robot.distanceFrontRight.getDistance(DistanceUnit.INCH));
         telemetry.update();
 
         sleep(1000);
@@ -34,12 +34,12 @@ public class WallAlignTest extends ExtendedLinearOpMode {
 
         sleep(1000);
 
-        wallAlign(1, 30, robot.distanceBack, Direction.BACKWARD);
+        wallAlign(1, 30, robot.distanceBackLeft, Direction.BACKWARD);
 
 
         while(opModeIsActive()) {
-            telemetry.addData("Front distance sensor distance (IN)", robot.distanceFront.getDistance(DistanceUnit.INCH));
-            telemetry.addData("Back distance sensor distance (IN)", robot.distanceBack.getDistance(DistanceUnit.INCH));
+            telemetry.addData("Front distance sensor distance (IN)", robot.distanceFrontRight.getDistance(DistanceUnit.INCH));
+            telemetry.addData("Back distance sensor distance (IN)", robot.distanceBackLeft.getDistance(DistanceUnit.INCH));
             telemetry.update();
         }
     }
