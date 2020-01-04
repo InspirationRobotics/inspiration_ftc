@@ -12,6 +12,9 @@ public class WaterfallTwoBlockBlue extends ExtendedLinearOpMode {
 
     public void runOpMode() {
 
+        //change as needed
+        sleep(15000);
+
         robot.setHardwareMap(hardwareMap);
         robot.initRiver(RobotVersion.RIVER);
         initDetector();
