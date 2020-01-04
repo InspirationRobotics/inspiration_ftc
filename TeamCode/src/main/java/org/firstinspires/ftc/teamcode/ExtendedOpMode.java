@@ -211,7 +211,7 @@ public abstract class ExtendedOpMode extends OpMode {
         }
     }
 
-   /*public void extendDepositor(boolean gp2DpadLeft, boolean gp2DpadRight) {
+   public void extendDepositor(boolean gp2DpadLeft, boolean gp2DpadRight) {
        if (gp2DpadLeft) {
            robot.leftExtension.setPosition(robot.constants.LEFT_EXTENSION_COMPACTED);
            robot.rightExtension.setPosition(robot.constants.RIGHT_EXTENSION_COMPACTED);
@@ -219,7 +219,7 @@ public abstract class ExtendedOpMode extends OpMode {
            robot.leftExtension.setPosition(robot.constants.LEFT_EXTENSION_EXTENDED);
            robot.rightExtension.setPosition(robot.constants.RIGHT_EXTENSION_EXTENDED);
        }
-   }*/ //Temporary comment becuase we are changing the extension to a different button waiting for Aditya to come back
+   } //Temporary comment becuase we are changing the extension to a different button waiting for Aditya to come back
     //same as the function a whole 12 lines down. sample change
 
     public void grabBlock (boolean gp2LeftBumper, boolean gp2RightBumper) {
@@ -235,7 +235,7 @@ public abstract class ExtendedOpMode extends OpMode {
         }
     }
 
-   /*public void grabExtension (boolean gp2UpBumper, boolean gp2DownBumper){
+    public void grabExtension (boolean gp2UpBumper, boolean gp2DownBumper){
        //based off pressing the gp2 clicky bumper, extend if left pressed. COmpact if right pressed. oof
        if (gp2UpBumper){
            robot.leftExtension.setPosition(robot.constants.LEFT_EXTENSION_EXTENDED);
@@ -245,7 +245,7 @@ public abstract class ExtendedOpMode extends OpMode {
            robot.leftExtension.setPosition(robot.constants.LEFT_EXTENSION_COMPACTED);
            robot.rightExtension.setPosition(robot.constants.RIGHT_EXTENSION_COMPACTED);
        }
-   }*/
+   }
 
     public void horizantalExtend (){
         if (gamepad2.right_stick_y > 0.2) {

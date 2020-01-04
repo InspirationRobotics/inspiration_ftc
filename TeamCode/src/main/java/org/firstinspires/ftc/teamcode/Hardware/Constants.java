@@ -93,7 +93,7 @@ public class Constants {
     public final double RIGHT_EXTENSION_EXTENDED = 0;
     public final double RIGHT_EXTENSION_COMPACTED = 1;
 
-    public final double GRABBER_OPEN_POS = 1;
+    public final double GRABBER_OPEN_POS = 0.7;
     public final double GRABBER_GRAB_POS = 0;
 
     public final double INTAKE_MOTOR_INTAKE_SPEED = 1;

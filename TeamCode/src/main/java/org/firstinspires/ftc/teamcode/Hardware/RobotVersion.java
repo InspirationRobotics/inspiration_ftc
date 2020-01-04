@@ -4,5 +4,5 @@ public enum RobotVersion {
     RIVER,
     RIVER_SIMPLE,
     PUDDLE,
-    WATERFALL;
+    WATERFALL,
 }
