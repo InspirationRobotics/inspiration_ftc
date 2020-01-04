@@ -23,8 +23,7 @@ public class WaterfallParkingLane1Red extends ExtendedLinearOpMode {
 
         waitForStart();
 
-        //sleep until partner is done with tasks
-        //subject to change
+        //sleep until partner is done with task - change as needed
         sleep(1500);
 
         //strafe left until in lane 1
