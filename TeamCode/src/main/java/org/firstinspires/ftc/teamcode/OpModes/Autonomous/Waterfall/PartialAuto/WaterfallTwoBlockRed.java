@@ -26,10 +26,12 @@ public class WaterfallTwoBlockRed extends ExtendedLinearOpMode {
         strafeDistSensor(22 , Direction.RIGHT , robot.distanceLeft, 6000);
 
         //collect stone
-        robot.backPivot.setPosition(.5);
-        robot.backClawCollect.setPosition(.5);
+        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_MID);
+        robot.frontPivot.setPosition(robot.constants.BACK_PIVOT_DOWN);
+        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
+        sleep(750);
         //robot.backClawCollect.setPosition(0);
-        robot.backPivot.setPosition(0);
+        robot.backPivot.setPosition(robot.constants.BACK_PIVOT_UP);
 
         //strafe left until in lane 2 (left lane)
         strafeDistSensor(2 , Direction.LEFT , robot.distanceLeft, 6000);
@@ -55,10 +57,12 @@ public class WaterfallTwoBlockRed extends ExtendedLinearOpMode {
         strafeDistSensor(28 , Direction.RIGHT , robot.distanceLeft, 6000);
 
         //collect stone
-        robot.backPivot.setPosition(.5);
-        robot.backClawCollect.setPosition(.5);
+        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_MID);
+        robot.frontPivot.setPosition(robot.constants.BACK_PIVOT_DOWN);
+        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
+        sleep(750);
         //robot.backClawCollect.setPosition(0);
-        robot.backPivot.setPosition(0);
+        robot.backPivot.setPosition(robot.constants.BACK_PIVOT_UP);
 
         //strafe left until lane 2 (left lane)
         strafeDistSensor(2 , Direction.LEFT , robot.distanceLeft, 6000);

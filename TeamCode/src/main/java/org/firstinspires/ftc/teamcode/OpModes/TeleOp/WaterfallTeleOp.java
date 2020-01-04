@@ -25,7 +25,7 @@ public class WaterfallTeleOp extends ExtendedOpMode {
         robot.leftLift.setPower(-gamepad2.left_stick_y);
         robot.rightLift.setPower(gamepad2.left_stick_y);
         foundationMover(gamepad1.right_trigger, gamepad1.left_trigger);
-        extendDepositor(gamepad2.dpad_left, gamepad2.dpad_right);
+        //extendDepositor(gamepad2.dpad_left, gamepad2.dpad_right);
         //horizantalExtend(); .
         robot.extensionServo.setPower(-gamepad2.right_stick_y);
         grabBlock(gamepad2.left_bumper, gamepad2.right_bumper);
