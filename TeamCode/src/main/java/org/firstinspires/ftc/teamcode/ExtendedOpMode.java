@@ -27,49 +27,49 @@ public abstract class ExtendedOpMode extends OpMode {
         robot.rightBack.setPower(right_power);
     }
 
-    public void strafe(double leftTrigger, double rightTrigger) {
+   /*public void strafe(double leftTrigger, double rightTrigger) {
 
-        while (gamepad1.left_trigger > 0.2) {
+       while (gamepad1.left_trigger > 0.2) {
 
-            robot.leftFront.setPower(gamepad1.left_trigger);
-            robot.leftBack.setPower(-gamepad1.left_trigger);
-            robot.rightFront.setPower(-gamepad1.left_trigger);
-            robot.rightBack.setPower(gamepad1.left_trigger);
-
-
-            if (gamepad1.left_trigger <= 0.2) {
-                robot.leftFront.setPower(0);
-                robot.leftBack.setPower(0);
-                robot.rightFront.setPower(0);
-                robot.rightBack.setPower(0);
-                break;
-            }
-
-            //it strfafes and escapes the loop so tht it doesn't run forever
-            // matched for kept and right because logically, you should be able to move left
-        }
-
-        while (gamepad1.right_trigger > 0.2) {
-
-            robot.leftFront.setPower(-gamepad1.right_trigger);
-            robot.leftBack.setPower(gamepad1.right_trigger);
-            robot.rightFront.setPower(gamepad1.right_trigger);
-            robot.rightBack.setPower(-gamepad1.right_trigger);
+           robot.leftFront.setPower(gamepad1.left_trigger);
+           robot.leftBack.setPower(-gamepad1.left_trigger);
+           robot.rightFront.setPower(-gamepad1.left_trigger);
+           robot.rightBack.setPower(gamepad1.left_trigger);
 
 
-            if (gamepad1.right_trigger <= 0.2) {
-                robot.leftFront.setPower(0);
-                robot.leftBack.setPower(0);
-                robot.rightFront.setPower(0);
-                robot.rightBack.setPower(0);
-                break;
-            }
-        }
+           if (gamepad1.left_trigger <= 0.2) {
+               robot.leftFront.setPower(0);
+               robot.leftBack.setPower(0);
+               robot.rightFront.setPower(0);
+               robot.rightBack.setPower(0);
+               break;
+           }
 
-        //it strfafes and escapes theloop so tht it doesn't run forever
-        // matched for keft and right bcecause lkgogivally, you dhould be able to move left
+           //it strfafes and escapes the loop so tht it doesn't run forever
+           // matched for kept and right because logically, you should be able to move left
+       }
 
-    }
+       while (gamepad1.right_trigger > 0.2) {
+
+           robot.leftFront.setPower(-gamepad1.right_trigger);
+           robot.leftBack.setPower(gamepad1.right_trigger);
+           robot.rightFront.setPower(gamepad1.right_trigger);
+           robot.rightBack.setPower(-gamepad1.right_trigger);
+
+
+           if (gamepad1.right_trigger <= 0.2) {
+               robot.leftFront.setPower(0);
+               robot.leftBack.setPower(0);
+               robot.rightFront.setPower(0);
+               robot.rightBack.setPower(0);
+               break;
+           }
+       }
+
+       //it strfafes and escapes theloop so tht it doesn't run forever
+       // matched for keft and right bcecause lkgogivally, you dhould be able to move left
+
+   }*/
 
     public void moveAutoArm(){
         if(gamepad2.dpad_left){
@@ -187,14 +187,14 @@ public abstract class ExtendedOpMode extends OpMode {
     }
 
 
-    public void foundationMover(boolean gp2X, boolean gp2Y) {
+    public void foundationMover(float gp1RT, float gp1LT) {
 
         // move foundation mover @ touch of x or y. x = open, y = grab fn
         // you're so smart!
-        if (gp2X) {
+        if (gp1LT > 0.2) {
             robot.leftFoundation.setPosition(robot.constants.LEFT_FOUNDATION_OPEN_POS);
             robot.rightFoundation.setPosition(robot.constants.RIGHT_FOUNDATION_OPEN_POS);
-        } else if (gp2Y) {
+        } else if (gp1RT < 0.2) {
             robot.leftFoundation.setPosition(robot.constants.LEFT_FOUNDATION_GRAB_POS);
             robot.rightFoundation.setPosition(robot.constants.RIGHT_FOUNDATION_GRAB_POS);
         }
@@ -211,15 +211,15 @@ public abstract class ExtendedOpMode extends OpMode {
         }
     }
 
-    /*public void extendDepositor(boolean gp2DpadLeft, boolean gp2DpadRight) {
-        if (gp2DpadLeft) {
-            robot.leftExtension.setPosition(robot.constants.LEFT_EXTENSION_COMPACTED);
-            robot.rightExtension.setPosition(robot.constants.RIGHT_EXTENSION_COMPACTED);
-        } else if (gp2DpadRight) {
-            robot.leftExtension.setPosition(robot.constants.LEFT_EXTENSION_EXTENDED);
-            robot.rightExtension.setPosition(robot.constants.RIGHT_EXTENSION_EXTENDED);
-        }
-    }*/ //Temporary comment becuase we are changing the extension to a different button waiting for Aditya to come back
+   /*public void extendDepositor(boolean gp2DpadLeft, boolean gp2DpadRight) {
+       if (gp2DpadLeft) {
+           robot.leftExtension.setPosition(robot.constants.LEFT_EXTENSION_COMPACTED);
+           robot.rightExtension.setPosition(robot.constants.RIGHT_EXTENSION_COMPACTED);
+       } else if (gp2DpadRight) {
+           robot.leftExtension.setPosition(robot.constants.LEFT_EXTENSION_EXTENDED);
+           robot.rightExtension.setPosition(robot.constants.RIGHT_EXTENSION_EXTENDED);
+       }
+   }*/ //Temporary comment becuase we are changing the extension to a different button waiting for Aditya to come back
     //same as the function a whole 12 lines down.
 
     public void grabBlock (boolean gp2LeftBumper, boolean gp2RightBumper) {
@@ -231,15 +231,25 @@ public abstract class ExtendedOpMode extends OpMode {
         }
     }
 
-    public void grabExtension (boolean gp2UpBumper, boolean gp2DownBumper){
-        //based off pressing the gp2 clicky bumper, extend if left pressed. COmpact if right pressed. oof
-        if (gp2UpBumper){
-            robot.leftExtension.setPosition(robot.constants.LEFT_EXTENSION_EXTENDED);
-            robot.rightExtension.setPosition(robot.constants.RIGHT_EXTENSION_EXTENDED);
-        }
-        if (gp2DownBumper){
-            robot.leftExtension.setPosition(robot.constants.LEFT_EXTENSION_COMPACTED);
-            robot.rightExtension.setPosition(robot.constants.RIGHT_EXTENSION_COMPACTED);
+   /*public void grabExtension (boolean gp2UpBumper, boolean gp2DownBumper){
+       //based off pressing the gp2 clicky bumper, extend if left pressed. COmpact if right pressed. oof
+       if (gp2UpBumper){
+           robot.leftExtension.setPosition(robot.constants.LEFT_EXTENSION_EXTENDED);
+           robot.rightExtension.setPosition(robot.constants.RIGHT_EXTENSION_EXTENDED);
+       }
+       if (gp2DownBumper){
+           robot.leftExtension.setPosition(robot.constants.LEFT_EXTENSION_COMPACTED);
+           robot.rightExtension.setPosition(robot.constants.RIGHT_EXTENSION_COMPACTED);
+       }
+   }*/
+
+    public void horizantalExtend (){
+        if (gamepad2.right_stick_y > 0.2) {
+            robot.extensionServo.setPower(1);
+        } else if (gamepad2.right_stick_y < 0.2) {
+            robot.extensionServo.setPower(-1);
+        } else {
+            robot.extensionServo.setPower(0);
         }
     }
 
@@ -252,3 +262,4 @@ public abstract class ExtendedOpMode extends OpMode {
         }
     }
 }
+

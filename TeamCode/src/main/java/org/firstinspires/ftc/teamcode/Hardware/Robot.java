@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -86,7 +87,7 @@ public class Robot {
     public DcMotor leftIntake;
     public DcMotor rightIntake;
 
-    public Servo extensionServo;
+    public CRServo extensionServo;
 
     /*
     These are the devices/hardware that is the same between River and Watefall:
@@ -200,7 +201,7 @@ public class Robot {
         backClawCollect = ahwmap.servo.get(constants.BACK_CLAW_COLLECT_NAME);
         backPivot = ahwmap.servo.get(constants.FRONT_PIVOT_SERVO_NAME);
         frontPivot = ahwmap.servo.get(constants.BACK_PIVOT_SERVO_NAME);
-        extensionServo = ahwmap.servo.get(constants.EXTENSION_SERVO_NAME);
+        extensionServo = ahwmap.crservo.get(constants.EXTENSION_SERVO_NAME);
 
         distanceFrontLeft = ahwmap.get(DistanceSensor.class, constants.FRONT_LEFT_DISTANCE_SENSOR_NAME);
         distanceFrontRight = ahwmap.get(DistanceSensor.class, constants.FRONT_RIGHT_DISTANCE_SENSOR_NAME);
