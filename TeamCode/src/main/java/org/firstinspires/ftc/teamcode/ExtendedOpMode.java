@@ -261,5 +261,6 @@ public abstract class ExtendedOpMode extends OpMode {
             robot.capstone.setPosition(robot.constants.CAPSTONE_UP);
         }
     }
+
 }
 
