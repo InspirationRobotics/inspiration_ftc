@@ -192,11 +192,9 @@ public abstract class ExtendedOpMode extends OpMode {
         // move foundation mover @ touch of x or y. x = open, y = grab fn
         // you're so smart!
         if (gp1LT > 0.2) {
-            robot.leftFoundation.setPosition(robot.constants.LEFT_FOUNDATION_OPEN_POS);
-            robot.rightFoundation.setPosition(robot.constants.RIGHT_FOUNDATION_OPEN_POS);
+            robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
         } else if (gp1RT < 0.2) {
-            robot.leftFoundation.setPosition(robot.constants.LEFT_FOUNDATION_GRAB_POS);
-            robot.rightFoundation.setPosition(robot.constants.RIGHT_FOUNDATION_GRAB_POS);
+            robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS)
         }
     }
 
