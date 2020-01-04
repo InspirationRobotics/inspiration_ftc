@@ -52,7 +52,7 @@ public class WaterfallTwoBlockBlue extends ExtendedLinearOpMode {
         strafeDistSensor(2 , Direction.LEFT , robot.distanceLeft, 6);
 
         //move backwards until second stone
-        encoderDrive(150, 150, .7, .7, 6);
+        encoderDrive(-150, -150, .7, .7, 6);
         wallAlign(0.8, 8, robot.distanceBack, Direction.BACKWARD);
 
         //strafe right to lane 1 (right lane)
@@ -82,7 +82,7 @@ public class WaterfallTwoBlockBlue extends ExtendedLinearOpMode {
         strafeDistSensor(2 , Direction.LEFT , robot.distanceLeft, 6);
 
         //move backwards to park
-        wallAlign(0.8, 68, robot.distanceBack, Direction.BACKWARD);
+        wallAlign(0.8, -68, robot.distanceBack, Direction.BACKWARD);
 
     }
 }
