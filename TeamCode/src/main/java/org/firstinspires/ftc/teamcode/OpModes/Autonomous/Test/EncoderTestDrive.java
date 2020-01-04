@@ -23,7 +23,7 @@ public class EncoderTestDrive extends ExtendedLinearOpMode {
         setPower(0, 0);
         detector.disable();
 
-        encoderDrive(8, 8, 0.1, .215, 6);
+        encoderDrive(8, 8, 0.1, .1, 6);
 
         stopMotors();
 
