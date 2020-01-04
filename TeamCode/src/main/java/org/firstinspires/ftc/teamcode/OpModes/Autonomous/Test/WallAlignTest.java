@@ -17,11 +17,18 @@ public class WallAlignTest extends ExtendedLinearOpMode {
         robot.initWaterfall();
         initIMU(hardwareMap);
 
-
-        telemetry.addLine("Ready to go!");
+        telemetry.addLine("Initialized! Ready to go!");
         telemetry.update();
 
         waitForStart();
+
+        long endTime = System.currentTimeMillis() + 4000;
+
+        while((System.currentTimeMillis() < endTime) && opModeIsActive()) {
+            telemetry.addData("IMU heading", getHeading());
+            telemetry.update();
+        }
+
 
         wallAlign(1, 20, robot.distanceFrontRight, Direction.FORWARD);
 
@@ -30,7 +37,8 @@ public class WallAlignTest extends ExtendedLinearOpMode {
 
         sleep(1000);
 
-        gyroTurn(180, 0.6, 8);
+        gyroTurn(180, 0.5, 4);
+
 
         sleep(1000);
 

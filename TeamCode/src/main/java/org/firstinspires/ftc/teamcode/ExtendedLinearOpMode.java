@@ -56,10 +56,10 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
          * Usage: (power for the left side of the drivetrain), (power for the right side of the drivetrain)
          */
 
-        robot.leftFront.setPower(left_power);
-        robot.leftBack.setPower(left_power);
-        robot.rightFront.setPower(right_power);
-        robot.rightBack.setPower(right_power);
+        robot.leftFront.setPower(-left_power);
+        robot.leftBack.setPower(-left_power);
+        robot.rightFront.setPower(-right_power);
+        robot.rightBack.setPower(-right_power);
     }
 
     public void initPuddle(HardwareMap hwmp) {
@@ -361,7 +361,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         runtime.reset();
 
         while(opModeIsActive() && !onTargetDistance(speed, distance, robot.constants.P_WALL_COEFF, inputDistance, direction) && (runtime.seconds() < 6)){
-            telemetry.addData("Distance from wall", robot.distanceFront.getDistance(DistanceUnit.INCH));
+            telemetry.addData("Distance from wall", inputDistance.getDistance(DistanceUnit.INCH));
             telemetry.update();
             idle();
             sleep(200); }
@@ -425,10 +425,10 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
     public double getSteerError(double error , double PCoeff){
         if (error < 0) {
-            return Range.clip(error * PCoeff, -0.8 , -0.15);
+            return Range.clip(error * PCoeff, -1 , -0.15);
         }
         else {
-            return Range.clip(error * PCoeff, 0.15 , 0.8);
+            return Range.clip(error * PCoeff, 0.15 , 1);
         }
     }
 
@@ -439,7 +439,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
         while (opModeIsActive() && (System.currentTimeMillis() < endTime)) {
             // Update telemetry & Allow time for other processes to run.
-            onHeading(speed, -targetAngle, robot.constants.P_TURN_COEFF);
+            onHeading(speed, targetAngle, robot.constants.P_TURN_COEFF);
             telemetry.update();
         }
 
@@ -456,7 +456,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         // determine turn power based on +/- error
         error = getError(angle);
 
-        if (Math.abs(error) <= robot.constants.P_TURN_COEFF) {
+        if (Math.abs(error) <= robot.constants.HEADING_THRESHOLD) {
             steer = 0.0;
             leftSpeed  = 0.0;
             rightSpeed = 0.0;
@@ -500,7 +500,11 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
     }
 
     public double getSteer(double error, double PCoeff) {
-        return Range.clip(error * PCoeff, -1, 1);
+        if(error > 0) {
+            return Range.clip(error * PCoeff, 0.2, 1);
+        } else {
+            return Range.clip(error * PCoeff, -1, -0.2);
+        }
     }
 
     public void strafeGyro(double angle, double maintainedAngle) {
@@ -732,6 +736,8 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         robot.imu.initialize(parameters);
 
         robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        telemetry.addData("imu heading", getHeading());
 
     }
 

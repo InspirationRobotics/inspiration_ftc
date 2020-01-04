@@ -51,10 +51,10 @@ public class FoundationOnlyBlue extends ExtendedLinearOpMode {
 
         while(robot.distanceLeft.getDistance(DistanceUnit.INCH) > 6 && opModeIsActive())
         {
-            strafeGyro(90, robot.getHeading());
+            strafeGyro(90, getHeading());
         }
 
-        strafeGyro(0, robot.getHeading());
+        strafeGyro(0, getHeading());
 
         while(robot.distanceFront.getDistance(DistanceUnit.INCH) > 70 && opModeIsActive())
         {

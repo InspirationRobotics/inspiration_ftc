@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
+import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 
 //@Disabled
@@ -14,6 +15,7 @@ public class IMUTest extends ExtendedLinearOpMode {
     public void runOpMode() {
 
         robot.setHardwareMap(hardwareMap);
+        robot.initWaterfall();
         initIMU(hardwareMap);
 
         telemetry.addLine("Initialized! Ready to go!");
@@ -21,8 +23,19 @@ public class IMUTest extends ExtendedLinearOpMode {
 
         waitForStart();
 
-        gyroTurn(90, 0.5, 4);
+        long endTime = System.currentTimeMillis() + 4000;
 
+        while((System.currentTimeMillis() < endTime) && opModeIsActive()) {
+            telemetry.addData("IMU heading", getHeading());
+            telemetry.update();
+        }
+
+        gyroTurn(180, 0.5, 4);
+
+
+        sleep(2000);
+
+        gyroTurn(-180, 0.5, 4);
 
         while(opModeIsActive()) {
             telemetry.addData("Heading", getHeading());

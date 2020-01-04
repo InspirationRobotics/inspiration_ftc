@@ -17,7 +17,7 @@ public class TestStrafeDist extends ExtendedLinearOpMode {
     public void runOpMode() {
 
         robot.setHardwareMap(hardwareMap);
-        robot.initRiver(RobotVersion.RIVER);
+        robot.initWaterfall();
         initIMU(hardwareMap);
 
 

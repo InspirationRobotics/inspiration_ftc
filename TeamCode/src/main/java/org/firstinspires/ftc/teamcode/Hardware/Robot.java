@@ -186,8 +186,8 @@ public class Robot {
         rightFront = ahwmap.dcMotor.get(constants.RIGHT_FRONT_MOTOR_NAME);
         rightBack = ahwmap.dcMotor.get(constants.RIGHT_BACK_MOTOR_NAME);
 
-        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
 
         leftIntake = ahwmap.dcMotor.get("leftIntake");
         rightIntake = ahwmap.dcMotor.get("rightIntake");
@@ -225,13 +225,13 @@ public class Robot {
 //        imu.initialize(parameters);
 //    }
 
-    public double getHeading() {
-
-        double heading;
-
-        heading = angles.firstAngle;
-
-        return heading;
-    }
+//    public double getHeading() {
+//
+//        double heading;
+//
+//        heading = angles.firstAngle;
+//
+//        return heading;
+//    }
 
 }
