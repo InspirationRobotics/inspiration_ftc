@@ -17,8 +17,7 @@ public class  WaterfallFullRed extends ExtendedLinearOpMode {
         robot.setHardwareMap(hardwareMap);
         robot.initWaterfall();
         initDetector();
-        //robot.initIMU();
-        //initIMU(hardwareMap);
+        initIMU(hardwareMap);
 
         telemetry.addLine("Ready to go!");
         telemetry.update();
@@ -41,14 +40,14 @@ public class  WaterfallFullRed extends ExtendedLinearOpMode {
             setPower(0.4,0.4);
         }
 
-        SkystonePosition skystonePosition = getSkystonePosition(robot.distanceFront.getDistance(DistanceUnit.INCH), Direction.FORWARD);
+        SkystonePosition skystonePosition = getSkystonePosition(robot.distanceFrontLeft.getDistance(DistanceUnit.INCH), Direction.FORWARD);
 
         stopMotors();
 
         //failsafe if skystone is not detected. Grab the middle stone the far side from wall
         if (!skyStoneIsVisible("red")){
 
-            wallAlign(0.8, 48, robot.distanceFront, Direction.FORWARD);
+            wallAlign(0.8, 48, robot.distanceFrontLeft, Direction.FORWARD);
             skystonePosition = SkystonePosition.RIGHT;
         }
 
@@ -64,7 +63,7 @@ public class  WaterfallFullRed extends ExtendedLinearOpMode {
         //drive to the build zone
         encoderDrive(-40, -40, .7, .7, 5.5);
         //align to be a certain distance to put block on foundation
-        wallAlign(0.8, 50, robot.distanceBack, Direction.BACKWARD);
+        wallAlign(0.8, 50, robot.distanceBackRight, Direction.BACKWARD);
 
         //deposit skystone
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
@@ -85,7 +84,7 @@ public class  WaterfallFullRed extends ExtendedLinearOpMode {
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
 
         encoderDrive(-40, -40, .7, .7, 5.5);
-        wallAlign(0.8, 50, robot.distanceBack, Direction.BACKWARD);
+        wallAlign(0.8, 50, robot.distanceBackRight, Direction.BACKWARD);
 
         //deposit skystone
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
@@ -117,7 +116,7 @@ public class  WaterfallFullRed extends ExtendedLinearOpMode {
             robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
 
             encoderDrive(-40, -40, .7, .7, 5.5);
-            wallAlign(0.8, 50, robot.distanceBack, Direction.BACKWARD);
+            wallAlign(0.8, 50, robot.distanceBackRight, Direction.BACKWARD);
 
             //deposit skystone
             robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);

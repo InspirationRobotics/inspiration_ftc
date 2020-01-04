@@ -39,6 +39,10 @@ public class Constants {
     public final String RIGHT_DISTANCE_SENSOR_NAME = "distanceRight";
     public final String FRONT_DISTANCE_SENSOR_NAME = "distanceFront";
     public final String BACK_DISTANCE_SENSOR_NAME = "distanceBack";
+    public final String FRONT_LEFT_DISTANCE_SENSOR_NAME = "distanceFrontLeft";
+    public final String BACK_LEFT_DISTANCE_SENSOR_NAME = "distanceBackLeft";
+    public final String FRONT_RIGHT_DISTANCE_SENSOR_NAME = "distanceFrontRight";
+    public final String BACK_RIGHT_DISTANCE_SENSOR_NAME = "distanceBackRight";
 
     public final String LEFT_FRONT_MOTOR_NAME = "lf";
     public final String LEFT_BACK_MOTOR_NAME = "lb";
@@ -129,6 +133,19 @@ public class Constants {
     public final double HEADING_THRESHOLD = 1.5;
     public final double DISTANCE_THRESHOLD = 1;
 
+    public final double ROBOT_WIDTH_IN = 15;
+    public final double ROBOT_CIRCUMFERENCE = (ROBOT_WIDTH_IN * Math.PI);
+    public final double ENCODERS_PER_360 = (ROBOT_CIRCUMFERENCE*(COUNTS_PER_INCH));
+    public final double ENCODERS_PER_DEGREE = (ENCODERS_PER_360/360);
+
+    public final double LEFT_SKYSTONE_WALL_DIST = 24;
+    public final double CENTER_SKYSTONE_WALL_DIST = 32;
+    public final double RIGHT_SKYSTONE_WALL_DIST = 40;
+
+    public final double BACK_DS_OFFSET_SKYSTONE = 6;
+    public final double FRONT_DS_OFFSET_SKYSTONE = 4;
+
+
     // Waterfall Robot
     public final double FRONT_CLAW_COLLECT_OPEN = 0.5;
     public final double FRONT_CLAW_COLLECT_MID = 0.4;
@@ -147,17 +164,6 @@ public class Constants {
     public final double FOUNDATION_SERVO_OPEN_POS = 1;
     public final double FOUNDATION_SERVO_GRAB_POS = 0.4;
 
-    public final double ROBOT_WIDTH_IN = 15;
-    public final double ROBOT_CIRCUMFERENCE = (ROBOT_WIDTH_IN * Math.PI);
-    public final double ENCODERS_PER_360 = (ROBOT_CIRCUMFERENCE*(COUNTS_PER_INCH));
-    public final double ENCODERS_PER_DEGREE = (ENCODERS_PER_360/360);
-
-    public final double LEFT_SKYSTONE_WALL_DIST = 24;
-    public final double CENTER_SKYSTONE_WALL_DIST = 32;
-    public final double RIGHT_SKYSTONE_WALL_DIST = 40;
-
-    public final double BACK_DS_OFFSET_SKYSTONE = 6;
-    public final double FRONT_DS_OFFSET_SKYSTONE = 4;
 
     public final double CLOSE_WALL_LEFT_SKYSTONE_BLUE_ALIGN_DISTANCE = 4;
     public final double CLOSE_WALL_CENTER_SKYSTONE_BLUE_ALIGN_DISTANCE = 12;

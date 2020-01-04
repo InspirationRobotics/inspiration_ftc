@@ -21,6 +21,9 @@ public class IMUTest extends ExtendedLinearOpMode {
 
         waitForStart();
 
+        gyroTurn(90, 0.5, 4);
+
+
         while(opModeIsActive()) {
             telemetry.addData("Heading", getHeading());
             telemetry.update();

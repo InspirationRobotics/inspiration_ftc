@@ -439,7 +439,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
         while (opModeIsActive() && (System.currentTimeMillis() < endTime)) {
             // Update telemetry & Allow time for other processes to run.
-            onHeading(speed, targetAngle, robot.constants.P_TURN_COEFF);
+            onHeading(speed, -targetAngle, robot.constants.P_TURN_COEFF);
             telemetry.update();
         }
 
@@ -796,7 +796,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
     }
 
     public double getHeading() {
-        robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         return -robot.angles.firstAngle;
     }

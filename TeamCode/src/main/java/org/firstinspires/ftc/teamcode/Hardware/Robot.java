@@ -39,6 +39,10 @@ public class Robot {
 
     public DistanceSensor distanceFront;
     public DistanceSensor distanceBack;
+    public DistanceSensor distanceFrontLeft;
+    public DistanceSensor distanceFrontRight;
+    public DistanceSensor distanceBackLeft;
+    public DistanceSensor distanceBackRight;
     public DistanceSensor distanceLeft;
     public DistanceSensor distanceRight;
 
@@ -198,8 +202,10 @@ public class Robot {
         frontPivot = ahwmap.servo.get(constants.BACK_PIVOT_SERVO_NAME);
         extensionServo = ahwmap.servo.get(constants.EXTENSION_SERVO_NAME);
 
-        distanceFront = ahwmap.get(DistanceSensor.class, constants.FRONT_DISTANCE_SENSOR_NAME);
-        distanceBack = ahwmap.get(DistanceSensor.class, constants.BACK_DISTANCE_SENSOR_NAME);
+        distanceFrontLeft = ahwmap.get(DistanceSensor.class, constants.FRONT_LEFT_DISTANCE_SENSOR_NAME);
+        distanceFrontRight = ahwmap.get(DistanceSensor.class, constants.FRONT_RIGHT_DISTANCE_SENSOR_NAME);
+        distanceBackLeft = ahwmap.get(DistanceSensor.class, constants.BACK_LEFT_DISTANCE_SENSOR_NAME);
+        distanceBackRight = ahwmap.get(DistanceSensor.class, constants.BACK_RIGHT_DISTANCE_SENSOR_NAME);
         distanceLeft = ahwmap.get(DistanceSensor.class, constants.LEFT_DISTANCE_SENSOR_NAME);
         distanceRight = ahwmap.get(DistanceSensor.class, constants.RIGHT_DISTANCE_SENSOR_NAME);
 
