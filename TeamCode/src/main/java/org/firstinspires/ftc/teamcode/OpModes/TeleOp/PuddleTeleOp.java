@@ -34,10 +34,10 @@ public class PuddleTeleOp extends ExtendedOpMode {
         setPower(-gamepad1.left_stick_y, -gamepad1.right_stick_y);
 
         if (gamepad1.left_trigger > 0.2) {
-            strafe(gamepad1.left_trigger, 0);
+            //strafe(gamepad1.left_trigger, 0);
         }
         if (gamepad1.right_trigger > 0.2) {
-            strafe(0, gamepad1.right_trigger);
+            //strafe(0, gamepad1.right_trigger);
         }
 
         if (gamepad1.right_bumper) {
