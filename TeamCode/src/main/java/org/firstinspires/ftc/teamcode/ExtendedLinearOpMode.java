@@ -537,8 +537,8 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
     public void encoderDrive(double left_in, double right_in, double speed_l, double speed_r, double timeoutS) {
 
-        int left_distanceEnc = (int) (robot.constants.COUNTS_PER_INCH * left_in);
-        int right_distanceEnc =  (int) (robot.constants.COUNTS_PER_INCH * right_in);
+        int left_distanceEnc = -(int) (robot.constants.COUNTS_PER_INCH * left_in);
+        int right_distanceEnc =  -(int) (robot.constants.COUNTS_PER_INCH * right_in);
 
         // Ensure that the opmode is still active
 
@@ -598,7 +598,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         double endTime = startTime + timeoutMS;
 
 
-        double error = distance - robot.distanceRight.getDistance(DistanceUnit.INCH);
+        double error = distance - inputDistance.getDistance(DistanceUnit.INCH);
         telemetry.addData("Error", error);
         telemetry.update();
 
@@ -619,7 +619,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
                 robot.rightBack.setPower(rbP);
             }
 
-            error = distance - robot.distanceRight.getDistance(DistanceUnit.INCH);
+            error = distance - inputDistance.getDistance(DistanceUnit.INCH);
 
         }
 

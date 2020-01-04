@@ -13,23 +13,23 @@ public class WaterfallParkingLane1Red extends ExtendedLinearOpMode {
     public void runOpMode() {
 
         robot.setHardwareMap(hardwareMap);
-        robot.initRiver(RobotVersion.RIVER);
-        initDetector();
-        //robot.initIMU();
-        //initIMU(hardwareMap);
+        robot.initWaterfall();
+        initIMU(hardwareMap);
 
         telemetry.addLine("Ready to go!");
         telemetry.update();
 
         waitForStart();
 
+
         //sleep until partner is done with task - change as needed
         sleep(1500);
 
         //strafe left until in lane 1
-        strafeDistSensor(28, Direction.RIGHT, robot.distanceLeft, 6);
+        strafeDistSensor(26, Direction.RIGHT, robot.distanceLeft, 6000);
 
+        gyroTurn(0, 0.5, 3);
         //move backwards using encoders
-        encoderDrive(3, 3, .7, .7, 6);
+        encoderDrive(10, 10, .7, .7, 6);
     }
 }

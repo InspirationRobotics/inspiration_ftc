@@ -13,10 +13,8 @@ public class WaterfallFoundationMoverRed extends ExtendedLinearOpMode {
     public void runOpMode() {
 
         robot.setHardwareMap(hardwareMap);
-        robot.initRiver(RobotVersion.RIVER);
-        initDetector();
-        //robot.initIMU();
-        //initIMU(hardwareMap);
+        robot.initWaterfall();
+        initIMU(hardwareMap);
 
         telemetry.addLine("Ready to go!");
         telemetry.update();

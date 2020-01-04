@@ -13,15 +13,14 @@ public class WaterfallFoundationMoverBlue extends ExtendedLinearOpMode {
     public void runOpMode() {
 
         robot.setHardwareMap(hardwareMap);
-        robot.initRiver(RobotVersion.RIVER);
-        initDetector();
-        //robot.initIMU();
-        //initIMU(hardwareMap);
+        robot.initWaterfall();
+        initIMU(hardwareMap);
 
         telemetry.addLine("Ready to go!");
         telemetry.update();
 
         waitForStart();
+
 
         //moving backwards to align with foundation
         wallAlign(0.8, 40, robot.distanceFront, Direction.BACKWARD);

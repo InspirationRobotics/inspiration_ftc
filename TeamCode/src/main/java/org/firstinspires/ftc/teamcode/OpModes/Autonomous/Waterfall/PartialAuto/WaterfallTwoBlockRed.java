@@ -12,33 +12,18 @@ public class WaterfallTwoBlockRed extends ExtendedLinearOpMode {
 
     public void runOpMode() {
 
-        //change as needed
-        sleep(15000);
-
         robot.setHardwareMap(hardwareMap);
-        robot.initRiver(RobotVersion.RIVER);
-        initDetector();
-        //robot.initIMU();
-        //initIMU(hardwareMap);
+        robot.initWaterfall();
+        initIMU(hardwareMap);
 
         telemetry.addLine("Ready to go!");
         telemetry.update();
 
         waitForStart();
 
-        robot.setHardwareMap(hardwareMap);
-        robot.initRiver(RobotVersion.RIVER);
-        initDetector();
-        //robot.initIMU();
-        //initIMU(hardwareMap);
-
-        telemetry.addLine("Ready to go!");
-        telemetry.update();
-
-        waitForStart();
 
         //strafe right until close to stone
-        strafeDistSensor(22 , Direction.RIGHT , robot.distanceLeft, 6);
+        strafeDistSensor(22 , Direction.RIGHT , robot.distanceLeft, 6000);
 
         //collect stone
         robot.backPivot.setPosition(.5);
@@ -47,27 +32,27 @@ public class WaterfallTwoBlockRed extends ExtendedLinearOpMode {
         robot.backPivot.setPosition(0);
 
         //strafe left until in lane 2 (left lane)
-        strafeDistSensor(2 , Direction.LEFT , robot.distanceLeft, 6);
+        strafeDistSensor(2 , Direction.LEFT , robot.distanceLeft, 6000);
 
         //move backwards until middle of foundation
         wallAlign(0.8, -45, robot.distanceFront, Direction.FORWARD);
 
         //strafe right until close to foundation (lane one (right lane))
-        strafeDistSensor(28 , Direction.RIGHT , robot.distanceLeft, 6);
+        strafeDistSensor(28 , Direction.RIGHT , robot.distanceLeft, 6000);
 
         //deposit stone
         robot.backPivot.setPosition(0);
         robot.backClawCollect.setPosition(.5);
 
         //strafe left until in lane 2 (left lane)
-        strafeDistSensor(2 , Direction.LEFT , robot.distanceLeft, 6);
+        strafeDistSensor(2 , Direction.LEFT , robot.distanceLeft, 6000);
 
         //move forward until second stone
         encoderDrive(150, 150, .7, .7, 6);
         wallAlign(0.8, 8, robot.distanceBack, Direction.BACKWARD);
 
         //strafe right to lane 1 (right lane)
-        strafeDistSensor(28 , Direction.RIGHT , robot.distanceLeft, 6);
+        strafeDistSensor(28 , Direction.RIGHT , robot.distanceLeft, 6000);
 
         //collect stone
         robot.backPivot.setPosition(.5);
@@ -76,21 +61,21 @@ public class WaterfallTwoBlockRed extends ExtendedLinearOpMode {
         robot.backPivot.setPosition(0);
 
         //strafe left until lane 2 (left lane)
-        strafeDistSensor(2 , Direction.LEFT , robot.distanceLeft, 6);
+        strafeDistSensor(2 , Direction.LEFT , robot.distanceLeft, 6000);
 
         //move backward until back of foundation
         encoderDrive(-70, -70, .7, .7, 6);
         wallAlign(0.8, 45 , robot.distanceFront, Direction.FORWARD);
 
         //strafe right until lane 1 (right lane)
-        strafeDistSensor(28 , Direction.RIGHT , robot.distanceLeft, 6);
+        strafeDistSensor(28 , Direction.RIGHT , robot.distanceLeft, 6000);
 
         //deposit stone
         robot.backPivot.setPosition(0);
         robot.backClawCollect.setPosition(.5);
 
         //strafe left until lane 1 (left lane)
-        strafeDistSensor(2 , Direction.LEFT , robot.distanceLeft, 6);
+        strafeDistSensor(2 , Direction.LEFT , robot.distanceLeft, 6000);
 
         //move forward to park
         wallAlign(0.8, 68, robot.distanceBack, Direction.BACKWARD);

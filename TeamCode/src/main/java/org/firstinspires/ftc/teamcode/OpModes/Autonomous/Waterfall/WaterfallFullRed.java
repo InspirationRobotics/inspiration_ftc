@@ -29,25 +29,29 @@ public class  WaterfallFullRed extends ExtendedLinearOpMode {
         long programEndTime = programStartTime + 30000;
 
         //move into the lane next to the skystones
-        strafeDistSensor(26, Direction.RIGHT, robot.distanceLeft, 4000);
+        strafeDistSensor(26, Direction.RIGHT, robot.distanceLeft, 5000);
 
         //sweep forward to look for skystones
         long startTime = System.currentTimeMillis();
-        long endTime = startTime + 8000;
+        long endTime = startTime + 4000;
+        long loopEndTime = startTime;
 
         while (System.currentTimeMillis() < endTime && !skyStoneIsVisible("red")) {
 
-            setPower(0.4,0.4);
+            setPower(0.2,0.2);
+            loopEndTime = System.currentTimeMillis();
         }
+
+        loopEndTime = System.currentTimeMillis();
 
         SkystonePosition skystonePosition = getSkystonePosition(robot.distanceFrontLeft.getDistance(DistanceUnit.INCH), Direction.FORWARD);
 
         stopMotors();
 
         //failsafe if skystone is not detected. Grab the middle stone the far side from wall
-        if (!skyStoneIsVisible("red")){
+        if (loopEndTime > endTime){
 
-            wallAlign(0.8, 48, robot.distanceFrontLeft, Direction.FORWARD);
+            wallAlign(0.8, 40, robot.distanceFrontLeft, Direction.FORWARD);
             skystonePosition = SkystonePosition.RIGHT;
         }
 
@@ -133,15 +137,13 @@ public class  WaterfallFullRed extends ExtendedLinearOpMode {
         encoderDrive(-5, -5, 0.8,0.8,1.5);
 
         //grab foundation
-        robot.leftFoundation.setPosition(robot.constants.LEFT_FOUNDATION_GRAB_POS);
-        robot.rightFoundation.setPosition(robot.constants.RIGHT_FOUNDATION_GRAB_POS);
-
+        robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
         //turn to move foundation into the magical floor dorito® (build zone!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)
         gyroTurn(0, 0.3, 5);
 
         //ungrab the foundation (yeet)
-        robot.leftFoundation.setPosition(robot.constants.LEFT_FOUNDATION_OPEN_POS);
-        robot.rightFoundation.setPosition(robot.constants.RIGHT_FOUNDATION_OPEN_POS);
+        robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
+
 
         //drive forward for fun (and to not be on the foundation)
         encoderDrive(5, 5, 0.8,0.8,1.5);

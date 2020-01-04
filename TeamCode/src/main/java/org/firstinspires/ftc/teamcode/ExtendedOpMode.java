@@ -225,9 +225,13 @@ public abstract class ExtendedOpMode extends OpMode {
     public void grabBlock (boolean gp2LeftBumper, boolean gp2RightBumper) {
         // grab the block. Left = not grab. RIght = do grab. Yeet
         if (gp2LeftBumper) {
-            robot.grabber.setPosition(robot.constants.GRABBER_OPEN_POS);
+
+            robot.grabber.setPosition(robot.constants.GRABBER_OPEN_POS); //1
         } else if (gp2RightBumper) {
-            robot.grabber.setPosition(robot.constants.GRABBER_GRAB_POS); // else if is used if the action cna be run at the same time // no reason why using the else if function in this case
+            robot.grabber.setPosition(robot.constants.GRABBER_GRAB_POS); //0
+
+            //robot.grabber.setPosition(robot.grabber.getPosition() - 0.1);
+            // else if is used if the action cna be run at the same time // no reason why using the else if function in this case
         }
     }
 

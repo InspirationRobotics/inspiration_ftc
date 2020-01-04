@@ -143,7 +143,7 @@ public class Constants {
     public final double RIGHT_SKYSTONE_WALL_DIST = 40;
 
     public final double BACK_DS_OFFSET_SKYSTONE = 6;
-    public final double FRONT_DS_OFFSET_SKYSTONE = 4;
+    public final double FRONT_DS_OFFSET_SKYSTONE = 0;
 
 
     // Waterfall Robot

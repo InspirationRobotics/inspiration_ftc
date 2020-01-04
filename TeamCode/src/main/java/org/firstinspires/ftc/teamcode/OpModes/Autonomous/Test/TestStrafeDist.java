@@ -48,7 +48,7 @@ public class TestStrafeDist extends ExtendedLinearOpMode {
 //
 //        stopMotors();
 
-        strafeDistSensor(26, Direction.LEFT, robot.distanceRight, 6000);
+        strafeDistSensor(26, Direction.RIGHT, robot.distanceLeft, 6000);
 
         sleep(1000);
     }
