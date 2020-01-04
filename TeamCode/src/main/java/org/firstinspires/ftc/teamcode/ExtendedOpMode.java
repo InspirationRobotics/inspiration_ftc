@@ -220,7 +220,7 @@ public abstract class ExtendedOpMode extends OpMode {
            robot.rightExtension.setPosition(robot.constants.RIGHT_EXTENSION_EXTENDED);
        }
    }*/ //Temporary comment becuase we are changing the extension to a different button waiting for Aditya to come back
-    //same as the function a whole 12 lines down.
+    //same as the function a whole 12 lines down. sample change
 
     public void grabBlock (boolean gp2LeftBumper, boolean gp2RightBumper) {
         // grab the block. Left = not grab. RIght = do grab. Yeet
