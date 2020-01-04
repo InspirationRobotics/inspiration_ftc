@@ -149,8 +149,8 @@ public class Constants {
     // Waterfall Robot
     public final double FRONT_CLAW_COLLECT_OPEN = 0.5;
     public final double FRONT_CLAW_COLLECT_MID = 0.4;
-    public final double FRONT_CLAW_COLLECT_GRAB = 0.3;
-    public final double BACK_CLAW_COLLECT_OPEN = 0.4;
+    public final double FRONT_CLAW_COLLECT_GRAB = 0;
+    public final double BACK_CLAW_COLLECT_OPEN = 1;
     public final double BACK_CLAW_COLLECT_MID = 0.25;
     public final double BACK_CLAW_COLLECT_GRAB = 0.1;
 

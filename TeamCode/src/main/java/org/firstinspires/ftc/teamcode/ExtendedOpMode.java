@@ -193,7 +193,9 @@ public abstract class ExtendedOpMode extends OpMode {
         // you're so smart!
         if (gp1LT > 0.2) {
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
-        } else if (gp1RT < 0.2) {
+        }
+
+        if (gp1RT > 0.2) {
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
         }
     }
