@@ -32,7 +32,7 @@ public class WaterfallFoundationMoverBlue extends ExtendedLinearOpMode {
 
         gyroTurn(-2, 0.5, 1);
 
-        encoderDrive(-5,-5,0.3,0.3,2);
+        encoderDrive(-2,-2,0.3,0.3,2);
 
         //grab foundation
         robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
