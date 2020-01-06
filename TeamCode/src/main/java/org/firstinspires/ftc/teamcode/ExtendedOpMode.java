@@ -73,15 +73,19 @@ public abstract class ExtendedOpMode extends OpMode {
 
     public void moveAutoArm(){
         if(gamepad2.dpad_left){
-            robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_MID);
-            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_MID);
+            robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_OPEN);
+            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_OPEN);
         } else if (gamepad2.dpad_right){
             robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
             robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_GRAB);
-        } else if (gamepad2.dpad_up){
+        } else if (gamepad2.dpad_down){
+            robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
+            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_GRAB);
             robot.backPivot.setPosition(robot.constants.BACK_PIVOT_DOWN);
             robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
-        } else if (gamepad2.dpad_down) {
+        } else if (gamepad2.dpad_up) {
+            robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
+            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_GRAB);
             robot.backPivot.setPosition(robot.constants.BACK_PIVOT_UP);
             robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
         }
@@ -193,7 +197,9 @@ public abstract class ExtendedOpMode extends OpMode {
         // you're so smart!
         if (gp1LT > 0.2) {
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
-        } else if (gp1RT < 0.2) {
+        }
+
+        if (gp1RT > 0.2) {
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
         }
     }
@@ -209,7 +215,7 @@ public abstract class ExtendedOpMode extends OpMode {
         }
     }
 
-   public void extendDepositor(boolean gp2DpadLeft, boolean gp2DpadRight) {
+  /* public void extendDepositor(boolean gp2DpadLeft, boolean gp2DpadRight) {
        if (gp2DpadLeft) {
            robot.leftExtension.setPosition(robot.constants.LEFT_EXTENSION_COMPACTED);
            robot.rightExtension.setPosition(robot.constants.RIGHT_EXTENSION_COMPACTED);
@@ -217,7 +223,7 @@ public abstract class ExtendedOpMode extends OpMode {
            robot.leftExtension.setPosition(robot.constants.LEFT_EXTENSION_EXTENDED);
            robot.rightExtension.setPosition(robot.constants.RIGHT_EXTENSION_EXTENDED);
        }
-   } //Temporary comment becuase we are changing the extension to a different button waiting for Aditya to come back
+   }*/ //Temporary comment becuase we are changing the extension to a different button waiting for Aditya to come back
     //same as the function a whole 12 lines down. sample change
 
     public void grabBlock (boolean gp2LeftBumper, boolean gp2RightBumper) {

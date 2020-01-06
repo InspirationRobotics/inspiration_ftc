@@ -21,19 +21,43 @@ public class WaterfallFoundationMoverRed extends ExtendedLinearOpMode {
 
         waitForStart();
 
+        //sleep(750);
+
         //moving backwards to align with foundation
-        wallAlign(0.8, 40, robot.distanceFront, Direction.BACKWARD);
+        wallAlign(0.6, 30, robot.distanceFrontLeft, Direction.BACKWARD, 3000);
+
+        encoderDrive(-4,-4,0.3,0.3,2);
+
+        gyroTurn(5, 0.3, 1);
+
+        gyroTurn(2, 0.5, 1);
+
+        encoderDrive(-5,-5,0.3,0.3,2);
 
         //grab foundation
-        robot.leftFoundation.setPosition(robot.constants.LEFT_FOUNDATION_GRAB_POS);
-        robot.rightFoundation.setPosition(robot.constants.RIGHT_FOUNDATION_GRAB_POS);
+        robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
 
-        //turning counterclockwise 90 degrees to move foundation into
-        gyroTurn(-90, 0.7, 2);
+        sleep(3000);
+
+        wallAlign(0.9, 10, robot.distanceFrontLeft, Direction.FORWARD, 3000);
+
+        //turning clockwise 90 degrees to move foundation into
+        gyroTurn(90, 1, 7);
+
+        robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
+
+        sleep(750);
+
+        encoderDrive(5,5,0.7,0.7,2);
+
+        gyroTurn(90, 0.7, 2.5);
 
         //move forward to park
-        wallAlign(0.8, 58, robot.distanceBack, Direction.FORWARD);
+        strafeDistSensor(27, Direction.RIGHT, robot.distanceLeft, 5000);
 
+        gyroTurn(92,0.7,2);
+
+        encoderDrive(40,40,0.7,0.7,6);
     }
 }
 
