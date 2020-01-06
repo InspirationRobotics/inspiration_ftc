@@ -37,7 +37,7 @@ public class WaterfallTwoBlockBlue extends ExtendedLinearOpMode {
         strafeDistSensor(2 , Direction.LEFT , robot.distanceLeft, 6000);
 
         //move forward until middle of foundation
-        wallAlign(0.8, 45, robot.distanceFront, Direction.FORWARD);
+        wallAlign(0.8, 45, robot.distanceFront, Direction.FORWARD, 5000);
 
         //strafe right until close to foundation (lane one (right lane))
         strafeDistSensor(26 , Direction.RIGHT , robot.distanceLeft, 6000);
@@ -51,7 +51,7 @@ public class WaterfallTwoBlockBlue extends ExtendedLinearOpMode {
 
         //move backwards until second stone
         encoderDrive(-150, -150, .7, .7, 6000);
-        wallAlign(0.8, 8, robot.distanceBack, Direction.BACKWARD);
+        wallAlign(0.8, 8, robot.distanceBack, Direction.BACKWARD, 5000);
 
         //strafe right to lane 1 (right lane)
         strafeDistSensor(26 , Direction.RIGHT , robot.distanceLeft, 6000);
@@ -69,7 +69,7 @@ public class WaterfallTwoBlockBlue extends ExtendedLinearOpMode {
 
         //move forward until back of foundation
         encoderDrive(150, 70, .7, .7, 6);
-        wallAlign(0.8, 45 , robot.distanceFront, Direction.FORWARD);
+        wallAlign(0.8, 45 , robot.distanceFront, Direction.FORWARD, 5000);
 
         //strafe right until lane 1 (right lane)
         strafeDistSensor(26 , Direction.RIGHT , robot.distanceLeft, 6000);
@@ -82,7 +82,7 @@ public class WaterfallTwoBlockBlue extends ExtendedLinearOpMode {
         strafeDistSensor(2 , Direction.LEFT , robot.distanceLeft, 6000);
 
         //move backwards to park
-        wallAlign(0.8, -68, robot.distanceBack, Direction.BACKWARD);
+        wallAlign(0.8, -68, robot.distanceBack, Direction.BACKWARD, 5000);
 
     }
 }

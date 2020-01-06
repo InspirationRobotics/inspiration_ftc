@@ -46,7 +46,7 @@ public class WaterfallFullBlue extends ExtendedLinearOpMode {
 
         if (!skyStoneIsVisible("blue")){
 
-            wallAlign(0.8, 48, robot.distanceBackRight, Direction.BACKWARD);
+            wallAlign(0.8, 48, robot.distanceBackRight, Direction.BACKWARD, 5000);
             skystonePosition = SkystonePosition.RIGHT;
         }
 
@@ -59,7 +59,7 @@ public class WaterfallFullBlue extends ExtendedLinearOpMode {
         robot.backPivot.setPosition(robot.constants.BACK_PIVOT_UP);
 
         encoderDrive(40, 40, .7, .7, 5.5);
-        wallAlign(0.8, 50, robot.distanceFrontLeft, Direction.FORWARD);
+        wallAlign(0.8, 50, robot.distanceFrontLeft, Direction.FORWARD, 5000);
 
         //deposit skystone
         robot.backPivot.setPosition(robot.constants.BACK_PIVOT_DOWN);
@@ -76,7 +76,7 @@ public class WaterfallFullBlue extends ExtendedLinearOpMode {
         robot.backPivot.setPosition(robot.constants.BACK_PIVOT_UP);
 
         encoderDrive(40, 40, .7, .7, 5.5);
-        wallAlign(0.8, 50, robot.distanceFrontLeft, Direction.FORWARD);
+        wallAlign(0.8, 50, robot.distanceFrontLeft, Direction.FORWARD, 5000);
 
         //deposit skystone
         robot.backPivot.setPosition(robot.constants.BACK_PIVOT_DOWN);
@@ -102,7 +102,7 @@ public class WaterfallFullBlue extends ExtendedLinearOpMode {
             robot.backPivot.setPosition(robot.constants.BACK_PIVOT_UP);
 
             encoderDrive(40, 40, .7, .7, 5.5);
-            wallAlign(0.8, 50, robot.distanceFrontLeft, Direction.FORWARD);
+            wallAlign(0.8, 50, robot.distanceFrontLeft, Direction.FORWARD, 5000);
 
             //deposit skystone
             robot.backPivot.setPosition(robot.constants.BACK_PIVOT_DOWN);

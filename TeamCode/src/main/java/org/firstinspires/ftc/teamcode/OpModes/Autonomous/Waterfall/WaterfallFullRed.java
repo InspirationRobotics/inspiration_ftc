@@ -51,7 +51,7 @@ public class  WaterfallFullRed extends ExtendedLinearOpMode {
         //failsafe if skystone is not detected. Grab the middle stone the far side from wall
         if (loopEndTime > endTime){
 
-            wallAlign(0.8, 40, robot.distanceFrontLeft, Direction.FORWARD);
+            wallAlign(0.8, 40, robot.distanceFrontLeft, Direction.FORWARD, 5000);
             skystonePosition = SkystonePosition.RIGHT;
         }
 
@@ -67,7 +67,7 @@ public class  WaterfallFullRed extends ExtendedLinearOpMode {
         //drive to the build zone
         encoderDrive(-40, -40, .7, .7, 5.5);
         //align to be a certain distance to put block on foundation
-        wallAlign(0.8, 50, robot.distanceBackRight, Direction.BACKWARD);
+        wallAlign(0.8, 50, robot.distanceBackRight, Direction.BACKWARD, 5000);
 
         //deposit skystone
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
@@ -88,7 +88,7 @@ public class  WaterfallFullRed extends ExtendedLinearOpMode {
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
 
         encoderDrive(-40, -40, .7, .7, 5.5);
-        wallAlign(0.8, 50, robot.distanceBackRight, Direction.BACKWARD);
+        wallAlign(0.8, 50, robot.distanceBackRight, Direction.BACKWARD, 5000);
 
         //deposit skystone
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
@@ -120,7 +120,7 @@ public class  WaterfallFullRed extends ExtendedLinearOpMode {
             robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
 
             encoderDrive(-40, -40, .7, .7, 5.5);
-            wallAlign(0.8, 50, robot.distanceBackRight, Direction.BACKWARD);
+            wallAlign(0.8, 50, robot.distanceBackRight, Direction.BACKWARD, 5000);
 
             //deposit skystone
             robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);

@@ -130,8 +130,8 @@ public class Constants {
     public final double DIST_SENSOR_THRESHOLD = 5;
     public final double P_TURN_COEFF = 0.065;
     public final double P_WALL_COEFF = 0.045;
-    public final double HEADING_THRESHOLD = 1;
-    public final double DISTANCE_THRESHOLD = 0.75;
+    public final double HEADING_THRESHOLD = 1.5;
+    public final double DISTANCE_THRESHOLD = 1;
 
     public final double ROBOT_WIDTH_IN = 15;
     public final double ROBOT_CIRCUMFERENCE = (ROBOT_WIDTH_IN * Math.PI);
@@ -147,11 +147,11 @@ public class Constants {
 
 
     // Waterfall Robot
-    public final double FRONT_CLAW_COLLECT_OPEN = 0.5;
+    public final double FRONT_CLAW_COLLECT_OPEN = 0.4;
     public final double FRONT_CLAW_COLLECT_MID = 0.4;
     public final double FRONT_CLAW_COLLECT_GRAB = 0;
-    public final double BACK_CLAW_COLLECT_OPEN = 1;
-    public final double BACK_CLAW_COLLECT_MID = 0.25;
+    public final double BACK_CLAW_COLLECT_OPEN = 0.4;
+    public final double BACK_CLAW_COLLECT_MID = 0.4;
     public final double BACK_CLAW_COLLECT_GRAB = 0.1;
 
     public final double FRONT_PIVOT_UP = 0.5;

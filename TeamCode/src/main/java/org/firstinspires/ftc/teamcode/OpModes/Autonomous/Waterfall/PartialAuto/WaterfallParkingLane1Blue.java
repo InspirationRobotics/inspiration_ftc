@@ -27,7 +27,7 @@ public class WaterfallParkingLane1Blue extends ExtendedLinearOpMode {
         sleep(1500);
 
         //strafe left until in lane 1
-        strafeDistSensor(26, Direction.LEFT, robot.distanceRight, 6000);
+        strafeDistSensor(26, Direction.LEFT, robot.distanceRight, 23000);
 
         gyroTurn(0, 0.5, 3);
         //move backwards using encoders

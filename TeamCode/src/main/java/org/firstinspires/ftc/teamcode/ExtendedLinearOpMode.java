@@ -357,10 +357,10 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
     }*/
 
-    public void wallAlign(double speed, double distance, DistanceSensor inputDistance, Direction direction) {
+    public void wallAlign(double speed, double distance, DistanceSensor inputDistance, Direction direction, double timeoutMS) {
         runtime.reset();
 
-        while(opModeIsActive() && !onTargetDistance(speed, distance, robot.constants.P_WALL_COEFF, inputDistance, direction) && (runtime.seconds() < 6)){
+        while(opModeIsActive() && !onTargetDistance(speed, distance, robot.constants.P_WALL_COEFF, inputDistance, direction) && (runtime.milliseconds() < timeoutMS)){
             telemetry.addData("Distance from wall", inputDistance.getDistance(DistanceUnit.INCH));
             telemetry.update();
             idle();
@@ -393,7 +393,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
             double steerMultiplier = 1;
 
             if (direction == Direction.FORWARD) {
-                steerMultiplier = -1;
+                steerMultiplier = 1;
             } else if (direction == Direction.BACKWARD) {
                 steerMultiplier = 1;
             }
@@ -797,7 +797,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
             }
         }
 
-        wallAlign(0.7, alignTarget, inputDistance, direction);
+        wallAlign(0.7, alignTarget, inputDistance, direction, 6000);
 
     }
 
