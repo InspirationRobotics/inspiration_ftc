@@ -52,6 +52,7 @@ public class SkyStoneVisionTest extends ExtendedLinearOpMode {
             telemetry.addData("back distance sensor", robot.distanceBackLeft.getDistance(DistanceUnit.INCH));
             telemetry.addData("coordinates black", detector.returnCoords()[0]);
             telemetry.addData("coordinates gold", detector.returnCoords()[1]);
+            telemetry.addData("id:", detector.skystoneId());
             telemetry.update();
             sleep(20);
             if (isStopRequested()) {
