@@ -152,13 +152,13 @@ public class SkystoneDetector extends OpenCVPipeline {
         return rgba;
     }
 
-    public boolean isVerifiedSkystone(String side) {
+    public boolean isVerifiedSkystone(AllianceSide allianceSide) {
         if (Math.abs(bounding_rect_gold_global.br().y - bounding_rect_global.br().y) < 30 && (bounding_rect_global.br().y != 0d && bounding_rect_gold_global.br().y != 0d)) {
             if (Math.abs(bounding_rect_gold_global.tl().y - bounding_rect_global.tl().y) < 90 && (bounding_rect_global.tl().y != 0d && bounding_rect_gold_global.tl().y != 0d))
-                if (side == "blue")
+                if (allianceSide == AllianceSide.BLUE)
                     if (bounding_rect_gold_global.br().x < bounding_rect_global.br().x)
                         return true;
-                else if (side == "red")
+                else if (allianceSide == AllianceSide.RED)
                     if (bounding_rect_gold_global.br().x > bounding_rect_global.br().x)
                         return true;
 

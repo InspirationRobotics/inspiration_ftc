@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
+import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 import org.firstinspires.ftc.teamcode.Hardware.SkystonePosition;
@@ -36,7 +37,7 @@ public class WaterfallFullBlue extends ExtendedLinearOpMode {
         long startTime = System.currentTimeMillis();
         long endTime = startTime + 8000;
 
-        while (System.currentTimeMillis() < endTime && !skyStoneIsVisible("blue")) {
+        while (System.currentTimeMillis() < endTime && !skyStoneIsVisible(AllianceSide.BLUE)) {
 
             setPower(0.4,0.4);
         }
@@ -45,7 +46,7 @@ public class WaterfallFullBlue extends ExtendedLinearOpMode {
 
         stopMotors();
 
-        if (!skyStoneIsVisible("blue")){
+        if (!skyStoneIsVisible(AllianceSide.BLUE)){
 
             wallAlign(0.8, 48, robot.distanceBackRight, Direction.BACKWARD, 5000);
             skystonePosition = SkystonePosition.RIGHT;

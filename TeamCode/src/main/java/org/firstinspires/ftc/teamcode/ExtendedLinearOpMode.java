@@ -15,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.teamcode.CV.SkystoneDetector;
+import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import org.firstinspires.ftc.teamcode.Hardware.SkystonePosition;
@@ -36,7 +37,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         detector.disable();
     }
 
-    public boolean skyStoneIsVisible(String side) {
+    public boolean skyStoneIsVisible(AllianceSide side) {
         boolean visible = false;
 
         if (detector.isVerifiedSkystone(side)) {
@@ -494,8 +495,8 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
         // calculate error in -179 to +180 range  (
         robotError = targetAngle - getHeading();
-        while (robotError > 180)  robotError -= 360;
-        while (robotError <= -180) robotError += 360;
+        while (robotError > 180 && opModeIsActive())  robotError -= 360;
+        while (robotError <= -180 && opModeIsActive()) robotError += 360;
         return robotError;
     }
 
@@ -602,7 +603,9 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         telemetry.addData("Error", error);
         telemetry.update();
 
-        while ((Math.abs(error) > 2) && (System.currentTimeMillis() < endTime)) {
+        while ((Math.abs(error) > 2) && (System.currentTimeMillis() < endTime) && opModeIsActive()) {
+
+            sleep(10);
 
             telemetry.addData("Error", error);
             telemetry.update();

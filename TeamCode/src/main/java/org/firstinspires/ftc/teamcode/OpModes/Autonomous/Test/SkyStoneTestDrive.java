@@ -5,6 +5,7 @@ import org.firstinspires.ftc.teamcode.CV.SkystoneDetector;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
+import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 import org.firstinspires.ftc.teamcode.Hardware.DistanceSensorType;
 
 @Autonomous(name="SkystoneTestDrive", group="Competition")
@@ -22,7 +23,7 @@ public class SkyStoneTestDrive extends ExtendedLinearOpMode {
         waitForStart();
         initialPos = robot.leftBack.getCurrentPosition();
 
-        while(!detector.isVerifiedSkystone("blue")){
+        while(!detector.isVerifiedSkystone(AllianceSide.BLUE)){
             strafeNoAngle(-0.8);
             telemetry.addData("encoders", robot.leftBack.getCurrentPosition() - initialPos);
             telemetry.update();
