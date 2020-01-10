@@ -14,6 +14,7 @@ public class WaterfallParkingLane1Blue extends ExtendedLinearOpMode {
 
         robot.setHardwareMap(hardwareMap);
         robot.initWaterfall();
+        robot.initDistanceSensors();
         initIMU(hardwareMap);
 
         telemetry.addLine("Ready to go!");

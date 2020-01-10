@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.CV;
 
 import com.inspiration.inspcv.OpenCVPipeline;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
+import org.firstinspires.ftc.teamcode.Hardware.SkystonePosition;
 import org.opencv.core.Core;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
@@ -164,16 +167,28 @@ public class SkystoneDetector extends OpenCVPipeline {
         return false;
     }
 
-    public int skystoneId(String side) {
-        if(side == "blue") {
+    public SkystonePosition skystoneId(AllianceSide side) {
+        if(side == AllianceSide.BLUE) {
             if (bounding_rect_global.br().x <= 234 && bounding_rect_global.br().x >= 157) {
-                return 3;
+                return SkystonePosition.RIGHT;
             } else if (bounding_rect_global.br().x <= 156 && bounding_rect_global.br().x >= 79) {
-                return 2;
+                return SkystonePosition.CENTER;
             } else if (bounding_rect_global.br().x <= 78 && bounding_rect_global.br().x >= 1) {
-                return 1;
+                return SkystonePosition.LEFT;
             } else {
-                return 0;
+                return SkystonePosition.UNKNOWN;
+            }
+        }
+
+        else {
+            if (bounding_rect_global.br().x <= 234 && bounding_rect_global.br().x >= 157) {
+                return SkystonePosition.LEFT;
+            } else if (bounding_rect_global.br().x <= 156 && bounding_rect_global.br().x >= 79) {
+                return SkystonePosition.CENTER;
+            } else if (bounding_rect_global.br().x <= 78 && bounding_rect_global.br().x >= 1) {
+                return SkystonePosition.RIGHT;
+            } else {
+                return SkystonePosition.UNKNOWN;
             }
         }
     }

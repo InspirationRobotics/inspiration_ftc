@@ -16,6 +16,7 @@ public class  WaterfallFullRed extends ExtendedLinearOpMode {
 
         robot.setHardwareMap(hardwareMap);
         robot.initWaterfall();
+        robot.initDistanceSensors();
         initDetector();
         initIMU(hardwareMap);
 

@@ -18,7 +18,7 @@ public class SkyStoneTestDrive extends ExtendedLinearOpMode {
         detector.init(robot.ahwmap.appContext, CameraViewDisplay.getInstance());
         detector.enable();
         robot.initDrivebase();
-        robot.initDistanceSensors(DistanceSensorType.REV);
+        robot.initDistanceSensorsOld(DistanceSensorType.REV);
         waitForStart();
         initialPos = robot.leftBack.getCurrentPosition();
 

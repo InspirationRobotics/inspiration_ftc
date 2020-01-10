@@ -5,6 +5,7 @@ import com.inspiration.inspcv.CameraViewDisplay;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.CV.SkystoneDetector;
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
+import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -52,7 +53,7 @@ public class SkyStoneVisionTest extends ExtendedLinearOpMode {
             telemetry.addData("back distance sensor", robot.distanceBackLeft.getDistance(DistanceUnit.INCH));
             telemetry.addData("coordinates black", detector.returnCoords()[0]);
             telemetry.addData("coordinates gold", detector.returnCoords()[1]);
-            telemetry.addData("id:", detector.skystoneId());
+            telemetry.addData("id:", detector.skystoneId(AllianceSide.BLUE));
             telemetry.update();
             sleep(20);
             if (isStopRequested()) {
