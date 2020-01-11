@@ -115,7 +115,7 @@ public class Robot {
     }
 
 
-    public void initDistanceSensors(DistanceSensorType sensorType) {
+    public void initDistanceSensorsOld(DistanceSensorType sensorType) {
         if (sensorType == DistanceSensorType.REV) {
             distanceFront = ahwmap.get(DistanceSensor.class, constants.FRONT_DISTANCE_SENSOR_NAME);
             distanceBack = ahwmap.get(DistanceSensor.class, constants.BACK_DISTANCE_SENSOR_NAME);
@@ -174,7 +174,7 @@ public class Robot {
         capstone = ahwmap.servo.get(constants.CAPSTONE_NAME);
 
         if (robotVersion == RobotVersion.RIVER) {
-            initDistanceSensors(DistanceSensorType.REV);
+            initDistanceSensorsOld(DistanceSensorType.REV);
             initRiverSensors();
         } else {
             //do nothing
@@ -203,16 +203,18 @@ public class Robot {
         frontPivot = ahwmap.servo.get(constants.BACK_PIVOT_SERVO_NAME);
         extensionServo = ahwmap.crservo.get(constants.EXTENSION_SERVO_NAME);
 
+        intakeDistance = ahwmap.get(DistanceSensor.class, constants.INTAKE_DISTANCE_SENSOR_NAME);
+        liftLimit = ahwmap.get(DigitalChannel.class, constants.LIFT_MAGLIMIT_SENSOR_NAME);
+        extensionLimit = ahwmap.get(DigitalChannel.class, constants.EXTENSION_MAGLIMIT_SENSOR_NAME);
+    }
+
+    public void initDistanceSensors() {
         distanceFrontLeft = ahwmap.get(DistanceSensor.class, constants.FRONT_LEFT_DISTANCE_SENSOR_NAME);
         distanceFrontRight = ahwmap.get(DistanceSensor.class, constants.FRONT_RIGHT_DISTANCE_SENSOR_NAME);
         distanceBackLeft = ahwmap.get(DistanceSensor.class, constants.BACK_LEFT_DISTANCE_SENSOR_NAME);
         distanceBackRight = ahwmap.get(DistanceSensor.class, constants.BACK_RIGHT_DISTANCE_SENSOR_NAME);
         distanceLeft = ahwmap.get(DistanceSensor.class, constants.LEFT_DISTANCE_SENSOR_NAME);
         distanceRight = ahwmap.get(DistanceSensor.class, constants.RIGHT_DISTANCE_SENSOR_NAME);
-
-        intakeDistance = ahwmap.get(DistanceSensor.class, constants.INTAKE_DISTANCE_SENSOR_NAME);
-        liftLimit = ahwmap.get(DigitalChannel.class, constants.LIFT_MAGLIMIT_SENSOR_NAME);
-        extensionLimit = ahwmap.get(DigitalChannel.class, constants.EXTENSION_MAGLIMIT_SENSOR_NAME);
     }
 
 //    public void initIMU() {

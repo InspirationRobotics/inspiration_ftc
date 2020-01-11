@@ -5,6 +5,7 @@ import com.inspiration.inspcv.CameraViewDisplay;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.CV.SkystoneDetector;
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
+import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -27,6 +28,7 @@ public class SkyStoneVisionTest extends ExtendedLinearOpMode {
 
         robot.setHardwareMap(hardwareMap);
         robot.initWaterfall();
+        robot.initDistanceSensors();
         initIMU(hardwareMap);
 
         setHardwareMap(hardwareMap);
@@ -40,18 +42,19 @@ public class SkyStoneVisionTest extends ExtendedLinearOpMode {
 
 
 
-        while(!detector.isVerifiedSkystone("red")) {
+        while(!detector.isVerifiedSkystone(AllianceSide.BLUE)) {
             setPower(0.2, 0.2);
         }
 
         stopMotors();
 
         while (opModeIsActive()) {
-            telemetry.addData("detection:", detector.isVerifiedSkystone("red"));
+            telemetry.addData("detection:", detector.isVerifiedSkystone(AllianceSide.BLUE));
             telemetry.addData("front distance sensor", robot.distanceFrontRight.getDistance(DistanceUnit.INCH));
             telemetry.addData("back distance sensor", robot.distanceBackLeft.getDistance(DistanceUnit.INCH));
             telemetry.addData("coordinates black", detector.returnCoords()[0]);
             telemetry.addData("coordinates gold", detector.returnCoords()[1]);
+            telemetry.addData("id:", detector.skystoneId(AllianceSide.BLUE));
             telemetry.update();
             sleep(20);
             if (isStopRequested()) {

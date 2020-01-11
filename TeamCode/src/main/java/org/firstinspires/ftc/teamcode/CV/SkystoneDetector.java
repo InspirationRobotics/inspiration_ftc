@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.CV;
 
 import com.inspiration.inspcv.OpenCVPipeline;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
+import org.firstinspires.ftc.teamcode.Hardware.SkystonePosition;
 import org.opencv.core.Core;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
@@ -26,7 +29,7 @@ public class SkystoneDetector extends OpenCVPipeline {
     private List<MatOfPoint> contours = new ArrayList<>();
     Rect bounding_rect_gold_global = new Rect();
     private List<MatOfPoint> contours_gold = new ArrayList<>();
-    private Rect roi = new Rect(66, 0, 66, 352);
+    private Rect roi = new Rect(59, 0, 234, 198);
 
     public synchronized void setShowCountours(boolean enabled) {
         showContours = enabled;
@@ -37,7 +40,7 @@ public class SkystoneDetector extends OpenCVPipeline {
 
     public Mat processFrame(Mat rgba, Mat gray) {
 
-        Size size = new Size(198, 352);
+        Size size = new Size(352, 198);
         Imgproc.resize(rgba, rgba, size);
         rgba = new Mat(rgba.clone(), roi);
 
@@ -117,7 +120,7 @@ public class SkystoneDetector extends OpenCVPipeline {
 
                     /* get a bounding rectangle based on the largest contour */
                     working_bounding_rect = Imgproc.boundingRect(contours.get(i));
-                    if (working_bounding_rect.area() > 300 && working_bounding_rect.tl().y >= bounding_rect_gold.tl().y /* && working_bounding_rect.br().y <= bounding_rect_gold.br().y */) {
+                    if (working_bounding_rect.area() > 300 && working_bounding_rect.tl().y >= bounding_rect_gold.tl().y && working_bounding_rect.br().y <= bounding_rect_gold.br().y) {
                         largest_area = area;
                         bounding_rect = working_bounding_rect;
                     }
@@ -149,13 +152,13 @@ public class SkystoneDetector extends OpenCVPipeline {
         return rgba;
     }
 
-    public boolean isVerifiedSkystone(String side) {
+    public boolean isVerifiedSkystone(AllianceSide allianceSide) {
         if (Math.abs(bounding_rect_gold_global.br().y - bounding_rect_global.br().y) < 30 && (bounding_rect_global.br().y != 0d && bounding_rect_gold_global.br().y != 0d)) {
             if (Math.abs(bounding_rect_gold_global.tl().y - bounding_rect_global.tl().y) < 90 && (bounding_rect_global.tl().y != 0d && bounding_rect_gold_global.tl().y != 0d))
-                if (side == "blue")
+                if (allianceSide == AllianceSide.BLUE)
                     if (bounding_rect_gold_global.br().x < bounding_rect_global.br().x)
                         return true;
-                else if (side == "red")
+                else if (allianceSide == AllianceSide.RED)
                     if (bounding_rect_gold_global.br().x > bounding_rect_global.br().x)
                         return true;
 
@@ -164,8 +167,33 @@ public class SkystoneDetector extends OpenCVPipeline {
         return false;
     }
 
+    public SkystonePosition skystoneId(AllianceSide side) {
+        if(side == AllianceSide.BLUE) {
+            if (bounding_rect_global.br().x <= 234 && bounding_rect_global.br().x >= 157) {
+                return SkystonePosition.RIGHT;
+            } else if (bounding_rect_global.br().x <= 156 && bounding_rect_global.br().x >= 79) {
+                return SkystonePosition.CENTER;
+            } else if (bounding_rect_global.br().x <= 78 && bounding_rect_global.br().x >= 1) {
+                return SkystonePosition.LEFT;
+            } else {
+                return SkystonePosition.UNKNOWN;
+            }
+        }
+
+        else {
+            if (bounding_rect_global.br().x <= 234 && bounding_rect_global.br().x >= 157) {
+                return SkystonePosition.LEFT;
+            } else if (bounding_rect_global.br().x <= 156 && bounding_rect_global.br().x >= 79) {
+                return SkystonePosition.CENTER;
+            } else if (bounding_rect_global.br().x <= 78 && bounding_rect_global.br().x >= 1) {
+                return SkystonePosition.RIGHT;
+            } else {
+                return SkystonePosition.UNKNOWN;
+            }
+        }
+    }
     public double[] returnCoords() {
-        double[] coords = {bounding_rect_global.br().y, bounding_rect_gold_global.br().y};
+        double[] coords = {bounding_rect_global.br().x, bounding_rect_gold_global.br().x};
         return coords;
     }
 

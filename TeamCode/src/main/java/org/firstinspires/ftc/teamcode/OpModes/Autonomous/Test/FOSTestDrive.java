@@ -16,7 +16,7 @@ public class FOSTestDrive extends ExtendedLinearOpMode {
 
         robot.setHardwareMap(hardwareMap);
         robot.initDrivebase();
-        robot.initDistanceSensors(DistanceSensorType.MODERN_ROBOTICS);
+        robot.initDistanceSensorsOld(DistanceSensorType.MODERN_ROBOTICS);
         telemetry.addLine("Ready to go!");
         telemetry.update();
 

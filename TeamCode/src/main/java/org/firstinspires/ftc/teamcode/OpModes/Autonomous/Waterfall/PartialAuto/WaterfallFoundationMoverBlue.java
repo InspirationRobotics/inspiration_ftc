@@ -14,6 +14,7 @@ public class WaterfallFoundationMoverBlue extends ExtendedLinearOpMode {
 
         robot.setHardwareMap(hardwareMap);
         robot.initWaterfall();
+        robot.initDistanceSensors();
         initIMU(hardwareMap);
 
         telemetry.addLine("Ready to go!");

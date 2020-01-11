@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
+import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 import org.firstinspires.ftc.teamcode.Hardware.SkystonePosition;
@@ -16,14 +17,15 @@ public class  WaterfallFullRed extends ExtendedLinearOpMode {
 
         robot.setHardwareMap(hardwareMap);
         robot.initWaterfall();
+        robot.initDistanceSensors();
         initDetector();
         initIMU(hardwareMap);
 
         telemetry.addLine("Ready to go!");
         telemetry.update();
 
-        waitForStart();
-
+        while (!opModeIsActive() && !isStopRequested()) {
+        }
         //record end time for program for time sensitive tasks like additional skystone collection
         long programStartTime = System.currentTimeMillis();
         long programEndTime = programStartTime + 30000;
@@ -36,7 +38,7 @@ public class  WaterfallFullRed extends ExtendedLinearOpMode {
         long endTime = startTime + 4000;
         long loopEndTime = startTime;
 
-        while (System.currentTimeMillis() < endTime && !skyStoneIsVisible("red")) {
+        while (System.currentTimeMillis() < endTime && !skyStoneIsVisible(AllianceSide.RED)) {
 
             setPower(0.2,0.2);
             loopEndTime = System.currentTimeMillis();

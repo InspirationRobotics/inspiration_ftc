@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
+import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 
@@ -28,7 +29,7 @@ public class RiverFullAutoBlue extends ExtendedLinearOpMode {
 
         encoderDrive(22, 22, 0.8, 4, 6);
 
-        while (!skyStoneIsVisible("blue")) {
+        while (!skyStoneIsVisible(AllianceSide.BLUE)) {
             strafeGyro(0, 0);
         }
 
