@@ -83,11 +83,15 @@ public abstract class ExtendedOpMode extends OpMode {
             robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_GRAB);
             robot.backPivot.setPosition(robot.constants.BACK_PIVOT_DOWN);
             robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
+            robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_OPEN);
+            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_OPEN);
         } else if (gamepad2.dpad_up) {
             robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
             robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_GRAB);
             robot.backPivot.setPosition(robot.constants.BACK_PIVOT_UP);
             robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
+            robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_OPEN);
+            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_OPEN);
         }
     }
 

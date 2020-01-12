@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Waterfall.PartialAuto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 
+@Disabled
 @Autonomous(name = "Fall Foundation Mover Red", group = "Waterfall")
 public class WaterfallFoundationMoverRed extends ExtendedLinearOpMode {
 

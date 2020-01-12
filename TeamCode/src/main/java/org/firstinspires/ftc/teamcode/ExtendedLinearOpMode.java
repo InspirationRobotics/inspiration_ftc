@@ -230,6 +230,9 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
         setMotorRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        //speed = 1 is right
+        // -1 is left
+
         robot.leftFront.setPower(speed);
         robot.leftBack.setPower(-speed);
         robot.rightFront.setPower(-speed);
