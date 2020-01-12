@@ -812,31 +812,33 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
     public void grabBlockFront() {
         robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_MID);
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
-        robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_OPEN);
+        robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_GRAB);
     }
 
     public void releaseBlockFront() {
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
         robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_MID);
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
     }
 
     public void retractAutoArmFront() {
-        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_MID);
     }
 
     public void grabBlockBack() {
         robot.backClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_MID);
         robot.backPivot.setPosition(robot.constants.BACK_PIVOT_DOWN);
-        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_OPEN);
+        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
     }
 
     public void releaseBlockBack() {
+        robot.backPivot.setPosition(robot.constants.BACK_PIVOT_DOWN);
         robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_MID);
         robot.backPivot.setPosition(robot.constants.BACK_PIVOT_UP);
     }
 
     public void retractAutoArmBack() {
-        robot.backPivot.setPosition(robot.constants.BACK_PIVOT_UP);
+        robot.backPivot.setPosition(robot.constants.BACK_PIVOT_MID);
     }
 
     public void setTargetPositionStrafe(int leftTarget, int rightTarget) {

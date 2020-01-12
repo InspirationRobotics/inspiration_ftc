@@ -86,8 +86,8 @@ public abstract class ExtendedOpMode extends OpMode {
             robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_MID);
             robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_MID);
         } else if (gamepad2.dpad_up) {
-            robot.backPivot.setPosition(robot.constants.BACK_PIVOT_UP);
-            robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
+            robot.backPivot.setPosition(robot.constants.BACK_PIVOT_MID);
+            robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_MID);
         }
     }
 

@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 
-@Autonomous(name = "WaterfallOneStoneFoundationBlueLane2", group = "Waterfall")
-public class WaterfallOneStoneFoundationBlueLane2 extends ExtendedLinearOpMode {
+@Autonomous(name = "WaterfallOneStoneFoundationBlueLane1", group = "Waterfall")
+public class WaterfallOneStoneFoundationBlueLane1 extends ExtendedLinearOpMode {
 
     @Override
     public void runOpMode() {
