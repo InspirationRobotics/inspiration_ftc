@@ -230,8 +230,8 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
         setMotorRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        //speed = 1 is right
-        // -1 is left
+        //speed = -1 is right
+        // 1 is left
 
         robot.leftFront.setPower(speed);
         robot.leftBack.setPower(-speed);
@@ -769,6 +769,81 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         }
 
         return retPos;
+    }
+
+    public void encoderDistDrive(double targetIn, DistanceSensor inputDistance, Direction distanceSensorPositioning, double minDSInput, double maxDSInput, double speed, double timeoutS) {
+        double currentDist = inputDistance.getDistance(DistanceUnit.INCH);
+
+    }
+
+    public void encoderStrafe(double units, double speed) {
+
+        int left_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * -units);
+        int right_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * units);
+
+        // Ensure that the opmode is still active
+
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            setMotorRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            setTargetPositionStrafe(left_distanceEnc, right_distanceEnc);
+            setMotorRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            // setPowerStrafe(Math.abs(speed), Math.abs(speed));
+            setPower(Math.abs(speed), Math.abs(speed));
+
+            while (opModeIsActive() && robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy() && robot.rightBack.isBusy()) {
+
+                telemetry.addLine("Robot in Encoder Drive");
+                telemetry.addData("Target Distance Left (in)", units);
+                telemetry.addData("Target Distance Right (in)", units);
+                telemetry.addData("TickLeft", left_distanceEnc);
+                telemetry.addData("TickRight", right_distanceEnc);
+                telemetry.update();
+                //just one more test...
+            }
+        }
+    }
+
+    public void grabBlockFront() {
+        robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_MID);
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
+        robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_OPEN);
+    }
+
+    public void releaseBlockFront() {
+        robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_MID);
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
+    }
+
+    public void retractAutoArmFront() {
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
+    }
+
+    public void grabBlockBack() {
+        robot.backClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_MID);
+        robot.backPivot.setPosition(robot.constants.BACK_PIVOT_DOWN);
+        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_OPEN);
+    }
+
+    public void releaseBlockBack() {
+        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_MID);
+        robot.backPivot.setPosition(robot.constants.BACK_PIVOT_UP);
+    }
+
+    public void retractAutoArmBack() {
+        robot.backPivot.setPosition(robot.constants.BACK_PIVOT_UP);
+    }
+
+    public void setTargetPositionStrafe(int leftTarget, int rightTarget) {
+        robot.leftFront.setTargetPosition(robot.leftFront.getCurrentPosition() + leftTarget);
+        robot.rightBack.setTargetPosition(robot.rightFront.getCurrentPosition() + leftTarget);
+        robot.leftBack.setTargetPosition(robot.leftBack.getCurrentPosition() + rightTarget);
+        robot.rightFront.setTargetPosition(robot.rightBack.getCurrentPosition() + rightTarget);
     }
 
     public void goToStone(SkystonePosition skystonePosition, String autoSide) {
