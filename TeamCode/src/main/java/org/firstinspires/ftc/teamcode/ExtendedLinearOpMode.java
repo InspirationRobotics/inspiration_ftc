@@ -511,22 +511,17 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         }
     }
 
-    public void strafeGyro(double angle, double maintainedAngle) {
+    public void strafeGyro(double speed, double maintainedAngle) {
 
         setMotorRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        double powerLeftFront = Range.clip((0.70710678)*((Math.sin(angle)))+(Math.cos(angle)), -1, 1);
-        double powerLeftBack = Range.clip((0.70710678)*((-Math.sin(angle)))+(Math.cos(angle)), -1, 1);
-        double powerRightFront = Range.clip((0.70710678)*((-Math.sin(angle)))+(Math.cos(angle)), -1, 1);
-        double powerRightBack = Range.clip((0.70710678)*((Math.sin(angle)))+(Math.cos(angle)), -1, 1);
-
-        powerLeftBack = 0.9*powerLeftBack;
-        powerLeftFront = 0.9*powerLeftFront;
-        powerRightBack = 0.9*powerRightBack;
-        powerRightFront = 0.9*powerRightFront;
+        double powerLeftBack = 0.8*speed;
+        double powerLeftFront = -0.8*speed;
+        double powerRightBack = -0.8*speed;
+        double powerRightFront = 0.8*speed;
 
         double error = getError(maintainedAngle);
-        double error_proportioned = Range.clip((error*robot.constants.P_TURN_COEFF), -0.1, 1);
+        double error_proportioned = Range.clip((error*0.1), -0.2, 0.2);
 
         powerLeftBack = powerLeftBack - error_proportioned;
         powerLeftFront = powerLeftFront - error_proportioned;
@@ -805,6 +800,55 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
                 telemetry.addData("TickRight", right_distanceEnc);
                 telemetry.update();
                 //just one more test...
+            }
+        }
+    }
+
+    public void encoderStrafeGyro(double units, double speed, double maintainedAngle) {
+
+        int left_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * -units);
+        int right_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * units);
+
+        // Ensure that the opmode is still active
+
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            setMotorRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            setTargetPositionStrafe(left_distanceEnc, right_distanceEnc);
+            setMotorRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+
+            while (opModeIsActive() && robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy() && robot.rightBack.isBusy()) {
+
+                telemetry.addLine("Robot in Encoder Drive");
+                telemetry.addData("Target Distance Left (in)", units);
+                telemetry.addData("Target Distance Right (in)", units);
+                telemetry.addData("TickLeft", left_distanceEnc);
+                telemetry.addData("TickRight", right_distanceEnc);
+                telemetry.update();
+                //just one more test...
+
+                double powerLeftBack = 0.8*speed;
+                double powerLeftFront = -0.8*speed;
+                double powerRightBack = -0.8*speed;
+                double powerRightFront = 0.8*speed;
+
+                double error = getError(maintainedAngle);
+                double error_proportioned = Range.clip((error*0.1), -0.2, 0.2);
+
+                powerLeftBack = powerLeftBack - error_proportioned;
+                powerLeftFront = powerLeftFront - error_proportioned;
+                powerRightBack = powerRightBack + error_proportioned;
+                powerRightFront = powerRightFront + error_proportioned;
+
+                robot.leftFront.setPower(Math.abs(powerLeftFront));
+                robot.leftBack.setPower(Math.abs(powerLeftBack));
+                robot.rightFront.setPower(Math.abs(powerRightFront));
+                robot.rightBack.setPower(Math.abs(powerRightBack));
             }
         }
     }

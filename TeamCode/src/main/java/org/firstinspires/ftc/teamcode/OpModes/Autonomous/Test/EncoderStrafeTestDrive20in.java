@@ -9,10 +9,12 @@ public class EncoderStrafeTestDrive20in extends ExtendedLinearOpMode {
 
     @Override
     public void runOpMode() {
+
+        robot.setHardwareMap(hardwareMap);
         robot.initDrivebase();
 
         waitForStart();
 
-        encoderStrafe(20, 0.75);
+        encoderStrafe(20, 1);
     }
 }
