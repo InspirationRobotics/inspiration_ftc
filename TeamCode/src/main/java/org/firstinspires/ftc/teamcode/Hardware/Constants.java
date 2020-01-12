@@ -133,6 +133,9 @@ public class Constants {
     public final double HEADING_THRESHOLD = 1.5;
     public final double DISTANCE_THRESHOLD = 1;
 
+    public final double STRAFE_CONSTANT = 2;
+    public final double STRAFE_TICKS_PER_IN = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION * STRAFE_CONSTANT) / (WHEEL_DIAMETER_INCHES * 3.1415);
+
     public final double ROBOT_WIDTH_IN = 15;
     public final double ROBOT_CIRCUMFERENCE = (ROBOT_WIDTH_IN * Math.PI);
     public final double ENCODERS_PER_360 = (ROBOT_CIRCUMFERENCE*(COUNTS_PER_INCH));
@@ -147,12 +150,12 @@ public class Constants {
 
 
     // Waterfall Robot
-    public final double FRONT_CLAW_COLLECT_OPEN = 0.4;
-    public final double FRONT_CLAW_COLLECT_MID = 0.4;
-    public final double FRONT_CLAW_COLLECT_GRAB = 0;
-    public final double BACK_CLAW_COLLECT_OPEN = 0.4;
-    public final double BACK_CLAW_COLLECT_MID = 0.4;
-    public final double BACK_CLAW_COLLECT_GRAB = 0.1;
+    public final double FRONT_CLAW_COLLECT_OPEN = 0;
+    public final double FRONT_CLAW_COLLECT_MID = 0.2;
+    public final double FRONT_CLAW_COLLECT_GRAB = 0.4;
+    public final double BACK_CLAW_COLLECT_OPEN = 0.1;
+    public final double BACK_CLAW_COLLECT_MID = 0.25;
+    public final double BACK_CLAW_COLLECT_GRAB = 0.4;
 
     public final double FRONT_PIVOT_UP = 0.5;
     public final double FRONT_PIVOT_MID = 0.7;

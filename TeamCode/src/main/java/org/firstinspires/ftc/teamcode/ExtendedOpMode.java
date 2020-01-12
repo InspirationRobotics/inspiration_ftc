@@ -73,8 +73,8 @@ public abstract class ExtendedOpMode extends OpMode {
 
     public void moveAutoArm(){
         if(gamepad2.dpad_left){
-            robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_OPEN);
-            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_OPEN);
+            robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_MID);
+            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_MID);
         } else if (gamepad2.dpad_right){
             robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
             robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_GRAB);
@@ -83,15 +83,11 @@ public abstract class ExtendedOpMode extends OpMode {
             robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_GRAB);
             robot.backPivot.setPosition(robot.constants.BACK_PIVOT_DOWN);
             robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
-            robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_OPEN);
-            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_OPEN);
+            robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_MID);
+            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_MID);
         } else if (gamepad2.dpad_up) {
-            robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
-            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_GRAB);
-            robot.backPivot.setPosition(robot.constants.BACK_PIVOT_UP);
-            robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
-//            robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_OPEN);
-//            robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_OPEN);
+            robot.backPivot.setPosition(robot.constants.BACK_PIVOT_MID);
+            robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_MID);
         }
     }
 
