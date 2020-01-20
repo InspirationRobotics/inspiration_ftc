@@ -19,6 +19,11 @@ public class MoveToSkystone extends ExtendedLinearOpMode {
 
         moveToSkystone(3, 0.125);
         grabAutoArm();
+
+        //collect skystone
+
+        //move to foundation
+
     }
 
 }
