@@ -21,6 +21,10 @@ public class MoveToSkystone extends ExtendedLinearOpMode {
         grabAutoArm();
 
         //collect skystone
+        robot.backPivot.setPosition(robot.constants.BACK_PIVOT_MID);
+        robot.backPivot.setPosition(robot.constants.BACK_PIVOT_DOWN);
+        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_MID);
+        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
 
         //move to foundation
 
