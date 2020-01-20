@@ -934,4 +934,25 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         return -robot.angles.firstAngle;
     }
 
+    public void moveToSkystone(int id, double speed) {
+        while(robot.distanceLeft.getDistance(DistanceUnit.INCH) < 24) {
+            strafeGyro(0.5, 0);
+        }
+        robot.rightFront.setPower(0);
+        robot.rightBack.setPower(0);
+        robot.leftFront.setPower(0);
+        robot.leftBack.setPower(0);
+        while(robot.distanceBackLeft.getDistance(DistanceUnit.INCH) > (((7-id)-1)*8)+4) {
+            setPower(-speed, -speed);
+        }
+        setPower(0, 0);
+        encoderStrafeGyro(8, .5, 0);
+        encoderStrafeGyro(-2, .5, 0);
+    }
+
+    public void grabAutoArm(){
+        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
+        robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_GRAB);
+    }
+
 }
