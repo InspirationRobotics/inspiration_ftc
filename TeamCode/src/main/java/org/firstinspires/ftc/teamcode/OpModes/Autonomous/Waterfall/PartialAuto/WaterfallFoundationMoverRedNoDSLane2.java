@@ -46,6 +46,8 @@ public class WaterfallFoundationMoverRedNoDSLane2 extends ExtendedLinearOpMode {
             strafeNoAngle(1);
         }
 
+        encoderStrafeGyro(4, 1, 90);
+
         gyroTurn(90, 0.7, 2);
 
         encoderDrive(42,42,0.6,0.6,5);

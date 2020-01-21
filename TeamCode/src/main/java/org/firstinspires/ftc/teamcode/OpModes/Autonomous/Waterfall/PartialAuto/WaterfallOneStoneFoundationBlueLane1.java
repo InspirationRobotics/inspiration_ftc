@@ -20,13 +20,13 @@ public class WaterfallOneStoneFoundationBlueLane1 extends ExtendedLinearOpMode {
 
         waitForStart();
 
-        encoderStrafe(20.5, 0.75);
+        encoderStrafeGyro(20.5, 1, 0);
 
         gyroTurn(0, 0.5, 1);
 
         grabBlockBack(); /* empty */ // problem
 
-        encoderStrafe(-4, 0.75);
+        encoderStrafeGyro(-4, 1,0);
 
 
         // problems the first time, next two lines
@@ -35,11 +35,11 @@ public class WaterfallOneStoneFoundationBlueLane1 extends ExtendedLinearOpMode {
         encoderDrive(75,75,0.6,0.6,6);
 
 
-        encoderStrafe(4, 0.75);
+        encoderStrafeGyro(4, 1, 0);
 
         releaseBlockBack();
 
-        encoderStrafe(4, 0.75);
+        encoderStrafeGyro(4, 1,0);
 
         gyroTurn(90,0.7,2.5); /* error: no gyro turn, but wheels moved slightly */
 
@@ -64,7 +64,9 @@ public class WaterfallOneStoneFoundationBlueLane1 extends ExtendedLinearOpMode {
 
         encoderDrive(5,5,0.8,0.8,1);
 
-        encoderStrafe(22, 0.8);
+        encoderStrafeGyro(22, 1,-180);
+
+        encoderStrafeGyro(-4,1,-180);
 
         encoderDrive(40,40,0.8,0.8,5);
 
