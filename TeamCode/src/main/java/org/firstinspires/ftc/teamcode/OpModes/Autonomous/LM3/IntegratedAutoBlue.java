@@ -59,7 +59,9 @@ public class IntegratedAutoBlue extends ExtendedLinearOpMode {
         robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
 
         sleep(750);
-        robot.frontPivot.setPosition((robot.constants.FRONT_PIVOT_MID+robot.constants.FRONT_PIVOT_UP)/2);
+//        robot.frontPivot.setPosition((robot.constants.FRONT_PIVOT_MID+robot.constants.FRONT_PIVOT_UP)/2);
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_MID);
+
 
         sleep(500);
 
