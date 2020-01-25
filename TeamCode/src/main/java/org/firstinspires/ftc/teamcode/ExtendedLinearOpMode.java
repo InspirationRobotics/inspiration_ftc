@@ -399,7 +399,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
             if (direction == Direction.FORWARD) {
                 steerMultiplier = 1;
             } else if (direction == Direction.BACKWARD) {
-                steerMultiplier = 1;
+                steerMultiplier = -1;
             }
 
             steer = getSteerError(errorDistance, PCoeff);
@@ -505,9 +505,9 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
     public double getSteer(double error, double PCoeff) {
         if(error > 0) {
-            return Range.clip(error * PCoeff, 0.2, 1);
+            return Range.clip(error * PCoeff, 0.25, 1);
         } else {
-            return Range.clip(error * PCoeff, -1, -0.2);
+            return Range.clip(error * PCoeff, -1, -0.25);
         }
     }
 
@@ -521,7 +521,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         double powerRightFront = 0.8*speed;
 
         double error = getError(maintainedAngle);
-        double error_proportioned = Range.clip((error*0.1), -0.2, 0.2);
+        double error_proportioned = Range.clip((error*0.05), -0.2, 0.2);
 
         powerLeftBack = powerLeftBack - error_proportioned;
         powerLeftFront = powerLeftFront - error_proportioned;
@@ -804,6 +804,91 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         }
     }
 
+    public void encoderStrafeTimeout(double units, double speed, double timeoutMS) {
+
+        double endTime = System.currentTimeMillis() + timeoutMS;
+
+        int left_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * -units);
+        int right_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * units);
+
+        // Ensure that the opmode is still active
+
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            setMotorRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            setTargetPositionStrafe(left_distanceEnc, right_distanceEnc);
+            setMotorRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            // setPowerStrafe(Math.abs(speed), Math.abs(speed));
+            setPower(Math.abs(speed), Math.abs(speed));
+
+            while ((System.currentTimeMillis() < endTime) && opModeIsActive() && robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy() && robot.rightBack.isBusy()) {
+
+                telemetry.addLine("Robot in Encoder Drive");
+                telemetry.addData("Target Distance Left (in)", units);
+                telemetry.addData("Target Distance Right (in)", units);
+                telemetry.addData("TickLeft", left_distanceEnc);
+                telemetry.addData("TickRight", right_distanceEnc);
+                telemetry.update();
+                //just one more test...
+            }
+        }
+    }
+
+    public void encoderStrafeGyroTimeout(double units, double speed, double maintainedAngle, double timeoutMS) {
+
+        int left_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * -units);
+        int right_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * units);
+
+        double endTime = System.currentTimeMillis() + timeoutMS;
+
+        // Ensure that the opmode is still active
+
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            setMotorRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            setTargetPositionStrafe(left_distanceEnc, right_distanceEnc);
+            setMotorRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+
+            while ((System.currentTimeMillis() < endTime) && opModeIsActive() && robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy() && robot.rightBack.isBusy()) {
+
+                telemetry.addLine("Robot in Encoder Drive");
+                telemetry.addData("Target Distance Left (in)", units);
+                telemetry.addData("Target Distance Right (in)", units);
+                telemetry.addData("TickLeft", left_distanceEnc);
+                telemetry.addData("TickRight", right_distanceEnc);
+                telemetry.update();
+                //just one more test...
+
+                double powerLeftBack = 0.8*speed;
+                double powerLeftFront = -0.8*speed;
+                double powerRightBack = -0.8*speed;
+                double powerRightFront = 0.8*speed;
+
+                double error = getError(maintainedAngle);
+                double error_proportioned = Range.clip((error*0.1), -0.2, 0.2);
+
+                powerLeftBack = powerLeftBack - error_proportioned;
+                powerLeftFront = powerLeftFront - error_proportioned;
+                powerRightBack = powerRightBack + error_proportioned;
+                powerRightFront = powerRightFront + error_proportioned;
+
+                robot.leftFront.setPower(Math.abs(powerLeftFront));
+                robot.leftBack.setPower(Math.abs(powerLeftBack));
+                robot.rightFront.setPower(Math.abs(powerRightFront));
+                robot.rightBack.setPower(Math.abs(powerRightBack));
+            }
+        }
+    }
     public void encoderStrafeGyro(double units, double speed, double maintainedAngle) {
 
         int left_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * -units);
@@ -935,7 +1020,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
     }
 
     public void moveToSkystone(int id, double speed) {
-        while(robot.distanceLeft.getDistance(DistanceUnit.INCH) < 24) {
+        while((robot.distanceLeft.getDistance(DistanceUnit.INCH) < 24) && opModeIsActive()) {
             strafeGyro(0.5, 0);
         }
         robot.rightFront.setPower(0);
@@ -950,9 +1035,243 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         encoderStrafeGyro(-2, .5, 0);
     }
 
+    public void moveToFoundation(int skystonePosId, double speed) {
+        double targetDistEncoderDrive = (46+(8*skystonePosId));
+
+        while((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 26.5) && opModeIsActive()) {
+            strafeGyro(-0.75, 0);
+        }
+
+        encoderDrive(targetDistEncoderDrive,targetDistEncoderDrive, speed, speed, 6);
+
+        wallAlign(speed,14, robot.distanceFrontRight, Direction.FORWARD, 3000);
+
+        encoderStrafeTimeout(10,1,1750);
+    }
+
+    public void moveToFoundation(int skystonePosId, double speed, AllianceSide allianceSide) {
+
+        if (allianceSide == AllianceSide.BLUE) {
+            double targetDistEncoderDrive = (46 + (8 * skystonePosId));
+
+            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 26.5) && opModeIsActive()) {
+                strafeGyro(-0.75, 0);
+            }
+
+            encoderDrive(targetDistEncoderDrive, targetDistEncoderDrive, speed, speed, 6);
+
+            wallAlign(speed, 14, robot.distanceFrontRight, Direction.FORWARD, 3000);
+
+            encoderStrafeTimeout(10, 1, 1750);
+        }
+
+        else if (allianceSide == AllianceSide.RED) {
+            double targetDistEncoderDrive = (46 + (8 * skystonePosId));
+
+            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 26.5) && opModeIsActive()) {
+                strafeGyro(-0.75, 0);
+            }
+
+            encoderDrive(-targetDistEncoderDrive, -targetDistEncoderDrive, speed, speed, 6);
+
+            wallAlign(speed, 14, robot.distanceBackLeft, Direction.BACKWARD, 3000);
+
+            encoderStrafeTimeout(10, 1, 1750);
+        }
+    }
+
+    public void moveToSkystoneCopy(int id, double speed) {
+        while((robot.distanceLeft.getDistance(DistanceUnit.INCH) < 26) && opModeIsActive()) {
+            strafeGyro(1, 0);
+        }
+
+        stopMotors();
+
+        gyroTurn(0,1, 0.4);
+
+        double targetDistance = (((7-id)-1)*8) + 4;
+
+        wallAlign(speed,targetDistance,robot.distanceBackLeft,Direction.BACKWARD, 4500);
+
+        stopMotors();
+
+        //encoderStrafeTimeout(6, 1, 900);
+        //encoderStrafeTimeout(-3, 1, 700);
+    }
+
+    public void moveToSkystoneCopy(int id, double speed, AllianceSide allianceSide) {
+
+        if (allianceSide == AllianceSide.BLUE) {
+            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) < 26) && opModeIsActive()) {
+                strafeGyro(1, 0);
+            }
+
+            stopMotors();
+
+            gyroTurn(0, 1, 0.4);
+
+            double targetDistance = (((7 - id) - 1) * 8) + 4;
+
+            wallAlign(speed, targetDistance, robot.distanceBackLeft, Direction.BACKWARD, 4500);
+
+            stopMotors();
+
+            //encoderStrafeTimeout(6, 1, 900);
+            //encoderStrafeTimeout(-3, 1, 700);
+        }
+
+        else if (allianceSide == AllianceSide.RED) {
+            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) < 26) && opModeIsActive()) {
+                strafeGyro(1, 0);
+            }
+
+            stopMotors();
+
+            gyroTurn(0, 1, 0.4);
+
+            double targetDistance = (((7 - id) - 1) * 8) + 4;
+
+            wallAlign(speed, targetDistance, robot.distanceFrontRight, Direction.FORWARD, 4500);
+
+            stopMotors();
+
+            //encoderStrafeTimeout(6, 1, 900);
+            //encoderStrafeTimeout(-3, 1, 700);
+        }
+    }
+
     public void grabAutoArm(){
         robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
         robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_GRAB);
+    }
+
+    public void moveFoundation() {
+
+        wallAlign(0.7,14,robot.distanceFrontLeft,Direction.FORWARD,1700);
+
+        while((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 28.5) && opModeIsActive()) {
+            strafeGyro(-1, 0);
+        }
+
+        gyroTurn(-90,0.6,1.1);
+
+        encoderDrive(-16,-16,0.3,0.3,3);
+
+        robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
+
+        sleep(1000);
+
+        wallAlign(0.65, 12, robot.distanceFrontLeft,Direction.FORWARD,3000);
+
+        sleep(250);
+
+        gyroTurn(-180, 1,3);
+
+        robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
+
+        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
+
+        sleep(250);
+
+        encoderDrive(5,5,1,1,0.8);
+
+    }
+
+    public void moveFoundation(AllianceSide allianceSide) {
+
+        if (allianceSide == AllianceSide.BLUE) {
+            wallAlign(0.7, 14, robot.distanceFrontLeft, Direction.FORWARD, 1700);
+
+            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 28.5) && opModeIsActive()) {
+                strafeGyro(-1, 0);
+            }
+
+            gyroTurn(-90, 0.6, 1.1);
+
+            encoderDrive(-16, -16, 0.3, 0.3, 3);
+
+            robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
+
+            sleep(1000);
+
+            wallAlign(0.65, 12, robot.distanceFrontLeft, Direction.FORWARD, 3000);
+
+            sleep(250);
+
+            gyroTurn(-180, 1, 3);
+
+            robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
+
+            robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
+
+            sleep(250);
+
+            encoderDrive(5, 5, 1, 1, 0.8);
+        }
+
+        else if (allianceSide == AllianceSide.RED) {
+            wallAlign(0.7, 14, robot.distanceBackLeft, Direction.BACKWARD, 1700);
+
+            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 28.5) && opModeIsActive()) {
+                strafeGyro(-1, 0);
+            }
+
+            gyroTurn(-90, 0.6, 1.1);
+
+            encoderDrive(-16, -16, 0.3, 0.3, 3);
+
+            robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
+
+            sleep(1000);
+
+            wallAlign(0.65, 12, robot.distanceFrontLeft, Direction.FORWARD, 3000);
+
+            sleep(250);
+
+            gyroTurn(0, 1, 3);
+
+            robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
+
+            robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
+
+            sleep(250);
+
+            encoderDrive(5, 5, 1, 1, 0.8);
+        }
+
+    }
+
+    public void parkBridge() {
+        while((robot.distanceRight.getDistance(DistanceUnit.INCH) < 26) && opModeIsActive()) {
+            strafeGyro(-1, 0);
+        }
+
+        gyroTurn(-178,0.5,2);
+
+        encoderDrive(21,21,1,1,3);
+    }
+
+    public void parkBridge(AllianceSide allianceSide) {
+
+        if (allianceSide == AllianceSide.BLUE) {
+            while ((robot.distanceRight.getDistance(DistanceUnit.INCH) < 26) && opModeIsActive()) {
+                strafeGyro(-1, 0);
+            }
+
+            gyroTurn(-178, 0.5, 0.5);
+
+            encoderDrive(21, 21, 1, 1, 3);
+        }
+
+        else if (allianceSide == AllianceSide.BLUE) {
+            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) < 26) && opModeIsActive()) {
+                strafeGyro(1, 0);
+            }
+
+            gyroTurn(-178, 0.5, 0.5);
+
+            encoderDrive(21, 21, 1, 1, 3);
+        }
     }
 
 }
