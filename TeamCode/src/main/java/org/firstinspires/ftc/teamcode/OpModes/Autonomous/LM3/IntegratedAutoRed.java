@@ -50,9 +50,9 @@ public class IntegratedAutoRed extends ExtendedLinearOpMode {
         telemetry.addData("skystone id", skystoneId);
         telemetry.update();
 
-        moveToSkystoneCopy(skystoneId, 0.8, AllianceSide.RED);
+        moveToSkystoneCopy(skystoneId, 1, AllianceSide.RED);
 
-        moveToFoundation(skystoneId,1);
+        moveToFoundation(skystoneId,1, AllianceSide.RED);
 
         moveFoundation(AllianceSide.RED);
 
