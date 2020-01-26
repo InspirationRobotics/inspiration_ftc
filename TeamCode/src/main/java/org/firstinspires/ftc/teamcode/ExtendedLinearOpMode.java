@@ -1055,9 +1055,13 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         if (allianceSide == AllianceSide.BLUE) {
             double targetDistEncoderDrive = (46 + (8 * skystonePosId));
 
-            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 26) && opModeIsActive()) {
+            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 24) && opModeIsActive()) {
                 strafeGyro(-0.75, 0);
+                telemetry.addData("dist:", robot.distanceLeft.getDistance(DistanceUnit.INCH));
+                telemetry.update();
             }
+
+            stopMotors();
 
             encoderDrive(targetDistEncoderDrive, targetDistEncoderDrive, speed, speed, 6);
 
@@ -1069,9 +1073,14 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         else if (allianceSide == AllianceSide.RED) {
             double targetDistEncoderDrive = (46 + (8 * skystonePosId));
 
-            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 25) && opModeIsActive()) {
+            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 23) && opModeIsActive()) {
                 strafeGyro(-0.75, 0);
+                telemetry.addData("dist:", robot.distanceLeft.getDistance(DistanceUnit.INCH));
+                telemetry.update();
             }
+
+            stopMotors();
+
 
             encoderDrive(-targetDistEncoderDrive, -targetDistEncoderDrive, speed, speed, 6);
 
@@ -1103,7 +1112,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
     public void moveToSkystoneCopy(int id, double speed, AllianceSide allianceSide) {
 
         if (allianceSide == AllianceSide.BLUE) {
-            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) < 26) && opModeIsActive()) {
+            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) < 24.5) && opModeIsActive()) {
                 strafeGyro(1, 0);
             }
 
@@ -1122,7 +1131,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         }
 
         else if (allianceSide == AllianceSide.RED) {
-            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) < 26) && opModeIsActive()) {
+            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) < 24.5) && opModeIsActive()) {
                 strafeGyro(1, 0);
             }
 
@@ -1180,6 +1189,12 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
         sleep(500);
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_MID);
+    }
+
+    public void compactAutoArm(){
+        robot.frontPivot.setPosition(0.2);
+        sleep(1450);
+        robot.backClawCollect.setPosition(0.1);
     }
 
     public void releaseAutoArm() {
@@ -1300,6 +1315,8 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
     }
 
     public void parkBridge(AllianceSide allianceSide) {
+
+        compactAutoArm();
 
         if (allianceSide == AllianceSide.BLUE) {
             while ((robot.distanceRight.getDistance(DistanceUnit.INCH) < 26) && opModeIsActive()) {

@@ -154,11 +154,11 @@ public class Constants {
     public final double FRONT_CLAW_COLLECT_MID = 0.2;
     public final double FRONT_CLAW_COLLECT_GRAB = 0.4;
     public final double BACK_CLAW_COLLECT_OPEN = 0.4;
-    public final double BACK_CLAW_COLLECT_GRAB = 0.7;
+    public final double BACK_CLAW_COLLECT_GRAB = 0.75;
     public final double BACK_CLAW_COLLECT_MID = (BACK_CLAW_COLLECT_OPEN+BACK_CLAW_COLLECT_GRAB)/2;
 
     public final double FRONT_PIVOT_UP = 0.5;
-    public final double FRONT_PIVOT_MID = 0.7;
+    public final double FRONT_PIVOT_MID = 0.75;
     public final double FRONT_PIVOT_DOWN = 1;
     public final double BACK_PIVOT_UP = 0;
     public final double BACK_PIVOT_MID = 0.25;
