@@ -40,7 +40,7 @@ public class WaterfallFoundationMoverBlue extends ExtendedLinearOpMode {
         //grab foundation
         robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
 
-        sleep(3000);
+        sleep(1500);
 
         wallAlign(0.9, 10, robot.distanceFrontLeft, Direction.FORWARD, 3000);
 
@@ -49,7 +49,7 @@ public class WaterfallFoundationMoverBlue extends ExtendedLinearOpMode {
 
         robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
 
-        sleep(750);
+        sleep(250);
 
         encoderDrive(5,5,0.7,0.7,2);
 
