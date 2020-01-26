@@ -261,11 +261,11 @@ public abstract class ExtendedOpMode extends OpMode {
         }
     }
 
-    public void capstone (boolean gp2LeftDpad, boolean gp2RightDpad){
-        if (gp2LeftDpad) {
+    public void capstone (boolean gp2X, boolean gp2Y){
+        if (gp2X) {
             robot.capstone.setPosition(robot.constants.CAPSTONE_DOWN);
         }
-        if (gp2RightDpad){
+        if (gp2Y){
             robot.capstone.setPosition(robot.constants.CAPSTONE_UP);
         }
     }

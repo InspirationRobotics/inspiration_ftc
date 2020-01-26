@@ -49,7 +49,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 @TeleOp(name = "Concept: Scan Servo", group = "Concept")
-@Disabled
+//@Disabled
 public class ConceptScanServo extends LinearOpMode {
 
     static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
@@ -68,7 +68,7 @@ public class ConceptScanServo extends LinearOpMode {
 
         // Connect to servo (Assume PushBot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
-        servo = hardwareMap.get(Servo.class, "left_hand");
+        servo = hardwareMap.get(Servo.class, "testServo");
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to scan Servo." );
@@ -80,21 +80,25 @@ public class ConceptScanServo extends LinearOpMode {
         while(opModeIsActive()){
 
             // slew the servo, according to the rampUp (direction) variable.
-            if (rampUp) {
+            if (gamepad1.right_bumper) {
                 // Keep stepping up until we hit the max value.
                 position += INCREMENT ;
                 if (position >= MAX_POS ) {
                     position = MAX_POS;
-                    rampUp = !rampUp;   // Switch ramp direction
+                    rampUp = !rampUp;   // stops the movement of the servo
                 }
+
+                sleep(50);
             }
-            else {
+            else if (gamepad1.left_bumper){
                 // Keep stepping down until we hit the min value.
                 position -= INCREMENT ;
                 if (position <= MIN_POS ) {
                     position = MIN_POS;
-                    rampUp = !rampUp;  // Switch ramp direction
+                    rampUp = !rampUp;  // stops the movement of the servo
                 }
+
+                sleep(50);
             }
 
             // Display the current value
@@ -104,7 +108,6 @@ public class ConceptScanServo extends LinearOpMode {
 
             // Set the servo to the new position and pause;
             servo.setPosition(position);
-            sleep(CYCLE_MS);
             idle();
         }
 
