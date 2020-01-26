@@ -1055,7 +1055,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         if (allianceSide == AllianceSide.BLUE) {
             double targetDistEncoderDrive = (46 + (8 * skystonePosId));
 
-            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 26.5) && opModeIsActive()) {
+            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 26) && opModeIsActive()) {
                 strafeGyro(-0.75, 0);
             }
 
@@ -1069,7 +1069,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         else if (allianceSide == AllianceSide.RED) {
             double targetDistEncoderDrive = (46 + (8 * skystonePosId));
 
-            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 26.5) && opModeIsActive()) {
+            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 25) && opModeIsActive()) {
                 strafeGyro(-0.75, 0);
             }
 
