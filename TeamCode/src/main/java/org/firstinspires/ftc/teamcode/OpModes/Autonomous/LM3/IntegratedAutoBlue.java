@@ -52,28 +52,20 @@ public class IntegratedAutoBlue extends ExtendedLinearOpMode {
 
         moveToSkystoneCopy(skystoneId, 0.8);
 
-//        sleep(100);
+        //grab stone
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
-
-//        sleep(1400);
+        sleep(1450);
         robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
-
-//        sleep(750);
-//        robot.frontPivot.setPosition((robot.constants.FRONT_PIVOT_MID+robot.constants.FRONT_PIVOT_UP)/2);
+        sleep(500);
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_MID);
 
 
-//        sleep(500);
-
         moveToFoundation(skystoneId,1);
 
-//        sleep(100);
+        //release stone
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
-
-//        sleep(1000);
+        sleep(500);
         robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_OPEN);
-
-//        sleep(750);
         robot.frontPivot.setPosition((robot.constants.FRONT_PIVOT_MID+robot.constants.FRONT_PIVOT_UP)/2);
 
         moveFoundation();

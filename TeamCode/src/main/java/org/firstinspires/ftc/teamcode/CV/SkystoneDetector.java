@@ -182,11 +182,11 @@ public class SkystoneDetector extends OpenCVPipeline {
 
         else {
             if (bounding_rect_global.br().x <= 234 && bounding_rect_global.br().x >= 157) {
-                return SkystonePosition.LEFT;
+                return SkystonePosition.RIGHT;
             } else if (bounding_rect_global.br().x <= 156 && bounding_rect_global.br().x >= 79) {
                 return SkystonePosition.CENTER;
             } else if (bounding_rect_global.br().x <= 78 && bounding_rect_global.br().x >= 1) {
-                return SkystonePosition.RIGHT;
+                return SkystonePosition.LEFT;
             } else {
                 return SkystonePosition.UNKNOWN;
             }

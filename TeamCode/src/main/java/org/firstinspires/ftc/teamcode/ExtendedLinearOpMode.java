@@ -1039,7 +1039,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
     public void moveToFoundation(int skystonePosId, double speed) {
         double targetDistEncoderDrive = (46+(8*skystonePosId));
 
-        while((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 26.5) && opModeIsActive()) {
+        while((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 25.75) && opModeIsActive()) {
             strafeGyro(-0.75, 0);
         }
 
@@ -1047,7 +1047,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
 //        wallAlign(speed,14, robot.distanceFrontRight, Direction.FORWARD, 3000);
 
-        encoderStrafeTimeout(10,1,1750);
+        encoderStrafeTimeout(10,1,2000);
     }
 
     public void moveToFoundation(int skystonePosId, double speed, AllianceSide allianceSide) {
@@ -1082,7 +1082,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
     }
 
     public void moveToSkystoneCopy(int id, double speed) {
-        while((robot.distanceLeft.getDistance(DistanceUnit.INCH) < 26) && opModeIsActive()) {
+        while((robot.distanceLeft.getDistance(DistanceUnit.INCH) < 26.5) && opModeIsActive()) {
             strafeGyro(1, 0);
         }
 
@@ -1130,7 +1130,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
             gyroTurn(0, 1, 0.4);
 
-            double targetDistance = (((7 - id) - 1) * 8) + 4;
+            double targetDistance = 38 - (8*id);
 
             wallAlign(speed, targetDistance, robot.distanceFrontRight, Direction.FORWARD, 4500);
 
@@ -1203,6 +1203,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
 
         robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
 
 //        sleep(250);
 
@@ -1236,6 +1237,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
 
             robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
+            robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
 
             sleep(250);
 
@@ -1266,6 +1268,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
 
             robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
+            robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
 
             sleep(250);
 
@@ -1296,12 +1299,12 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
             encoderDrive(21, 21, 1, 1, 3);
         }
 
-        else if (allianceSide == AllianceSide.BLUE) {
+        else if (allianceSide == AllianceSide.RED) {
             while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) < 26) && opModeIsActive()) {
                 strafeGyro(1, 0);
             }
 
-            gyroTurn(-178, 0.5, 0.5);
+            gyroTurn(2, 0.5, 0.5);
 
             encoderDrive(21, 21, 1, 1, 3);
         }

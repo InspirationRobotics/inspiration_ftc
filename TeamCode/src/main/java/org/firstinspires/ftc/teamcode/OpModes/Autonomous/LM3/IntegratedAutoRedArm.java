@@ -37,11 +37,11 @@ public class IntegratedAutoRedArm extends ExtendedLinearOpMode {
 
 
         if (skystonePosition == SkystonePosition.LEFT) {
-            skystoneId = 1;
+            skystoneId = 3;
         } else if (skystonePosition == SkystonePosition.CENTER) {
             skystoneId = 2;
         } else if (skystonePosition == SkystonePosition.RIGHT) {
-            skystoneId = 3;
+            skystoneId = 1;
         } else {
             skystoneId = 2;
         }

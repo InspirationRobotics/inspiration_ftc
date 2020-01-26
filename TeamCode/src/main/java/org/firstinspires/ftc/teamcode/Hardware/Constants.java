@@ -155,7 +155,7 @@ public class Constants {
     public final double FRONT_CLAW_COLLECT_GRAB = 0.4;
     public final double BACK_CLAW_COLLECT_OPEN = 0.1;
     public final double BACK_CLAW_COLLECT_MID = 0.25;
-    public final double BACK_CLAW_COLLECT_GRAB = 0.4;
+    public final double BACK_CLAW_COLLECT_GRAB = 0.5;
 
     public final double FRONT_PIVOT_UP = 0.5;
     public final double FRONT_PIVOT_MID = 0.7;
