@@ -30,6 +30,7 @@ public class WaterfallTeleOp extends ExtendedOpMode {
         robot.extensionServo.setPower(-gamepad2.right_stick_y);
         grabBlock(gamepad2.left_bumper, gamepad2.right_bumper);
         moveAutoArm();
+        capstone(gamepad2.x, gamepad2.y);
     }
 
     @Override

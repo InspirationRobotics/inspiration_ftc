@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 import org.firstinspires.ftc.teamcode.Hardware.SkystonePosition;
 
-@Autonomous(name = "IntegratedAutoBlue")
+@Autonomous(name = "IntegratedAutoRed")
 public class IntegratedAutoRed extends ExtendedLinearOpMode {
 
     @Override
