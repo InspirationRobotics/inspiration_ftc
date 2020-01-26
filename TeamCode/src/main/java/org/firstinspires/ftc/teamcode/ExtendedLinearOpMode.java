@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import org.firstinspires.ftc.teamcode.Hardware.SkystonePosition;
 import org.opencv.core.Mat;
+import java.lang.Math;
 
 
 public abstract class ExtendedLinearOpMode extends LinearOpMode {
@@ -545,7 +546,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
             // Determine new target position, and pass to motor controller
             setMotorRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            sleep(100);
+//            sleep(100);
 
             setTargetPosition(left_distanceEnc, right_distanceEnc);
             setMotorRunMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -568,7 +569,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
             stopMotors();
 
             setMotorRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            sleep(250);
+//            sleep(250);
 
         }
 
@@ -1044,7 +1045,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
         encoderDrive(targetDistEncoderDrive,targetDistEncoderDrive, speed, speed, 6);
 
-        wallAlign(speed,14, robot.distanceFrontRight, Direction.FORWARD, 3000);
+//        wallAlign(speed,14, robot.distanceFrontRight, Direction.FORWARD, 3000);
 
         encoderStrafeTimeout(10,1,1750);
     }
@@ -1140,6 +1141,38 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         }
     }
 
+    public void moveToSkystoneAngle(int id) {
+        double angle;
+        double distance;
+
+        // distance robot is from wall
+        double currentWallDist = robot.distanceBackLeft.getDistance(DistanceUnit.INCH);
+        // distance skystone is from wall
+        double targetDistance = (((7-id)-1)*8) + 4;
+
+        double verticalDistance = targetDistance - currentWallDist;
+        double horizontalDistance = 26;
+        angle = Math.toDegrees(Math.atan(verticalDistance/horizontalDistance));
+
+        while((robot.distanceLeft.getDistance(DistanceUnit.INCH) < horizontalDistance) && opModeIsActive()) {
+            strafeGyro(1, (360-(angle+10)));
+            telemetry.addData("angle", angle);
+            telemetry.update();
+        }
+
+       stopMotors();
+
+
+        gyroTurn(0,0.3, 0.4);
+
+        stopMotors();
+
+        sleep(1000);
+
+        //encoderStrafeTimeout(6, 1, 900);
+        //encoderStrafeTimeout(-3, 1, 700);
+    }
+
     public void grabAutoArm(){
         robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
         robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_GRAB);
@@ -1149,21 +1182,21 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
         wallAlign(0.7,14,robot.distanceFrontLeft,Direction.FORWARD,1700);
 
-        while((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 28.5) && opModeIsActive()) {
-            strafeGyro(-1, 0);
-        }
+//        while((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 28.5) && opModeIsActive()) {
+//            strafeGyro(-1, 0);
+//        }
 
         gyroTurn(-90,0.6,1.1);
 
-        encoderDrive(-16,-16,0.3,0.3,3);
+        encoderDrive(-10,-10,1,1,3);
 
         robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
 
-        sleep(1000);
+        sleep(500);
 
         wallAlign(0.65, 12, robot.distanceFrontLeft,Direction.FORWARD,3000);
 
-        sleep(250);
+//        sleep(250);
 
         gyroTurn(-180, 1,3);
 
@@ -1171,7 +1204,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
         robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
 
-        sleep(250);
+//        sleep(250);
 
         encoderDrive(5,5,1,1,0.8);
 
