@@ -12,6 +12,8 @@ public class WaterfallTeleOp extends ExtendedOpMode {
     public void init() {
         robot.setHardwareMap(hardwareMap);
         robot.initWaterfall();
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
+        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
         telemetry.addLine("Ready to go!");
         telemetry.update();
     }
@@ -29,7 +31,7 @@ public class WaterfallTeleOp extends ExtendedOpMode {
         //horizantalExtend(); .
         robot.extensionServo.setPower(-gamepad2.right_stick_y);
         grabBlock(gamepad2.left_bumper, gamepad2.right_bumper);
-        moveAutoArm();
+        //moveAutoArm();
         capstone(gamepad2.x, gamepad2.y);
     }
 
