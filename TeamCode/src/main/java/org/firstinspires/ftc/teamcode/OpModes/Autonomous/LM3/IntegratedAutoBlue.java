@@ -50,32 +50,22 @@ public class IntegratedAutoBlue extends ExtendedLinearOpMode {
         telemetry.addData("skystone id", skystoneId);
         telemetry.update();
 
-        moveToSkystoneCopy(skystoneId, 0.8);
+        moveToSkystoneCopy(skystoneId, 0.7,AllianceSide.BLUE);
 
-        //grab stone
-        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
-        sleep(1450);
-        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
-        sleep(500);
-        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_MID);
+        grabAutoArm();
 
+        moveToFoundation(skystoneId,1,AllianceSide.BLUE);
 
-        moveToFoundation(skystoneId,1);
+        releaseAutoArm();
 
-        //release stone
-        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
-        sleep(500);
-        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_OPEN);
-        robot.frontPivot.setPosition((robot.constants.FRONT_PIVOT_MID+robot.constants.FRONT_PIVOT_UP)/2);
-
-        moveFoundation();
+        moveFoundation(AllianceSide.BLUE);
 
         telemetry.addLine("parking now");
         telemetry.update();
 
 //        sleep(250);
 
-        parkBridge();
+        parkBridge(AllianceSide.BLUE);
 
     }
 }

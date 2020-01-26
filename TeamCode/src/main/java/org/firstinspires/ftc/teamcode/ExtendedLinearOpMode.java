@@ -1061,7 +1061,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
             encoderDrive(targetDistEncoderDrive, targetDistEncoderDrive, speed, speed, 6);
 
-            wallAlign(speed, 14, robot.distanceFrontRight, Direction.FORWARD, 3000);
+//            wallAlign(speed, 14, robot.distanceFrontRight, Direction.FORWARD, 3000);
 
             encoderStrafeTimeout(10, 1, 1750);
         }
@@ -1075,7 +1075,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
             encoderDrive(-targetDistEncoderDrive, -targetDistEncoderDrive, speed, speed, 6);
 
-            wallAlign(speed, 14, robot.distanceBackLeft, Direction.BACKWARD, 3000);
+//            wallAlign(speed, 14, robot.distanceBackLeft, Direction.BACKWARD, 3000);
 
             encoderStrafeTimeout(10, 1, 1750);
         }
@@ -1174,8 +1174,20 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
     }
 
     public void grabAutoArm(){
+        //grab stone
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
+        sleep(1450);
         robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
-        robot.frontClawCollect.setPosition(robot.constants.FRONT_CLAW_COLLECT_GRAB);
+        sleep(500);
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_MID);
+    }
+
+    public void releaseAutoArm() {
+        //release stone
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
+        sleep(500);
+        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_OPEN);
+        robot.frontPivot.setPosition((robot.constants.FRONT_PIVOT_MID+robot.constants.FRONT_PIVOT_UP)/2);
     }
 
     public void moveFoundation() {
@@ -1216,21 +1228,21 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         if (allianceSide == AllianceSide.BLUE) {
             wallAlign(0.7, 14, robot.distanceFrontLeft, Direction.FORWARD, 1700);
 
-            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 28.5) && opModeIsActive()) {
-                strafeGyro(-1, 0);
-            }
+//            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 28.5) && opModeIsActive()) {
+//                strafeGyro(-1, 0);
+//            }
 
             gyroTurn(-90, 0.6, 1.1);
 
-            encoderDrive(-16, -16, 0.3, 0.3, 3);
+            encoderDrive(-10, -10, 0.3, 0.3, 3);
 
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
 
-            sleep(1000);
+            sleep(500);
 
             wallAlign(0.65, 12, robot.distanceFrontLeft, Direction.FORWARD, 3000);
 
-            sleep(250);
+//            sleep(250);
 
             gyroTurn(-180, 1, 3);
 
@@ -1239,7 +1251,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
             robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
             robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
 
-            sleep(250);
+//            sleep(250);
 
             encoderDrive(5, 5, 1, 1, 0.8);
         }
@@ -1247,21 +1259,21 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         else if (allianceSide == AllianceSide.RED) {
             wallAlign(0.7, 14, robot.distanceBackLeft, Direction.BACKWARD, 1700);
 
-            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 28.5) && opModeIsActive()) {
-                strafeGyro(-1, 0);
-            }
+//            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 28.5) && opModeIsActive()) {
+//                strafeGyro(-1, 0);
+//            }
 
             gyroTurn(-90, 0.6, 1.1);
 
-            encoderDrive(-16, -16, 0.3, 0.3, 3);
+            encoderDrive(-10, -10, 0.3, 0.3, 3);
 
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
 
-            sleep(1000);
+            sleep(500);
 
             wallAlign(0.65, 12, robot.distanceFrontLeft, Direction.FORWARD, 3000);
 
-            sleep(250);
+//            sleep(250);
 
             gyroTurn(0, 1, 3);
 
@@ -1270,7 +1282,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
             robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
             robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
 
-            sleep(250);
+//            sleep(250);
 
             encoderDrive(5, 5, 1, 1, 0.8);
         }

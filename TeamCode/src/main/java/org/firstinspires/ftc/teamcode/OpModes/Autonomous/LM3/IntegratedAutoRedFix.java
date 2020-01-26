@@ -2,15 +2,13 @@ package org.firstinspires.ftc.teamcode.OpModes.Autonomous.LM3;
 
 import com.inspiration.inspcv.CameraViewDisplay;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 import org.firstinspires.ftc.teamcode.Hardware.SkystonePosition;
 
-@Disabled
 @Autonomous(name = "IntegratedAutoRed")
-public class IntegratedAutoRed extends ExtendedLinearOpMode {
+public class IntegratedAutoRedFix extends ExtendedLinearOpMode {
 
     @Override
     public void runOpMode() {
@@ -39,11 +37,11 @@ public class IntegratedAutoRed extends ExtendedLinearOpMode {
 
 
         if (skystonePosition == SkystonePosition.LEFT) {
-            skystoneId = 1;
+            skystoneId = 3;
         } else if (skystonePosition == SkystonePosition.CENTER) {
             skystoneId = 2;
         } else if (skystonePosition == SkystonePosition.RIGHT) {
-            skystoneId = 3;
+            skystoneId = 1;
         } else {
             skystoneId = 2;
         }
@@ -52,11 +50,20 @@ public class IntegratedAutoRed extends ExtendedLinearOpMode {
         telemetry.addData("skystone id", skystoneId);
         telemetry.update();
 
-        moveToSkystoneCopy(skystoneId, 1, AllianceSide.RED);
+        moveToSkystoneCopy(skystoneId, 0.7, AllianceSide.RED);
+
+        grabAutoArm();
 
         moveToFoundation(skystoneId,1, AllianceSide.RED);
 
+        releaseAutoArm();
+
         moveFoundation(AllianceSide.RED);
+
+        telemetry.addLine("parking now");
+        telemetry.update();
+
+//        sleep(250);
 
         parkBridge(AllianceSide.RED);
 
