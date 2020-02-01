@@ -128,9 +128,9 @@ public class Constants {
     *---------------------------------------*/
 
     public final double DIST_SENSOR_THRESHOLD = 5;
-    public final double P_TURN_COEFF = 0.08;
-    public final double P_WALL_COEFF = 0.045;
-    public final double HEADING_THRESHOLD = 2.5;
+    public final double P_TURN_COEFF = 0.07;
+    public final double P_WALL_COEFF = 0.0575;
+    public final double HEADING_THRESHOLD = 1.5;
     public final double DISTANCE_THRESHOLD = 1;
 
     public final double STRAFE_CONSTANT = 2;

@@ -50,7 +50,7 @@ public class IntegratedAutoRedFix extends ExtendedLinearOpMode {
         telemetry.addData("skystone id", skystoneId);
         telemetry.update();
 
-        moveToSkystoneCopy(skystoneId, 0.7, AllianceSide.RED);
+        moveToSkystoneCopy(skystoneId, 0.5, AllianceSide.RED);
 
         grabAutoArm();
 

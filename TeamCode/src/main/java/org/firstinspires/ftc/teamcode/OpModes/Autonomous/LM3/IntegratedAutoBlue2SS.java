@@ -2,15 +2,13 @@ package org.firstinspires.ftc.teamcode.OpModes.Autonomous.LM3;
 
 import com.inspiration.inspcv.CameraViewDisplay;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 import org.firstinspires.ftc.teamcode.Hardware.SkystonePosition;
 
-@Disabled
-@Autonomous(name = "IntegratedAutoRed")
-public class IntegratedAutoRed extends ExtendedLinearOpMode {
+@Autonomous(name = "IntegratedAutoBlue 2 SS")
+public class IntegratedAutoBlue2SS extends ExtendedLinearOpMode {
 
     @Override
     public void runOpMode() {
@@ -30,11 +28,11 @@ public class IntegratedAutoRed extends ExtendedLinearOpMode {
 
         double endVisionTime = System.currentTimeMillis() + 3000;
 
-        while((System.currentTimeMillis() < endVisionTime) && opModeIsActive() && (detector.skystoneId(AllianceSide.RED) == SkystonePosition.UNKNOWN)) {
+        while((System.currentTimeMillis() < endVisionTime) && opModeIsActive() && (detector.skystoneId(AllianceSide.BLUE) == SkystonePosition.UNKNOWN)) {
             idle();
         }
 
-        SkystonePosition skystonePosition = detector.skystoneId(AllianceSide.RED);
+        SkystonePosition skystonePosition = detector.skystoneId(AllianceSide.BLUE);
         int skystoneId;
 
 
@@ -52,13 +50,22 @@ public class IntegratedAutoRed extends ExtendedLinearOpMode {
         telemetry.addData("skystone id", skystoneId);
         telemetry.update();
 
-        moveToSkystoneCopy(skystoneId, 0.7, AllianceSide.RED);
+        moveToSkystoneRevised(skystoneId, AllianceSide.BLUE);
 
-        moveToFoundation(skystoneId,1, AllianceSide.RED);
+        moveToFoundationRevised(skystoneId, AllianceSide.BLUE);
 
-        moveFoundation(AllianceSide.RED);
+        multipleStoneRevised(skystoneId+3,AllianceSide.BLUE);
 
-        parkBridge(AllianceSide.RED);
+        moveToFoundationRevised(skystoneId+3,AllianceSide.BLUE);
+
+        moveFoundation(AllianceSide.BLUE);
+
+        telemetry.addLine("parking now");
+        telemetry.update();
+
+//        sleep(250);
+
+        parkBridgeRevised(AllianceSide.BLUE);
 
     }
 }
