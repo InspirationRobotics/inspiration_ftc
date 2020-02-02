@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -39,6 +40,10 @@ public class Robot {
 
     public DistanceSensor distanceFront;
     public DistanceSensor distanceBack;
+    public DistanceSensor distanceFrontLeft;
+    public DistanceSensor distanceFrontRight;
+    public DistanceSensor distanceBackLeft;
+    public DistanceSensor distanceBackRight;
     public DistanceSensor distanceLeft;
     public DistanceSensor distanceRight;
 
@@ -66,11 +71,32 @@ public class Robot {
 
     public BNO055IMU imu;
     public Orientation angles;
-    public Acceleration gravity;
+    //public Acceleration gravity;
 
     public HardwareMap ahwmap;
 
-    public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+    public BNO055IMU.Parameters parameters;
+
+    //Waterfall
+    public Servo frontClawCollect;
+    public Servo backClawCollect;
+    public Servo backPivot;
+    public Servo frontPivot;
+    public Servo foundationServo;
+
+    public DcMotor leftIntake;
+    public DcMotor rightIntake;
+
+    public CRServo extensionServo;
+
+    /*
+    These are the devices/hardware that is the same between River and Watefall:
+
+    leftLift; //will actuate the vertical lift (need to be used in tangent with left righLift and vice versa)
+    rightLift; //will actuate the vertical lift
+    leftFoundation; // actuate the foundation mover (need to be used in tangent with right foundation and vice versa)
+    rightFoundation; // actuate teh foundation mover
+    */
 
 
     public void setHardwareMap(HardwareMap hwMap) {
@@ -78,7 +104,7 @@ public class Robot {
     }
 
 
-    public void initDrivebase () {
+    public void initDrivebase() {
         leftFront = ahwmap.dcMotor.get(constants.LEFT_FRONT_MOTOR_NAME);
         leftBack = ahwmap.dcMotor.get(constants.LEFT_BACK_MOTOR_NAME);
         rightFront = ahwmap.dcMotor.get(constants.RIGHT_FRONT_MOTOR_NAME);
@@ -89,15 +115,13 @@ public class Robot {
     }
 
 
-    public void initDistanceSensors(DistanceSensorType sensorType) {
+    public void initDistanceSensorsOld(DistanceSensorType sensorType) {
         if (sensorType == DistanceSensorType.REV) {
             distanceFront = ahwmap.get(DistanceSensor.class, constants.FRONT_DISTANCE_SENSOR_NAME);
             distanceBack = ahwmap.get(DistanceSensor.class, constants.BACK_DISTANCE_SENSOR_NAME);
             distanceLeft = ahwmap.get(DistanceSensor.class, constants.LEFT_DISTANCE_SENSOR_NAME);
             distanceRight = ahwmap.get(DistanceSensor.class, constants.RIGHT_DISTANCE_SENSOR_NAME);
-        }
-
-        else {
+        } else {
             distanceFront = ahwmap.get(ModernRoboticsI2cRangeSensor.class, constants.FRONT_DISTANCE_SENSOR_NAME);
             distanceBack = ahwmap.get(ModernRoboticsI2cRangeSensor.class, constants.BACK_DISTANCE_SENSOR_NAME);
             distanceLeft = ahwmap.get(ModernRoboticsI2cRangeSensor.class, constants.LEFT_DISTANCE_SENSOR_NAME);
@@ -150,31 +174,67 @@ public class Robot {
         capstone = ahwmap.servo.get(constants.CAPSTONE_NAME);
 
         if (robotVersion == RobotVersion.RIVER) {
-            initDistanceSensors(DistanceSensorType.REV);
+            initDistanceSensorsOld(DistanceSensorType.REV);
             initRiverSensors();
         } else {
             //do nothing
         }
     }
 
-    public void initIMU() {
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
+    public void initWaterfall() {
+        leftFront = ahwmap.dcMotor.get(constants.LEFT_FRONT_MOTOR_NAME);
+        leftBack = ahwmap.dcMotor.get(constants.LEFT_BACK_MOTOR_NAME);
+        rightFront = ahwmap.dcMotor.get(constants.RIGHT_FRONT_MOTOR_NAME);
+        rightBack = ahwmap.dcMotor.get(constants.RIGHT_BACK_MOTOR_NAME);
 
-        imu = ahwmap.get(BNO055IMU.class, constants.IMU_NAME);
-        imu.initialize(parameters);
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        leftIntake = ahwmap.dcMotor.get("leftIntake");
+        rightIntake = ahwmap.dcMotor.get("rightIntake");
+        leftLift = ahwmap.dcMotor.get(constants.LIFT_LEFT_MOTOR_NAME);
+        rightLift = ahwmap.dcMotor.get(constants.RIGHT_LIFT_MOTOR_NAME);
+
+        foundationServo = ahwmap.servo.get("foundationMover");
+        grabber = ahwmap.servo.get(constants.GRABBER_SERVO_NAME);
+        frontClawCollect = ahwmap.servo.get(constants.FRONT_CLAW_COLLECT_NAME);
+        backClawCollect = ahwmap.servo.get(constants.BACK_CLAW_COLLECT_NAME);
+        backPivot = ahwmap.servo.get(constants.FRONT_PIVOT_SERVO_NAME);
+        frontPivot = ahwmap.servo.get(constants.BACK_PIVOT_SERVO_NAME);
+        extensionServo = ahwmap.crservo.get(constants.EXTENSION_SERVO_NAME);
+
+        intakeDistance = ahwmap.get(DistanceSensor.class, constants.INTAKE_DISTANCE_SENSOR_NAME);
+        liftLimit = ahwmap.get(DigitalChannel.class, constants.LIFT_MAGLIMIT_SENSOR_NAME);
+        extensionLimit = ahwmap.get(DigitalChannel.class, constants.EXTENSION_MAGLIMIT_SENSOR_NAME);
     }
 
-    public double getHeading() {
-
-        double heading;
-
-        heading = angles.firstAngle;
-
-        return heading;
+    public void initDistanceSensors() {
+        distanceFrontLeft = ahwmap.get(DistanceSensor.class, constants.FRONT_LEFT_DISTANCE_SENSOR_NAME);
+        distanceFrontRight = ahwmap.get(DistanceSensor.class, constants.FRONT_RIGHT_DISTANCE_SENSOR_NAME);
+        distanceBackLeft = ahwmap.get(DistanceSensor.class, constants.BACK_LEFT_DISTANCE_SENSOR_NAME);
+        distanceBackRight = ahwmap.get(DistanceSensor.class, constants.BACK_RIGHT_DISTANCE_SENSOR_NAME);
+        distanceLeft = ahwmap.get(DistanceSensor.class, constants.LEFT_DISTANCE_SENSOR_NAME);
+        distanceRight = ahwmap.get(DistanceSensor.class, constants.RIGHT_DISTANCE_SENSOR_NAME);
     }
+
+//    public void initIMU() {
+//        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+//        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+//        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+//        parameters.loggingEnabled = true;
+//        parameters.loggingTag = "IMU";
+//
+//        imu = ahwmap.get(BNO055IMU.class, constants.IMU_NAME);
+//        imu.initialize(parameters);
+//    }
+
+//    public double getHeading() {
+//
+//        double heading;
+//
+//        heading = angles.firstAngle;
+//
+//        return heading;
+//    }
 
 }

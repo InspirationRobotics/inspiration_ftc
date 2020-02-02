@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 
-
+@Disabled
 @Autonomous(name = "River Auto Red Full", group = "River")
 public class SimpleMotorThing extends ExtendedLinearOpMode {
 

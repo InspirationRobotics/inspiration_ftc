@@ -1,12 +1,14 @@
-package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
+package org.firstinspires.ftc.teamcode.OpModes.Autonomous.River;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
+import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 
-
+@Disabled
 @Autonomous(name = "River Auto Red Full", group = "River")
 public class RiverFullAutoRed extends ExtendedLinearOpMode {
 
@@ -16,7 +18,7 @@ public class RiverFullAutoRed extends ExtendedLinearOpMode {
         robot.setHardwareMap(hardwareMap);
         robot.initRiver(RobotVersion.RIVER);
         initDetector();
-        robot.initIMU();
+        //robot.initIMU();
 
         telemetry.addLine("Ready to go!");
         telemetry.update();
@@ -27,7 +29,7 @@ public class RiverFullAutoRed extends ExtendedLinearOpMode {
 
         encoderDrive(22, 22, 0.8, 4, 6);
 
-        while (!skyStoneIsVisible("red")) {
+        while (!skyStoneIsVisible(AllianceSide.RED)) {
             strafeGyro(180, 0);
         }
 
@@ -45,7 +47,7 @@ public class RiverFullAutoRed extends ExtendedLinearOpMode {
 
         gyroTurn(-90, 0.5, 4);
 
-        wallAlign(22, Direction.BACKWARD, robot.distanceBack, -90, 10);
+        //wallAlign(22, Direction.BACKWARD, robot.distanceBack, -90, 10);
 
         gyroTurn(-180, 0.5, 4);
 
@@ -72,12 +74,12 @@ public class RiverFullAutoRed extends ExtendedLinearOpMode {
         //encoderDrive(2, 2, 0.8, 1);
         encoderDrive(2, 2, 0.1, 24, 6);
 
-        wallAlign(36, Direction.RIGHT, robot.distanceLeft, -180, 7);
+        //wallAlign(36, Direction.RIGHT, robot.distanceLeft, -180, 7);
 
         //encoderDrive(-24, -24, 0.7, 4);
         encoderDrive(-24, -24, 0.1, .24, 6);
 
-        wallAlign(58, Direction.RIGHT, robot.distanceLeft, -180, 6);
+        //wallAlign(58, Direction.RIGHT, robot.distanceLeft, -180, 6);
 
         stopMotors();
     }
