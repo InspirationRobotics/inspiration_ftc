@@ -129,8 +129,8 @@ public class Constants {
 
     public final double DIST_SENSOR_THRESHOLD = 5;
     public final double P_TURN_COEFF = 0.07;
-    public final double P_WALL_COEFF = 0.0575;
-    public final double HEADING_THRESHOLD = 1.5;
+    public final double P_WALL_COEFF = 0.0375;
+    public final double HEADING_THRESHOLD = 1;
     public final double DISTANCE_THRESHOLD = 1;
 
     public final double STRAFE_CONSTANT = 2;
@@ -180,6 +180,11 @@ public class Constants {
     public final double FAR_WALL_LEFT_SKYSTONE_RED_ALIGN_DISTANCE = 28;
     public final double FAR_WALL_CENTER_SKYSTONE_RED_ALIGN_DISTANCE = 36;
     public final double FAR_WALL_RIGHT_SKYSTONE_RED_ALIGN_DISTANCE = 44;
+
+
+    public final double WALL_DIST_CENTER = 21.75;
+    public final double WALL_DIST_STONE = 26;
+    public final double WALL_DIST_FOUNDATION = 30;
 
 
 
