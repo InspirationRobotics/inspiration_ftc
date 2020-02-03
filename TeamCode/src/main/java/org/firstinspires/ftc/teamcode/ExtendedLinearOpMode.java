@@ -372,7 +372,9 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
             telemetry.addData("Distance from wall", inputDistance.getDistance(DistanceUnit.INCH));
             telemetry.update();
             idle();
-            sleep(200); }
+//            sleep(200);
+            //this sleep is cmmmented out because it seems to long. Idle should suffice
+        }
 
 
         setPower(0, 0);
@@ -422,7 +424,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
     public double getErrorDistance(double targetDistance, DistanceSensor inputDistance){
 
         double robotError;
-        robotError = inputDistance.getDistance(DistanceUnit.INCH) - targetDistance;
+        robotError = readDS(inputDistance) - targetDistance;
 
         telemetry.addData("Robot Error","%5.2f",robotError);
         telemetry.update();
@@ -434,6 +436,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
     public double getSteerError(double error , double PCoeff){
         if (error < 0) {
             return Range.clip(error * PCoeff, -1 , -0.15);
+            //measure the stall speed; 0.15 seems to low. Maybe 0.2? Try defining a constant in the constants file
         }
         else {
             return Range.clip(error * PCoeff, 0.15 , 1);
@@ -525,7 +528,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         double powerRightFront = 0.8*speed;
 
         double error = getError(maintainedAngle);
-        double error_proportioned = Range.clip((error*0.05), -0.2, 0.2);
+        double error_proportioned = Range.clip((error*0.08), -0.2, 0.2);
 
         powerLeftBack = powerLeftBack - error_proportioned;
         powerLeftFront = powerLeftFront - error_proportioned;
@@ -1380,25 +1383,31 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
     public void strafeWallDist(double targetDist, double speed, DistanceSensor inputDistance, Direction direction, double timeoutMS) {
 
-        double error = targetDist - inputDistance.getDistance(DistanceUnit.INCH);
+        double currentDist = readDS(inputDistance);
+        double error = targetDist - currentDist;
+        // see if we should reverse it so its input-target
+        //see if we have actually arrived. Maybe we can run again
+        // see if it is too costly to read sensor every time
 
         if (direction == Direction.RIGHT) {
             while(opModeIsActive() && (Math.abs(error) > 1)) {
                 if (error > 0) {
                     strafeGyro(-1, 0);
-                    error = targetDist - inputDistance.getDistance(DistanceUnit.INCH);
-                    telemetry.addData("current dist", inputDistance.getDistance(DistanceUnit.INCH));
-                    telemetry.update();
+                    currentDist = readDS(inputDistance);
+                    error = targetDist - currentDist;
+//                    telemetry.addData("current dist", inputDistance.getDistance(DistanceUnit.INCH));
+//                    telemetry.update();
                 }
 
                 else {
                     strafeGyro(1, 0);
                     error = targetDist - inputDistance.getDistance(DistanceUnit.INCH);
-                    telemetry.addData("current dist", inputDistance.getDistance(DistanceUnit.INCH));
-                    telemetry.update();
+//                    telemetry.addData("current dist", inputDistance.getDistance(DistanceUnit.INCH));
+//                    telemetry.update();
                 }
 
                 error = targetDist - inputDistance.getDistance(DistanceUnit.INCH);
+                idle();
             }
 
             stopMotors();
@@ -1418,6 +1427,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
                 }
 
                 error = targetDist - inputDistance.getDistance(DistanceUnit.INCH);
+                idle();
             }
 
 
@@ -1482,7 +1492,6 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
     public void moveToSkystoneRevised(int skystoneId, AllianceSide allianceSide) {
 
-        double targetDist = 25.75;
 
         gyroTurn(0,0.5,1);
         strafeWallDist(robot.constants.WALL_DIST_STONE, 1, robot.distanceLeft, Direction.LEFT, 3500);
@@ -1659,8 +1668,8 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
     }
 
     public void inspectRearDistanceSensors(double expectedValue) {
-        double backLeftDistErr = Math.abs(expectedValue-robot.distanceBackLeft.getDistance(DistanceUnit.INCH));
-        double backRightDistErr = Math.abs(expectedValue-robot.distanceBackRight.getDistance(DistanceUnit.INCH));
+        double backLeftDistErr = Math.abs(expectedValue-readDS(robot.distanceBackLeft));
+        double backRightDistErr = Math.abs(expectedValue-readDS(robot.distanceBackRight));
 
         if ((backLeftDistErr < 10) && (backRightDistErr < 10) && (backLeftDistErr > backRightDistErr)) {
             rearDistanceSensor = robot.distanceBackRight;
@@ -1672,9 +1681,24 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         }
     }
 
+    boolean DEBUG = true;
+
+    double readDS(DistanceSensor ds) {
+        double distance;
+        if (!isStopRequested()) {
+            distance = ds.getDistance(DistanceUnit.INCH);
+
+            if(DEBUG) System.out.println("11128dbg DS read:" + distance);
+        }
+        else {
+            distance = 0;
+        }
+        return distance;
+    }
+
     public void inspectFrontDistanceSensors(double expectedValue) {
-        double frontLeftDistErr = Math.abs(expectedValue-robot.distanceFrontLeft.getDistance(DistanceUnit.INCH));
-        double frontRightDistErr = Math.abs(expectedValue-robot.distanceFrontRight.getDistance(DistanceUnit.INCH));
+        double frontLeftDistErr = Math.abs(expectedValue-readDS(robot.distanceFrontLeft));
+        double frontRightDistErr = Math.abs(expectedValue-readDS(robot.distanceFrontRight));
 
         if ((frontLeftDistErr < 10) && (frontRightDistErr < 10) && (frontLeftDistErr > frontRightDistErr)) {
             frontDistanceSensor = robot.distanceFrontRight;
