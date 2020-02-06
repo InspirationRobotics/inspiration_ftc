@@ -55,9 +55,9 @@ public class IntegratedAutoRed2SS extends ExtendedLinearOpMode {
 
         moveToFoundationRevised(skystoneId, AllianceSide.RED);
 
-        multipleStoneRevised(skystoneId+3,AllianceSide.RED);
-
-        moveToFoundationRevised(skystoneId+3,AllianceSide.RED);
+        if (skystoneId == 1) {
+            multipleStoneRevised(skystoneId + 3, AllianceSide.RED);
+        }
 
         moveFoundation(AllianceSide.RED);
 
