@@ -1527,12 +1527,26 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
             targetDriveDist = targetDriveDist - 3;
         }
 
-        strafeWallDist(robot.constants.WALL_DIST_CENTER,-1,robot.distanceLeft, Direction.LEFT, 4000);
+        strafeWallDist(robot.constants.WALL_DIST_CENTER - 6,-1,robot.distanceLeft, Direction.LEFT, 4000);
         gyroTurn(0,0.5,0.5);
+
+//        switch (allianceSide) {
+//            case RED:
+//                targetDriveDist = -(targetDriveDist+10);
+//                break;
+//            case BLUE:
+//                targetDriveDist = targetDriveDist;
+//                break;
+//        }
 
         switch (allianceSide) {
             case RED:
                 targetDriveDist = -(targetDriveDist+10);
+                targetDriveDist = targetDriveDist + 42;
+                Math.acos((14)/Math.sqrt(Math.pow(14, 2) + Math.pow(48, 2)));
+                while(getDistance(robot.distanceBackLeft, DistanceUnit.INCH) < 30) {
+                    strafeGyro(0.5, Math.acos((14)/Math.sqrt(Math.pow(14, 2) + Math.pow(48, 2))));
+                }
                 break;
             case BLUE:
                 targetDriveDist = targetDriveDist;
