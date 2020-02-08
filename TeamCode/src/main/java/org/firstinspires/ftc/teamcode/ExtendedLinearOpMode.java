@@ -684,11 +684,9 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
         while(opModeIsActive() && (timeS > runtime.seconds())) {
             robot.leftLift.setPower(speed);
-            robot.rightLift.setPower(speed);
         }
 
         robot.leftLift.setPower(0);
-        robot.rightLift.setPower(0);
     }
 
     public void doEncoderTurn(double speed, int angle) {

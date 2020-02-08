@@ -92,10 +92,10 @@ public abstract class ExtendedOpMode extends OpMode {
     }
 
     public void moveAutoArmCopy() {
-         if (gamepad2.dpad_down) {
+         if (gamepad2.dpad_up) {
             robot.backPivot.setPosition(robot.constants.BACK_PIVOT_MID);
             robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_MID);
-        } else {
+        } else if (gamepad2.dpad_down){
 
              if (robot.backClawCollect.getPosition() != robot.constants.BACK_CLAW_COLLECT_GRAB)
                  robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
@@ -203,7 +203,6 @@ public abstract class ExtendedOpMode extends OpMode {
     public void lift(double gp2LeftJoystick) {
         //move the vertical lift @ speed of gp2 left joystick
         robot.leftLift.setPower(gp2LeftJoystick);
-        robot.rightLift.setPower(gp2LeftJoystick);
     }
 
 
@@ -269,11 +268,11 @@ public abstract class ExtendedOpMode extends OpMode {
 
     public void horizantalExtend (){
         if (gamepad2.right_stick_y > 0.2) {
-            robot.extensionServo.setPower(1);
+            robot.extensionMotor.setPower(1);
         } else if (gamepad2.right_stick_y < 0.2) {
-            robot.extensionServo.setPower(-1);
+            robot.extensionMotor.setPower(-1);
         } else {
-            robot.extensionServo.setPower(0);
+            robot.extensionMotor.setPower(0);
         }
     }
 

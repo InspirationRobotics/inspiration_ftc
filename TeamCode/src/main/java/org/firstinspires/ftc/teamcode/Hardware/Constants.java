@@ -94,7 +94,7 @@ public class Constants {
     public final double RIGHT_EXTENSION_COMPACTED = 1;
 
     public final double GRABBER_GRAB_POS = 0.65;
-    public final double GRABBER_OPEN_POS = 0;
+    public final double GRABBER_OPEN_POS = 0.325;
 
     public final double INTAKE_MOTOR_INTAKE_SPEED = 1;
     public final double INTAKE_MOTOR_OUTTAKE_SPEED = -1;
@@ -153,8 +153,8 @@ public class Constants {
     public final double FRONT_CLAW_COLLECT_OPEN = 0;
     public final double FRONT_CLAW_COLLECT_MID = 0.2;
     public final double FRONT_CLAW_COLLECT_GRAB = 0.4;
-    public final double BACK_CLAW_COLLECT_OPEN = 0.4;
-    public final double BACK_CLAW_COLLECT_GRAB = 0.75;
+    public final double BACK_CLAW_COLLECT_OPEN = 0.67;
+    public final double BACK_CLAW_COLLECT_GRAB = 0.94;
     public final double BACK_CLAW_COLLECT_MID = (BACK_CLAW_COLLECT_OPEN+BACK_CLAW_COLLECT_GRAB)/2;
 
     public final double FRONT_PIVOT_UP = 0.5;

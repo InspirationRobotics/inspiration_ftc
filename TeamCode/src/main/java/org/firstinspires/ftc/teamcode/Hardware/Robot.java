@@ -87,7 +87,7 @@ public class Robot {
     public DcMotor leftIntake;
     public DcMotor rightIntake;
 
-    public CRServo extensionServo;
+    public DcMotor extensionMotor;
 
     /*
     These are the devices/hardware that is the same between River and Watefall:
@@ -193,7 +193,6 @@ public class Robot {
         leftIntake = ahwmap.dcMotor.get("leftIntake");
         rightIntake = ahwmap.dcMotor.get("rightIntake");
         leftLift = ahwmap.dcMotor.get(constants.LIFT_LEFT_MOTOR_NAME);
-        rightLift = ahwmap.dcMotor.get(constants.RIGHT_LIFT_MOTOR_NAME);
 
         foundationServo = ahwmap.servo.get("foundationMover");
         grabber = ahwmap.servo.get(constants.GRABBER_SERVO_NAME);
@@ -201,11 +200,12 @@ public class Robot {
         backClawCollect = ahwmap.servo.get(constants.BACK_CLAW_COLLECT_NAME);
         backPivot = ahwmap.servo.get(constants.FRONT_PIVOT_SERVO_NAME);
         frontPivot = ahwmap.servo.get(constants.BACK_PIVOT_SERVO_NAME);
-        extensionServo = ahwmap.crservo.get(constants.EXTENSION_SERVO_NAME);
+        extensionMotor = ahwmap.dcMotor.get(constants.EXTENSION_MOTOR_NAME);
 
         intakeDistance = ahwmap.get(DistanceSensor.class, constants.INTAKE_DISTANCE_SENSOR_NAME);
         liftLimit = ahwmap.get(DigitalChannel.class, constants.LIFT_MAGLIMIT_SENSOR_NAME);
         extensionLimit = ahwmap.get(DigitalChannel.class, constants.EXTENSION_MAGLIMIT_SENSOR_NAME);
+        capstone = ahwmap.servo.get(constants.CAPSTONE_NAME);
     }
 
     public void initDistanceSensors() {
