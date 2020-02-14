@@ -2,11 +2,13 @@ package org.firstinspires.ftc.teamcode.OpModes.Autonomous.LM3;
 
 import com.inspiration.inspcv.CameraViewDisplay;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 import org.firstinspires.ftc.teamcode.Hardware.SkystonePosition;
 
+@Disabled
 @Autonomous(name = "IntegratedAutoRedArm")
 public class IntegratedAutoRedArm extends ExtendedLinearOpMode {
 

@@ -223,10 +223,38 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         double powerRightFront = Range.clip((0.70710678)*((-Math.sin(inputAngle)))+(Math.cos(inputAngle)), -1, 1);
         double powerRightBack = Range.clip((0.70710678)*((Math.sin(inputAngle)))+(Math.cos(inputAngle)), -1, 1);
 
+
         robot.leftFront.setPower(powerLeftFront);
         robot.leftBack.setPower(powerLeftBack);
         robot.rightFront.setPower(powerRightFront);
         robot.rightBack.setPower(powerRightBack);
+
+
+    }
+
+    public void strafeCopy(double angle, double direction) {
+
+        setMotorRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        double inputAngle = Math.toRadians(angle);
+
+        double powerLeftFront = Range.clip((0.70710678)*(((Math.sin(inputAngle)))+((Math.cos(inputAngle)))), -1, 1);
+        double powerLeftBack = Range.clip((0.70710678)*((-(Math.sin(inputAngle)))+(Math.cos(inputAngle))), -1, 1);
+        double powerRightFront = Range.clip((0.70710678)*((-Math.sin(inputAngle)))+(Math.cos(inputAngle)), -1, 1);
+        double powerRightBack = Range.clip((0.70710678)*((Math.sin(inputAngle)))+(Math.cos(inputAngle)), -1, 1);
+
+        if (direction == 1) {
+            robot.leftFront.setPower(powerLeftFront);
+            robot.leftBack.setPower(powerLeftBack);
+            robot.rightFront.setPower(powerRightFront);
+            robot.rightBack.setPower(powerRightBack);
+        } else if (direction == 0) {
+            robot.leftFront.setPower(-powerLeftFront);
+            robot.leftBack.setPower(-powerLeftBack);
+            robot.rightFront.setPower(-powerRightFront);
+            robot.rightBack.setPower(-powerRightBack);
+        }
+
 
     }
 
@@ -539,6 +567,32 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         robot.leftBack.setPower(powerLeftBack);
         robot.rightFront.setPower(powerRightFront);
         robot.rightBack.setPower(powerRightBack);
+    }
+
+    public void strafeAngleGyro(double angle, double maintainedHeading) {
+
+        setMotorRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        double inputAngle = Math.toRadians(angle);
+
+        double powerLeftFront = Range.clip((((Math.sin(inputAngle)))+((Math.cos(inputAngle)))), -1, 1);
+        double powerLeftBack = Range.clip(((-(Math.sin(inputAngle)))+(Math.cos(inputAngle))), -1, 1);
+        double powerRightFront = Range.clip(((-Math.sin(inputAngle)))+(Math.cos(inputAngle)), -1, 1);
+        double powerRightBack = Range.clip(((Math.sin(inputAngle)))+(Math.cos(inputAngle)), -1, 1);
+
+        double error = getError(maintainedHeading);
+        double error_proportioned = Range.clip((error*0.08), -0.2, 0.2);
+
+        powerLeftBack = powerLeftBack - error_proportioned;
+        powerLeftFront = powerLeftFront - error_proportioned;
+        powerRightBack = powerRightBack + error_proportioned;
+        powerRightFront = powerRightFront + error_proportioned;
+
+        robot.leftFront.setPower(powerLeftFront);
+        robot.leftBack.setPower(powerLeftBack);
+        robot.rightFront.setPower(powerRightFront);
+        robot.rightBack.setPower(powerRightBack);
+
     }
 
     public void encoderDrive(double left_in, double right_in, double speed_l, double speed_r, double timeoutS) {
@@ -1230,7 +1284,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
         robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
         sleep(500);
-        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_MID);
     }
 
     public void closeAutoArmNoMoveNoSleep() {
@@ -1253,7 +1307,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
     public void moveFoundation() {
 
-        wallAlign(0.7,14,robot.distanceFrontLeft,Direction.FORWARD,1700);
+        wallAlign(0.7,36,robot.distanceFrontLeft,Direction.FORWARD,1700);
 
 //        while((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 28.5) && opModeIsActive()) {
 //            strafeGyro(-1, 0);
@@ -1525,31 +1579,18 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
             targetDriveDist = targetDriveDist - 3;
         }
 
-        strafeWallDist(robot.constants.WALL_DIST_CENTER - 6,-1,robot.distanceLeft, Direction.LEFT, 4000);
+        strafeWallDist(robot.constants.WALL_DIST_CENTER,-1,robot.distanceLeft, Direction.LEFT, 4000);
         gyroTurn(0,0.5,0.5);
-
-//        switch (allianceSide) {
-//            case RED:
-//                targetDriveDist = -(targetDriveDist+10);
-//                break;
-//            case BLUE:
-//                targetDriveDist = targetDriveDist;
-//                break;
-//        }
 
         switch (allianceSide) {
             case RED:
                 targetDriveDist = -(targetDriveDist+10);
-                targetDriveDist = targetDriveDist + 42;
-                Math.acos((14)/Math.sqrt(Math.pow(14, 2) + Math.pow(48, 2)));
-                while(getDistance(robot.distanceBackLeft, DistanceUnit.INCH) < 30) {
-                    strafeGyro(0.5, Math.acos((14)/Math.sqrt(Math.pow(14, 2) + Math.pow(48, 2))));
-                }
                 break;
             case BLUE:
                 targetDriveDist = targetDriveDist;
                 break;
         }
+
 
         encoderDrive(targetDriveDist,targetDriveDist,1,1,5);
 
@@ -1559,7 +1600,126 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         releaseAutoArm();
     }
 
+    public void moveToFoundationDiagonalStrafe(int skystoneId, AllianceSide allianceSide) {
+
+        double targetDriveDist = (44 + (8 * skystoneId));
+
+        if (skystoneId > 4) {
+            targetDriveDist = targetDriveDist + 5;
+        } else {
+            targetDriveDist = targetDriveDist - 3;
+        }
+
+        strafeWallDist(robot.constants.WALL_DIST_CENTER - 6,-1,robot.distanceLeft, Direction.LEFT, 4000);
+        gyroTurn(0,0.5,0.5);
+
+        switch (allianceSide) {
+            case RED:
+                targetDriveDist = -(targetDriveDist+10);
+                targetDriveDist = targetDriveDist + 42;
+                encoderDrive(targetDriveDist,targetDriveDist,1,1,5);
+                sleep(300);
+                while(getDistance(robot.distanceBackRight, DistanceUnit.INCH) > 40) {
+                    strafeAngleGyro(320, 0);
+                }
+                strafeWallDist(robot.constants.WALL_DIST_FOUNDATION,1,robot.distanceLeft, Direction.LEFT, 4000);
+                break;
+            case BLUE:
+                targetDriveDist = targetDriveDist;
+                targetDriveDist = targetDriveDist - 36;
+                encoderDrive(targetDriveDist,targetDriveDist,1,1,5);
+                sleep(300);
+                while(getDistance(robot.distanceFrontRight, DistanceUnit.INCH) > 20) {
+                    strafeAngleGyro(225, 0);
+                }
+                strafeWallDist(robot.constants.WALL_DIST_FOUNDATION,1,robot.distanceLeft, Direction.LEFT, 4000);
+                break;
+        }
+
+//        strafeWallDist(robot.constants.WALL_DIST_FOUNDATION,1,robot.distanceLeft, Direction.LEFT, 4000);
+        gyroTurn(0, 0.5, 0.4);
+
+        releaseAutoArm();
+    }
+
+    public void moveToFoundationDiagonalStrafeWideAngle(int skystoneId, AllianceSide allianceSide) {
+
+        double targetDriveDist = (44 + (8 * skystoneId));
+
+        if (skystoneId > 4) {
+            targetDriveDist = targetDriveDist + 5;
+        } else {
+            targetDriveDist = targetDriveDist - 3;
+        }
+
+        strafeWallDist(robot.constants.WALL_DIST_CENTER - 6,-1,robot.distanceLeft, Direction.LEFT, 4000);
+        gyroTurn(0,0.5,0.5);
+
+        switch (allianceSide) {
+            case RED:
+                targetDriveDist = -(targetDriveDist+10);
+                targetDriveDist = targetDriveDist + 42;
+                encoderDrive(targetDriveDist,targetDriveDist,1,1,5);
+                sleep(300);
+                while(getDistance(robot.distanceBackRight, DistanceUnit.INCH) > 40) {
+                    strafeAngleGyro(320, 0);
+                }
+                strafeWallDist(robot.constants.WALL_DIST_FOUNDATION,1,robot.distanceLeft, Direction.LEFT, 4000);
+                break;
+            case BLUE:
+                targetDriveDist = targetDriveDist;
+                targetDriveDist = targetDriveDist - 33;
+                encoderDrive(targetDriveDist,targetDriveDist,1,1,5);
+                sleep(300);
+                while(getDistance(robot.distanceFrontRight, DistanceUnit.INCH) > 20) {
+                    strafeAngleGyro(225, 0);
+                }
+                strafeWallDist(robot.constants.WALL_DIST_FOUNDATION,1,robot.distanceLeft, Direction.LEFT, 4000);
+                break;
+        }
+
+//        strafeWallDist(robot.constants.WALL_DIST_FOUNDATION,1,robot.distanceLeft, Direction.LEFT, 4000);
+        gyroTurn(0, 0.5, 0.4);
+
+        releaseAutoArm();
+    }
+
     public void multipleStoneRevised(int skystoneId, AllianceSide allianceSide) {
+
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
+        robot.backClawCollect.setPosition(0.4);
+        sleep(5000);
+
+        gyroTurn(0,0.5,1);
+
+        strafeWallDist(robot.constants.WALL_DIST_CENTER, 1, robot.distanceLeft, Direction.LEFT, 3000);
+        double targetAngle = 0;
+
+        gyroTurn(targetAngle, 0.6, 1);
+
+        double encoderDriveDist = 85;
+
+        switch (allianceSide) {
+            case BLUE:
+                encoderDriveDist = -encoderDriveDist;
+                break;
+            case RED:
+                encoderDriveDist = encoderDriveDist - 10;
+                skystoneId = Range.clip(skystoneId,1,4);
+                break;
+        }
+
+        encoderDrive(encoderDriveDist,encoderDriveDist,1, 1, 2.5);
+
+        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_MID);
+        moveToSkystoneRevised(skystoneId, allianceSide);
+    }
+
+    public void multipleStoneRevisedCopy(int skystoneId, AllianceSide allianceSide) {
+
+        robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_UP);
+        robot.backClawCollect.setPosition(0.4);
+        sleep(1000);
 
         gyroTurn(0,0.5,1);
 
@@ -1675,7 +1835,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
         strafeWallDist(robot.constants.WALL_DIST_CENTER+1, 1, inputDistance, inputDirection, 4000);
         gyroTurn(targetHeading, 0.5, 1);
-        encoderDrive(21, 21, 1, 1, 3.5);
+        encoderDrive(24, 24, 1, 1, 3.5);
 
     }
 

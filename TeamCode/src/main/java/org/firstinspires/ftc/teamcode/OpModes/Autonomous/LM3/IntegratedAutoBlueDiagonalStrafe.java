@@ -2,15 +2,13 @@ package org.firstinspires.ftc.teamcode.OpModes.Autonomous.LM3;
 
 import com.inspiration.inspcv.CameraViewDisplay;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 import org.firstinspires.ftc.teamcode.Hardware.SkystonePosition;
 
-@Disabled
-@Autonomous(name = "IntegratedAutoBlue")
-public class IntegratedAutoBlue extends ExtendedLinearOpMode {
+@Autonomous(name = "League Championships Blue")
+public class IntegratedAutoBlueDiagonalStrafe extends ExtendedLinearOpMode {
 
     @Override
     public void runOpMode() {
@@ -23,6 +21,10 @@ public class IntegratedAutoBlue extends ExtendedLinearOpMode {
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
         detector.enable();
 
+        //robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_MID);
+        robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_MID);
+
+        inspectRearDistanceSensors(28);
         telemetry.addLine("Initialized! Ready to go!");
         telemetry.update();
 
@@ -30,7 +32,7 @@ public class IntegratedAutoBlue extends ExtendedLinearOpMode {
 
         double endVisionTime = System.currentTimeMillis() + 3000;
 
-        while((System.currentTimeMillis() < endVisionTime) && opModeIsActive() && (detector.skystoneId(AllianceSide.BLUE) == SkystonePosition.UNKNOWN)) {
+        while((System.currentTimeMillis() < endVisionTime) && opModeIsActive() && (detector.skystoneId(AllianceSide.RED) == SkystonePosition.UNKNOWN)) {
             idle();
         }
 
@@ -52,13 +54,13 @@ public class IntegratedAutoBlue extends ExtendedLinearOpMode {
         telemetry.addData("skystone id", skystoneId);
         telemetry.update();
 
-        moveToSkystoneCopy(skystoneId, 0.5,AllianceSide.BLUE);
+        moveToSkystoneRevised(skystoneId, AllianceSide.BLUE);
 
-        grabAutoArm();
+        moveToFoundationDiagonalStrafe(skystoneId, AllianceSide.BLUE);
 
-        moveToFoundation(skystoneId,1,AllianceSide.BLUE);
-
-        releaseAutoArm();
+//        if (skystoneId == 1) {
+//            multipleStoneRevised(skystoneId + 3, AllianceSide.BLUE);
+//        }
 
         moveFoundation(AllianceSide.BLUE);
 
@@ -67,7 +69,7 @@ public class IntegratedAutoBlue extends ExtendedLinearOpMode {
 
 //        sleep(250);
 
-        parkBridge(AllianceSide.BLUE);
+        parkBridgeRevised(AllianceSide.BLUE);
 
     }
 }
