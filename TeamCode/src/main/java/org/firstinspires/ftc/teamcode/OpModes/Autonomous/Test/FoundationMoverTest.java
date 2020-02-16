@@ -3,11 +3,9 @@ package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.Direction;
-import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
+
 
 @Disabled
 @Autonomous(name = "Foundation Mover Test", group = "Test")
