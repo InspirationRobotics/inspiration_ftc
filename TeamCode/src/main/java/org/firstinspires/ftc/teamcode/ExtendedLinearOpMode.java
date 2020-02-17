@@ -145,7 +145,6 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         robot.leftBack.setPower(0);
         robot.rightFront.setPower(0);
         robot.rightBack.setPower(0);
-
     }
 
     public double getDistance(DistanceSensor inputDistSensor, DistanceUnit distanceUnit) {
@@ -1544,7 +1543,6 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
     public void moveToSkystoneRevised(int skystoneId, AllianceSide allianceSide) {
 
-
         gyroTurn(0,0.5,1);
         strafeWallDist(robot.constants.WALL_DIST_STONE, 1, robot.distanceLeft, Direction.LEFT, 3500);
         gyroTurn(0,0.5,0.5);
@@ -1558,7 +1556,7 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
             wallAlignDirection = Direction.BACKWARD;
             wallAlignSensor = rearDistanceSensor;
         } else {
-            targetDistance = 38 - (8*skystoneId);
+            targetDistance = 41 - (8*skystoneId);
             wallAlignDirection = Direction.FORWARD;
             wallAlignSensor = frontDistanceSensor;
         }
@@ -1596,6 +1594,44 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
 
         strafeWallDist(robot.constants.WALL_DIST_FOUNDATION,1,robot.distanceLeft, Direction.LEFT, 4000);
         gyroTurn(0, 0.5, 0.4);
+
+        releaseAutoArm();
+    }
+
+    public void moveToFoundation90deg(int skystoneId, AllianceSide allianceSide) {
+
+        double targetDriveDist = (44 + (8 * skystoneId));
+
+        if (skystoneId > 4) {
+            targetDriveDist = targetDriveDist + 5;
+        } else {
+            targetDriveDist = targetDriveDist - 3;
+        }
+
+        strafeWallDist(25,-1,robot.distanceLeft, Direction.LEFT, 4000);
+        gyroTurn(90,0.5,2);
+
+        switch (allianceSide) {
+            case RED:
+                targetDriveDist = -(targetDriveDist+10);
+                encoderStrafeGyro(targetDriveDist, 0.5, 90);
+                sleep(300);
+
+                gyroTurn(0, 0.5, 2);
+                strafeWallDist(robot.constants.WALL_DIST_FOUNDATION,1,robot.distanceLeft, Direction.LEFT, 4000);
+                break;
+            case BLUE:
+                targetDriveDist = targetDriveDist;
+                encoderStrafe(-targetDriveDist, 1);
+                sleep(300);
+
+                gyroTurn(0, 0.5, 2);
+                strafeWallDist(robot.constants.WALL_DIST_FOUNDATION,1,robot.distanceLeft, Direction.LEFT, 4000);
+                break;
+        }
+
+//        strafeWallDist(robot.constants.WALL_DIST_FOUNDATION,1,robot.distanceLeft, Direction.LEFT, 4000);
+        gyroTurn(0, 0.5, 2);
 
         releaseAutoArm();
     }
@@ -1853,9 +1889,15 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
         }
     }
 
+    public void validateDistSensorsOverride() {
+
+        rearDistanceSensor = robot.distanceBackRight;
+
+    }
+
     boolean DEBUG = true;
 
-    double readDS(DistanceSensor ds) {
+    public double readDS(DistanceSensor ds) {
         double distance;
         if (!isStopRequested()) {
             distance = ds.getDistance(DistanceUnit.INCH);
@@ -1880,5 +1922,9 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
             telemetry.addLine("NO DISTANCE SENSOR WORKS ABORT PROGRAM WEE-WOO WEE-WOO");
             //telemetry.update();
         }
+    }
+
+    public void validateFrontDistanceSensorsForce() {
+        frontDistanceSensor = robot.distanceFrontRight;
     }
 }
