@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 
-//@Disabled
+@Disabled
 @Autonomous(name = "Strafe Angle Test", group = "Test")
 public class TestStrafe extends ExtendedLinearOpMode {
 
@@ -14,7 +15,7 @@ public class TestStrafe extends ExtendedLinearOpMode {
     public void runOpMode() {
 
         robot.setHardwareMap(hardwareMap);
-        robot.initRiver(RobotVersion.RIVER);
+        robot.initWaterfall();
         initIMU(hardwareMap);
 
 
@@ -48,7 +49,7 @@ public class TestStrafe extends ExtendedLinearOpMode {
         double endTime = System.currentTimeMillis() + 5000;
 
         while((System.currentTimeMillis() < endTime) && opModeIsActive()) {
-            strafe(6);
+            strafeAngleGyro(320, 0);
         }
     }
 }
