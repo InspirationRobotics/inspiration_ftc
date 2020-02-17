@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 import org.opencv.core.Mat;
 import org.opencv.core.Range;
 
-//@Disabled
+@Disabled
 @Autonomous(name = "Strafe Distance Test", group = "Test")
 public class TestStrafeDist extends ExtendedLinearOpMode {
 

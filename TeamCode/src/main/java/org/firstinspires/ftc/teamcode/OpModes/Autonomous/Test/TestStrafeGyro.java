@@ -1,11 +1,12 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 
-//@Disabled
+@Disabled
 @Autonomous(name = "Strafe Gyro Test", group = "Test")
 public class TestStrafeGyro extends ExtendedLinearOpMode {
 
@@ -15,7 +16,6 @@ public class TestStrafeGyro extends ExtendedLinearOpMode {
         robot.setHardwareMap(hardwareMap);
         robot.initDrivebase();
         initIMU(hardwareMap);
-
 
         telemetry.addLine("Ready to go!");
         telemetry.update();
@@ -45,7 +45,7 @@ public class TestStrafeGyro extends ExtendedLinearOpMode {
 //        stopMotors();
 
         while(opModeIsActive()) {
-            strafeGyro(1, 0);
+            strafeGyro(0.5, 80);
         }
     }
 }
