@@ -154,25 +154,29 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         robot.rightBack.setPower(0);
     }
 
-    public void moveToSkystoneRevised(int skystoneId, AllianceSide allianceSide) {
+    public void moveToSkystone(int skystoneId, AllianceSide allianceSide) {
 
         gyroTurn(0,0.5,1);
-        encoderStrafe(robot.constants.WALL_DIST_STONE, 1);
-        gyroTurn(0,0.5,0.5);
+        encoderStrafeGyro(robot.constants.WALL_DIST_STONE, 1, 0);
+        gyroTurn(0,0.5,2);
 
         double targetDistance;
         DistanceSensor wallAlignSensor;
         Direction wallAlignDirection;
 
         if (allianceSide == AllianceSide.BLUE) {
-            targetDistance = (8*skystoneId);
+            targetDistance = -(8*skystoneId)+19;
         } else {
-            targetDistance = -(8*skystoneId);
+            if (skystoneId < 5) {
+                targetDistance = (8 * skystoneId) - 12;
+            } else {
+                targetDistance = (8 * 4) - 16;
+            }
         }
 
         encoderDrive(targetDistance, targetDistance, 0.75, 0.75, 3500);
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
-        grabAutoArm();
+//        grabAutoArm();
     }
 
     /* auto arm */
@@ -205,6 +209,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
     public void encoderStrafe(double units, double speed) {
 
+        units = units*0.68;
         int left_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * -units);
         int right_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * units);
 
@@ -319,7 +324,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
             targetDriveDist = targetDriveDist - 3;
         }
 
-        encoderStrafe(-1, 0.5);
+        encoderStrafe(-3, 0.5);
         gyroTurn(0,0.5,2);
 
         switch (allianceSide) {
@@ -424,6 +429,56 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     public void compactAutoArm(){
         robot.frontPivot.setPosition(0.2);
         robot.backClawCollect.setPosition(0.1);
+    }
+
+    public void encoderStrafeGyro(double units, double speed, double maintainedAngle) {
+
+        units = units*0.74;
+        int left_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * -units);
+        int right_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * units);
+
+        // Ensure that the opmode is still active
+
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            setMotorRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            setTargetPositionStrafe(left_distanceEnc, right_distanceEnc);
+            setMotorRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+
+            while (opModeIsActive() && robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy() && robot.rightBack.isBusy()) {
+
+                telemetry.addLine("Robot in Encoder Drive");
+                telemetry.addData("Target Distance Left (in)", units);
+                telemetry.addData("Target Distance Right (in)", units);
+                telemetry.addData("TickLeft", left_distanceEnc);
+                telemetry.addData("TickRight", right_distanceEnc);
+                telemetry.update();
+                //just one more test...
+
+                double powerLeftBack = 0.8*speed;
+                double powerLeftFront = -0.8*speed;
+                double powerRightBack = -0.8*speed;
+                double powerRightFront = 0.8*speed;
+
+                double error = getError(maintainedAngle);
+                double error_proportioned = Range.clip((error*0.1), -0.2, 0.2);
+
+                powerLeftBack = powerLeftBack - error_proportioned;
+                powerLeftFront = powerLeftFront - error_proportioned;
+                powerRightBack = powerRightBack + error_proportioned;
+                powerRightFront = powerRightFront + error_proportioned;
+
+                robot.leftFront.setPower(Math.abs(powerLeftFront));
+                robot.leftBack.setPower(Math.abs(powerLeftBack));
+                robot.rightFront.setPower(Math.abs(powerRightFront));
+                robot.rightBack.setPower(Math.abs(powerRightBack));
+            }
+        }
     }
 
 }
