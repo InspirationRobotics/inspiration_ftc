@@ -406,21 +406,15 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
         compactAutoArm();
 
-        DistanceSensor inputDistance;
         double targetHeading;
-        Direction inputDirection;
 
         if (allianceSide == AllianceSide.BLUE) {
-            inputDistance = robot.distanceRight;
             targetHeading = -178;
-            inputDirection = Direction.RIGHT;
         } else {
-            inputDistance = robot.distanceLeft;
             targetHeading = 2;
-            inputDirection = Direction.LEFT;
         }
 
-        encoderStrafe(-10, 0.5);
+        encoderStrafe(-5, 0.5);
         gyroTurn(targetHeading, 0.5, 1);
         encoderDrive(24, 24, 1, 1, 3.5);
 
