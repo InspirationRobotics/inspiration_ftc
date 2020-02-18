@@ -50,7 +50,7 @@ public class BasicFullBlueAuto extends BasicExtendedLinearOpMode {
         telemetry.addData("skystone id", skystoneId);
         telemetry.update();
 
-        moveToSkystoneRevised(skystoneId, AllianceSide.BLUE);
+        moveToSkystone(skystoneId, AllianceSide.BLUE);
 
         moveToFoundation(skystoneId, AllianceSide.BLUE);
 
