@@ -176,7 +176,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
         encoderDrive(targetDistance, targetDistance, 0.75, 0.75, 3500);
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
-//        grabAutoArm();
+        grabAutoArm();
     }
 
     /* auto arm */
@@ -195,6 +195,10 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
         sleep(500);
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_MID);
+        endTime = System.currentTimeMillis() + 325;
+        while (System.currentTimeMillis() < endTime) {
+            strafeGyro(-1, 0);
+        }
     }
 
     public void releaseAutoArm() {
@@ -316,7 +320,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
     public void moveToFoundation(int skystoneId, AllianceSide allianceSide) {
 
-        double targetDriveDist = (44 + (8 * skystoneId));
+        double targetDriveDist = (108 - (8 * (3 + skystoneId)));
 
         if (skystoneId > 4) {
             targetDriveDist = targetDriveDist + 5;
@@ -324,22 +328,19 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
             targetDriveDist = targetDriveDist - 3;
         }
 
-        encoderStrafe(-3, 0.5);
         gyroTurn(0,0.5,2);
 
         switch (allianceSide) {
             case RED:
-                targetDriveDist = -(targetDriveDist+10);
+                targetDriveDist = -(targetDriveDist);
                 encoderDrive(targetDriveDist, targetDriveDist, 1, 1, 10);
 
-                gyroTurn(0, 0.5, 2);
                 encoderStrafe(-5, 1);
                 break;
             case BLUE:
                 targetDriveDist = targetDriveDist;
                 encoderStrafe(-targetDriveDist, 1);
 
-                gyroTurn(0, 0.5, 2);
                 encoderStrafe(-5, 1);
                 break;
         }
