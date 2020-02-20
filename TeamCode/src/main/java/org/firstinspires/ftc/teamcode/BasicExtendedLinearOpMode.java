@@ -412,18 +412,20 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         compactAutoArm();
 
         double targetHeading;
+        double strafeDist = -5;
 
         if (allianceSide == AllianceSide.BLUE) {
             targetHeading = -178;
         } else {
             targetHeading = 2;
+            strafeDist = strafeDist*-1;
         }
 
-        encoderStrafe(-5, 0.5);
+        encoderStrafe(strafeDist, 0.5);
         gyroTurn(targetHeading, 0.5, 1);
         encoderDrive(24, 24, 1, 1, 3.5);
 
-    }
+}
 
     public void compactAutoArm(){
         robot.frontPivot.setPosition(0.2);
