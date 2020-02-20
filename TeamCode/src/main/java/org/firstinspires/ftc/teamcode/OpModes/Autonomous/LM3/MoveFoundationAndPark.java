@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous.LM3;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 
+@Disabled
 @Autonomous(name = "MoveFoundationAndPark")
 public class MoveFoundationAndPark extends ExtendedLinearOpMode {
 

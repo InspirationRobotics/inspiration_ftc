@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
 @Autonomous(name="CVDisplay", group="CV")
-//@Disabled
+@Disabled
 public class SkyStoneVisionTest extends ExtendedLinearOpMode {
 
     public HardwareMap ahwmap;

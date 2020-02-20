@@ -4,11 +4,9 @@ import com.inspiration.inspcv.CameraViewDisplay;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.BasicExtendedLinearOpMode;
-import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
-import org.firstinspires.ftc.teamcode.Hardware.SkystonePosition;
 
-@Autonomous(name = "MoveFoundationUnitTest", group = "Test")
+@Autonomous(name = "MoveFoundationUnitTest")
 public class MoveFoundation extends BasicExtendedLinearOpMode {
 
     @Override

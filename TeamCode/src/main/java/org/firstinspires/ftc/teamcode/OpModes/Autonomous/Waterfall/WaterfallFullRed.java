@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Waterfall;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 import org.firstinspires.ftc.teamcode.Hardware.SkystonePosition;
 
+@Disabled
 @Autonomous(name = "Fall Red Full", group = "Waterfall")
 public class  WaterfallFullRed extends ExtendedLinearOpMode {
 

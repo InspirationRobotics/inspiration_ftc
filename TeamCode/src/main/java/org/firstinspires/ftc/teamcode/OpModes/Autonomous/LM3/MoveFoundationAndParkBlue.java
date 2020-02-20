@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 
+@Disabled
 @Autonomous(name = "MoveFoundationAndPark")
 public class MoveFoundationAndParkBlue extends ExtendedLinearOpMode {
 

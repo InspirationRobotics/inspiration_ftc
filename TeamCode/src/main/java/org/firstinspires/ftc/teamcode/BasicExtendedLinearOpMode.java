@@ -165,7 +165,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         Direction wallAlignDirection;
 
         if (allianceSide == AllianceSide.BLUE) {
-            targetDistance = -(8*skystoneId)+19;
+            targetDistance = -(8*skystoneId)+18.5;
         } else {
             if (skystoneId < 5) {
                 targetDistance = (8 * skystoneId) - 12;
@@ -174,7 +174,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
             }
         }
 
-        encoderDrive(targetDistance, targetDistance, 0.75, 0.75, 3500);
+        encoderDrive(targetDistance, targetDistance, 0.5, 0.5, 3500);
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
         grabAutoArm();
     }
@@ -184,7 +184,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     public void grabAutoArm(){
         //grab stone
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
-        sleep(1250);
+        sleep(700);
         double endTime = System.currentTimeMillis() + 325;
         while (System.currentTimeMillis() < endTime) {
             strafeGyro(1, 0);
@@ -334,32 +334,35 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
             case RED:
                 targetDriveDist = -(targetDriveDist);
                 encoderDrive(targetDriveDist, targetDriveDist, 1, 1, 10);
-
-                double endTimeRed = System.currentTimeMillis() + 650;
-                while (System.currentTimeMillis() < endTimeRed) {
-                    strafeGyro(1, 0);
-                }
+                sleep(50);
+//                double endTimeRed = System.currentTimeMillis() + 650;
+//                while (System.currentTimeMillis() < endTimeRed) {
+//                    strafeGyro(1, 0);
+//                }
+                encoderStrafeGyro(8,1,0,1.5);
                 break;
             case BLUE:
                 targetDriveDist = targetDriveDist - 16;
                 encoderDrive(targetDriveDist, targetDriveDist, 1, 1, 10);
-
-                double endTimeBlue = System.currentTimeMillis() + 650;
-                while (System.currentTimeMillis() < endTimeBlue) {
-                    strafeGyro(1, 0);
-                }
+                sleep(50);
+//                double endTimeBlue = System.currentTimeMillis() + 650;
+//                while (System.currentTimeMillis() < endTimeBlue) {
+//                    strafeGyro(1, 0);
+//                }
+                encoderStrafeGyro(8,1,0,1.5);
                 break;
         }
 
+        stopMotors();
 //        strafeWallDist(robot.constants.WALL_DIST_FOUNDATION,1,robot.distanceLeft, Direction.LEFT, 4000);
         gyroTurn(0, 0.5, 2);
 
-        releaseAutoArm();
+//        releaseAutoArm();
     }
 
     public void multipleStones(int skystoneId, AllianceSide allianceSide) {
 
-        double targetDriveDist = -(120 - (8 * (7 + -skystoneId)));
+        double targetDriveDist = -(133.5 - (8 * (7 + -skystoneId)));
 
         if (skystoneId > 4) {
             targetDriveDist = targetDriveDist + 5;
@@ -371,22 +374,24 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
         switch (allianceSide) {
             case RED:
-                double endTimeRed = System.currentTimeMillis() + 650;
-                while (System.currentTimeMillis() < endTimeRed) {
-                    strafeGyro(-1, 0);
-                }
+//                double endTimeRed = System.currentTimeMillis() + 650;
+//                while (System.currentTimeMillis() < endTimeRed) {
+//                    strafeGyro(-1, 0);
+//                }
+                encoderStrafeGyro(-11,1,0,3);
                 gyroTurn(0,0.5,2);
                 targetDriveDist = -(targetDriveDist);
-                encoderDrive(targetDriveDist, targetDriveDist, 0.5, 0.5, 10);
+                encoderDrive(targetDriveDist, targetDriveDist, 1, 1, 10);
                 break;
             case BLUE:
-                double endTimeBlue = System.currentTimeMillis() + 650;
-                while (System.currentTimeMillis() < endTimeBlue) {
-                    strafeGyro(-1, 0);
-                }
+//                double endTimeBlue = System.currentTimeMillis() + 650;
+//                while (System.currentTimeMillis() < endTimeBlue) {
+//                    strafeGyro(-1, 0);
+//                }
+                encoderStrafeGyro(-11,1,0,3);
                 gyroTurn(0,0.5,2);
                 targetDriveDist = targetDriveDist + 16;
-                encoderDrive(targetDriveDist, targetDriveDist, 0.5, 0.5, 10);
+                encoderDrive(targetDriveDist, targetDriveDist, 1, 1, 10);
                 break;
         }
 
@@ -484,47 +489,59 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
         // Ensure that the opmode is still active
 
+        int speedMultiplier;
+
+        if (units > 0) {
+            speedMultiplier=1;
+        } else {
+            speedMultiplier=-1;
+        }
         long startTime = System.currentTimeMillis();
         long endTime = (long)(startTime + (1000*timeoutS));
 
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            setMotorRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            setMotorRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             setTargetPositionStrafe(left_distanceEnc, right_distanceEnc);
-            setMotorRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+            //setMotorRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             // reset the timeout time and start motion.
             runtime.reset();
 
-            while (opModeIsActive() && robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy() && robot.rightBack.isBusy() && (System.currentTimeMillis() < endTime)) {
+            double err_lb = Math.abs(robot.leftBack.getCurrentPosition() -robot.leftBack.getTargetPosition());
+            double err_lf = Math.abs(robot.leftFront.getCurrentPosition() -robot.leftFront.getTargetPosition());
+            double err_rb = Math.abs(robot.rightBack.getCurrentPosition() -robot.rightBack.getTargetPosition());
+            double err_rf = Math.abs(robot.rightFront.getCurrentPosition() -robot.rightFront.getTargetPosition());
 
-                telemetry.addLine("Robot in Encoder Drive");
-                telemetry.addData("Target Distance Left (in)", units);
-                telemetry.addData("Target Distance Right (in)", units);
-                telemetry.addData("TickLeft", left_distanceEnc);
-                telemetry.addData("TickRight", right_distanceEnc);
-                telemetry.update();
-                //just one more test...
 
-                double powerLeftBack = 0.8*speed;
-                double powerLeftFront = -0.8*speed;
-                double powerRightBack = -0.8*speed;
-                double powerRightFront = 0.8*speed;
+            while (opModeIsActive() && (err_lb > robot.constants.ENCODER_STRAFE_ERR_THRESHOLD) && (err_lf > robot.constants.ENCODER_STRAFE_ERR_THRESHOLD) &&
+                    (err_rb > robot.constants.ENCODER_STRAFE_ERR_THRESHOLD) && (err_rf > robot.constants.ENCODER_STRAFE_ERR_THRESHOLD) && (System.currentTimeMillis() < endTime)) {
+
+                err_lb = Math.abs(robot.leftBack.getCurrentPosition() -robot.leftBack.getTargetPosition());
+                err_lf = Math.abs(robot.leftFront.getCurrentPosition() -robot.leftFront.getTargetPosition());
+                err_rb = Math.abs(robot.rightBack.getCurrentPosition() -robot.rightBack.getTargetPosition());
+                err_rf = Math.abs(robot.rightFront.getCurrentPosition() -robot.rightFront.getTargetPosition());
+
+                double powerLeftBack = 0.9*speed*speedMultiplier;
+                double powerLeftFront = -0.9*speed*speedMultiplier;
+                double powerRightBack = -0.9*speed*speedMultiplier;
+                double powerRightFront = 0.9*speed*speedMultiplier;
 
                 double error = getError(maintainedAngle);
-                double error_proportioned = Range.clip((error*0.1), -0.2, 0.2);
+                double error_proportioned = Range.clip((error*0.1), -0.1, 0.1);
 
                 powerLeftBack = powerLeftBack - error_proportioned;
                 powerLeftFront = powerLeftFront - error_proportioned;
                 powerRightBack = powerRightBack + error_proportioned;
                 powerRightFront = powerRightFront + error_proportioned;
 
-                robot.leftFront.setPower(Math.abs(powerLeftFront));
-                robot.leftBack.setPower(Math.abs(powerLeftBack));
-                robot.rightFront.setPower(Math.abs(powerRightFront));
-                robot.rightBack.setPower(Math.abs(powerRightBack));
+                robot.leftFront.setPower((powerLeftFront));
+                robot.leftBack.setPower((powerLeftBack));
+                robot.rightFront.setPower((powerRightFront));
+                robot.rightBack.setPower((powerRightBack));
+
             }
             stopMotors();
         }

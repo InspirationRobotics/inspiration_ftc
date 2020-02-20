@@ -4,12 +4,10 @@ import com.inspiration.inspcv.CameraViewDisplay;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.BasicExtendedLinearOpMode;
-import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
-import org.firstinspires.ftc.teamcode.Hardware.SkystonePosition;
 
-@Autonomous(name = "ParkUnitTest", group = "Test")
-public class ParkUnitTest extends BasicExtendedLinearOpMode {
+@Autonomous(name = "ParkBridgeUnitTest")
+public class ParkBridgeUnitTest extends BasicExtendedLinearOpMode {
 
     @Override
     public void runOpMode() {

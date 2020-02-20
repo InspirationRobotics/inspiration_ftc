@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Waterfall.PartialAuto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 
+@Disabled
 @Autonomous(name = "WaterfallOneStoneFoundationBlueLane1", group = "Waterfall")
 public class WaterfallOneStoneFoundationBlueLane1 extends ExtendedLinearOpMode {
 

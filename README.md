@@ -1,15 +1,12 @@
-# Inspiration Robotics
-### FIRST Tech Challenge (FTC) Team #11128
+## NOTICE
 
-Please visit our website [here!](https://team11128.wixsite.com/main "Inspiration Robotics Homepage")
+This repository contains the public FTC SDK for the SKYSTONE (2019-2020) competition season.  
 
-This is the main repository for FTC Team Inspiration #11128's code for the 2019-20 SkyStone season
+Formerly this software project was hosted [here](https://github.com/ftctechnh/ftc_app).  Teams who are competing in the SKYSTONE Challenge should use this [new SKYSTONE repository](https://github.com/FIRST-Tech-Challenge/SKYSTONE) instead of the older (and no longer updated) ftc_app repository.
 
-Here is where our latest and greatest code will be situated! We update it constamtly to reflect new changes. To learn more in-depth how the code works, please go deeper to see the individual folders and programs in this repo.
+## Welcome!
+This GitHub repository contains the source code that is used to build an Android app to control a *FIRST* Tech Challenge competition robot.  To use this SDK, download/clone the entire project to your local computer.
 
-<<<<<<< HEAD
-For any questions, pkease contact us at our social medias and emails. To find them, go [here!](https://team11128.wixsite.com/main/contact "Inspiration Robotics Contact Page")
-=======
 ## Getting Started
 If you are new to robotics or new to the *FIRST* Tech Challenge, then you should consider reviewing the [FTC Blocks Tutorial](https://github.com/FIRST-Tech-Challenge/SKYSTONE/wiki/Blocks-Tutorial) to get familiar with how to use the control system:  
 
@@ -51,8 +48,48 @@ Documentation for the FTC SDK is also included with this repository.  There is a
 ### Online User Forum
 For technical questions regarding the Control System or the FTC SDK, please visit the FTC Technology forum:
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[FTC Technology Forum](https://ftcforum.firstinspires.org/forumdisplay.php?156-FTC-Technology)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[FTC Technology Forum](https://ftcforum.usfirst.org/forumdisplay.php?156-FTC-Technology)
 
+**************************************************************************************
+# Release Information
+**************************************************************************************
+
+Version 5.4 (20200108-101156)
+
+* Fixes [SkyStone issue #88](https://github.com/FIRST-Tech-Challenge/SkyStone/issues/88)
+* Adds an inspection item that notes when a robot controller (Control Hub) is using the factory default password.
+* Fixes [SkyStone issue #61](https://github.com/FIRST-Tech-Challenge/SkyStone/issues/61)
+* Fixes [SkyStone issue #142](https://github.com/FIRST-Tech-Challenge/SkyStone/issues/142)
+* Fixes [ftc_app issue #417](https://github.com/ftctechnh/ftc_app/issues/417) by adding more current and voltage monitoring capabilities for REV Hubs.
+* Fixes [a crash sometimes caused by OnBotJava activity](https://ftcforum.firstinspires.org/forum/ftc-technology/76217-onbotjava-crashes-robot-controller)
+* Improves OnBotJava autosave functionality [ftc_app #738](https://github.com/ftctechnh/ftc_app/issues/738)
+* Fixes system responsiveness issue when an Expansion Hub is disconnected
+* Fixes issue where IMU initialization could prevent Op Modes from stopping
+* Fixes issue where AndroidTextToSpeech.speak() would fail if it was called too early
+* Adds telemetry.speak() methods and blocks, which cause the Driver Station (if also updated) to speak text
+* Adds and improves Expansion Hub-related warnings
+    * Improves Expansion Hub low battery warning
+        * Displays the warning immediately after the hub reports it
+        * Specifies whether the condition is current or occurred temporarily during an OpMode run
+        * Displays which hubs reported low battery
+    * Displays warning when hub loses and regains power during an OpMode run
+        * Fixes the hub's LED pattern after this condition
+    * Displays warning when Expansion Hub is not responding to commands
+        * Specifies whether the condition is current or occurred temporarily during an OpMode run
+    * Clarifies warning when Expansion Hub is not present at startup
+        * Specifies that this condition requires a Robot Restart before the hub can be used.
+        * The hub light will now accurately reflect this state
+    * Improves logging and reduces log spam during these conditions
+* Syncs the Control Hub time and timezone to a connected web browser programming the robot, if a Driver Station is not available.
+* Adds bulk read functionality for REV Hubs
+  * A bulk caching mode must be set at the Hub level with `LynxModule#setBulkCachingMode()`. This applies to all relevant SDK hardware classes that reference that Hub.
+  * The following following Hub bulk caching modes are available:
+    * `BulkCachingMode.OFF` (default): All hardware calls operate as usual. Bulk data can read through `LynxModule#getBulkData()` and processed manually.
+    * `BulkCachingMode.AUTO`: Applicable hardware calls are served from a bulk read cache that is cleared/refreshed automatically to ensure identical commands don't hit the same cache. The cache can also be cleared manually with `LynxModule#clearBulkCache()`, although this is not recommended.
+    * (advanced users) `BulkCachingMode.MANUAL`: Same as `BulkCachingMode.AUTO` except the cache is never cleared automatically. To avoid getting stale data, the cache must be manually cleared at the beginning of each loop body or as the user deems appropriate. 
+* Removes PIDF Annotation values added in Rev 5.3 (to AndyMark, goBILDA and TETRIX motor configurations).
+  * The new motor types will still be available but their Default control behavior will revert back to Rev 5.2
+* Adds new `ConceptMotorBulkRead` sample Opmode to demonstrate and compare Motor Bulk-Read modes for reducing I/O latencies.
 
 **************************************************************************************
 # Release Information
@@ -90,7 +127,7 @@ Version 5.3 (20191004-112306)
 # Release Information
 **************************************************************************************
 
-Version 5.2 (20190905-083227)
+Version 5.2 (20190905-083277)
 
 * Fixes extra-wide margins on settings activities, and placement of the new configuration button
 * Adds Skystone Vuforia image target data.
@@ -887,4 +924,3 @@ In this latest version of the FTC SDK (20150803_001) the following changes shoul
 
 T. Eng
 August 3, 2015
->>>>>>> 2a92ac027af6afb3e9ab7981cd1c6ad1281baa20

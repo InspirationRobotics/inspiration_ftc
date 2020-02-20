@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous.LM3;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.Direction;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-
+@Disabled
 @Autonomous(name="Foundation Align")
 public class FoundationAlign extends ExtendedLinearOpMode {
 

@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 
+@Disabled
 @Autonomous(name = "Encoder Strafe Gyro Test 30in", group = "Test")
 public class EncoderStrafeGyroTestDrive30in extends ExtendedLinearOpMode {
 

@@ -4,10 +4,13 @@ import com.inspiration.inspcv.CameraViewDisplay;
 import org.firstinspires.ftc.teamcode.CV.SkystoneDetector;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 import org.firstinspires.ftc.teamcode.Hardware.DistanceSensorType;
 
+@Disabled
 @Autonomous(name="SkystoneTestDrive", group="Competition")
 public class SkyStoneTestDrive extends ExtendedLinearOpMode {
     public SkystoneDetector detector = new SkystoneDetector();

@@ -1,12 +1,11 @@
-package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Regionals.Tests;
+package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Regionals.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.BasicExtendedLinearOpMode;
-import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 
-@Autonomous(name = "AAAAAAAAAAAAAAAA", group = "Basic")
+@Autonomous(name = "MoveToSkystoneUnitTest")
 public class MoveToSkystone extends BasicExtendedLinearOpMode {
 
     @Override
@@ -16,12 +15,14 @@ public class MoveToSkystone extends BasicExtendedLinearOpMode {
         robot.initWaterfall();
         initIMU(hardwareMap);
 
+        int tgtSS = 2;
 
         telemetry.addLine("Ready");
+        telemetry.addData("Target Stone", tgtSS);
         telemetry.update();
 
         waitForStart();
 
-        moveToSkystone(3, AllianceSide.RED);
+        moveToSkystone(tgtSS, AllianceSide.BLUE);
     }
 }

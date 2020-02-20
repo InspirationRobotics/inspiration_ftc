@@ -55,7 +55,7 @@ import java.util.Locale;
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
 @TeleOp(name = "Sensor: BNO055 IMU", group = "Sensor")
-//@Disabled                            // Comment this out to add to the opmode list
+@Disabled                            // Comment this out to add to the opmode list
 public class SensorBNO055IMU extends LinearOpMode
     {
     //----------------------------------------------------------------------------------------------
@@ -67,8 +67,7 @@ public class SensorBNO055IMU extends LinearOpMode
 
     // State used for updating telemetry
     Orientation angles;
-    //Acceleration gravity;
-    Position position;
+    Acceleration gravity;
 
     //----------------------------------------------------------------------------------------------
     // Main logic
@@ -121,9 +120,8 @@ public class SensorBNO055IMU extends LinearOpMode
                 // Acquiring the angles is relatively expensive; we don't want
                 // to do that in each of the three items that need that info, as that's
                 // three times the necessary expense.
-
-                //gravity  = imu.getGravity();
-                position = imu.getPosition();
+                angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                gravity  = imu.getGravity();
                 }
             });
 
@@ -157,43 +155,19 @@ public class SensorBNO055IMU extends LinearOpMode
                 });
 
         telemetry.addLine()
-                .addData("position x", new Func<String>() {
-                    @Override public String value() {
-                        return String.valueOf(position.x);
+            .addData("grvty", new Func<String>() {
+                @Override public String value() {
+                    return gravity.toString();
                     }
                 })
-
-                .addData("position y", new Func<String>() {
-                    @Override public String value() {
-                        return String.valueOf(position.y);
-                    }
-                })
-
-                .addData("position z", new Func<String>() {
-                    @Override public String value() {
-                        return String.valueOf(position.z);
+            .addData("mag", new Func<String>() {
+                @Override public String value() {
+                    return String.format(Locale.getDefault(), "%.3f",
+                            Math.sqrt(gravity.xAccel*gravity.xAccel
+                                    + gravity.yAccel*gravity.yAccel
+                                    + gravity.zAccel*gravity.zAccel));
                     }
                 });
-
-//                .addData("position overall", new Func<String>() {
-//                    @Override public String value() {
-//                        return String.valueOf(position.x);
-//                    }
-
-//        telemetry.addLine()
-//            .addData("grvty", new Func<String>() {
-//                @Override public String value() {
-//                    return gravity.toString();
-//                    }
-//                })
-//            .addData("mag", new Func<String>() {
-//                @Override public String value() {
-//                    return String.format(Locale.getDefault(), "%.3f",
-//                            Math.sqrt(gravity.xAccel*gravity.xAccel
-//                                    + gravity.yAccel*gravity.yAccel
-//                                    + gravity.zAccel*gravity.zAccel));
-//                    }
-//                });
     }
 
     //----------------------------------------------------------------------------------------------
