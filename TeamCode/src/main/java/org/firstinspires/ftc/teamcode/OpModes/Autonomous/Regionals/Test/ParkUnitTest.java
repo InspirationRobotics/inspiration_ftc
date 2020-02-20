@@ -29,7 +29,7 @@ public class ParkUnitTest extends BasicExtendedLinearOpMode {
 
         waitForStart();
 
-        parkBridge(AllianceSide.BLUE);
+        parkBridge(AllianceSide.RED);
 
     }
 
