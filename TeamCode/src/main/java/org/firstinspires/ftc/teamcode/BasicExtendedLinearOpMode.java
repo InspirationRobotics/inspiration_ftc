@@ -176,7 +176,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
         encoderDrive(targetDistance, targetDistance, 0.75, 0.75, 3500);
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_DOWN);
-//        grabAutoArm();
+        grabAutoArm();
     }
 
     /* auto arm */
@@ -195,6 +195,10 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         robot.backClawCollect.setPosition(robot.constants.BACK_CLAW_COLLECT_GRAB);
         sleep(500);
         robot.frontPivot.setPosition(robot.constants.FRONT_PIVOT_MID);
+        endTime = System.currentTimeMillis() + 325;
+        while (System.currentTimeMillis() < endTime) {
+            strafeGyro(-1, 0);
+        }
     }
 
     public void releaseAutoArm() {
@@ -316,7 +320,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
     public void moveToFoundation(int skystoneId, AllianceSide allianceSide) {
 
-        double targetDriveDist = (44 + (8 * skystoneId));
+        double targetDriveDist = (108 - (8 * (3 + skystoneId)));
 
         if (skystoneId > 4) {
             targetDriveDist = targetDriveDist + 5;
@@ -324,22 +328,19 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
             targetDriveDist = targetDriveDist - 3;
         }
 
-        encoderStrafe(-3, 0.5);
         gyroTurn(0,0.5,2);
 
         switch (allianceSide) {
             case RED:
-                targetDriveDist = -(targetDriveDist+10);
+                targetDriveDist = -(targetDriveDist);
                 encoderDrive(targetDriveDist, targetDriveDist, 1, 1, 10);
 
-                gyroTurn(0, 0.5, 2);
                 encoderStrafe(-5, 1);
                 break;
             case BLUE:
                 targetDriveDist = targetDriveDist;
                 encoderStrafe(-targetDriveDist, 1);
 
-                gyroTurn(0, 0.5, 2);
                 encoderStrafe(-5, 1);
                 break;
         }
@@ -354,17 +355,19 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
         if (allianceSide == AllianceSide.BLUE) {
 
-            gyroTurn(-90, 0.6, 1.1);
+            gyroTurn(-90, 0.6, 10);
 
-            encoderDrive(-10, -10, 0.7, 0.7, 1);
+            encoderDrive(-10, -10, 0.3, 0.3, 10);
 
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
 
             sleep(1000);
 
-            encoderStrafe(-18, 0.8);
+//            encoderDrive(-5, -5, 0.7, 0.7, 10);
 
-            gyroTurn(-180, 1, 3);
+            encoderDrive(22, 22, 0.8, 0.8, 10);
+
+            gyroTurn(-180, 1, 10);
 
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
 
@@ -379,25 +382,27 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 //                strafeGyro(-1, 0);
 //            }
 
-            gyroTurn(-90, 0.6, 1.1);
+            gyroTurn(-90, 0.6, 10);
 
-            encoderDrive(-10, -10, 0.3, 0.3, 3);
+            encoderDrive(-10, -10, 0.3, 0.3, 10);
 
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
 
             sleep(1000);
 
-            encoderStrafe(-18, 0.8);
+//            encoderDrive(-5, -5, 0.7, 0.7, 10);
+
+            encoderDrive(18, 18, 0.8, 0.8, 10);
 
 //            sleep(250);
 
-            gyroTurn(0, 1, 3);
+            gyroTurn(-180, 1, 10);
 
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
 
 //            sleep(250);
 
-            encoderDrive(-5, -5, 1, 1, 0.8);
+            encoderDrive(5, 5, 1, 1, 0.8);
         }
 
     }
