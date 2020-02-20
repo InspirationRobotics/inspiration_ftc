@@ -1340,35 +1340,35 @@ public abstract class ExtendedLinearOpMode extends LinearOpMode {
     public void moveFoundation(AllianceSide allianceSide) {
 
         if (allianceSide == AllianceSide.BLUE) {
-            wallAlign(0.8, 14, robot.distanceFrontLeft, Direction.FORWARD, 1700);
+            wallAlign(0.8, 14, robot.distanceFrontLeft, Direction.FORWARD, 30000);
 
 //            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 28.5) && opModeIsActive()) {
 //                strafeGyro(-1, 0);
 //            }
 
-            gyroTurn(-90, 0.6, 1.1);
+            gyroTurn(-90, 0.6, 30);
 
-            encoderDrive(-10, -10, 0.7, 0.7, 1);
+            encoderDrive(-10, -10, 0.7, 0.7, 30);
 
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
 
             sleep(500);
 
-            wallAlign(0.8, 12, robot.distanceFrontLeft, Direction.FORWARD, 3000);
+            wallAlign(0.8, 12, robot.distanceFrontLeft, Direction.FORWARD, 30000);
 
 //            sleep(250);
 
-            gyroTurn(-180, 1, 3);
+            gyroTurn(-180, 1, 30);
 
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
 
 //            sleep(250);
 
-            encoderDrive(5, 5, 1, 1, 0.8);
+            encoderDrive(5, 5, 1, 1, 30);
         }
 
         else if (allianceSide == AllianceSide.RED) {
-            wallAlign(0.8, 14, robot.distanceBackLeft, Direction.BACKWARD, 1700);
+            wallAlign(0.8, 14, robot.distanceBackLeft, Direction.BACKWARD, 30000);
 
 //            while ((robot.distanceLeft.getDistance(DistanceUnit.INCH) > 28.5) && opModeIsActive()) {
 //                strafeGyro(-1, 0);
