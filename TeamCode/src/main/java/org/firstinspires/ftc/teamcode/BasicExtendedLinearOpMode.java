@@ -320,7 +320,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
     public void moveToFoundation(int skystoneId, AllianceSide allianceSide) {
 
-        double targetDriveDist = (108 - (8 * (3 + skystoneId)));
+        double targetDriveDist = (120 - (8 * (3 + skystoneId)));
 
         if (skystoneId > 4) {
             targetDriveDist = targetDriveDist + 5;
@@ -335,13 +335,13 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
                 targetDriveDist = -(targetDriveDist);
                 encoderDrive(targetDriveDist, targetDriveDist, 1, 1, 10);
 
-                encoderStrafe(-5, 1);
+                encoderStrafeGyro(5, 1, 0);
                 break;
             case BLUE:
                 targetDriveDist = targetDriveDist;
-                encoderStrafe(-targetDriveDist, 1);
+                encoderDrive(targetDriveDist, targetDriveDist, 1, 1, 10);
 
-                encoderStrafe(-5, 1);
+                encoderStrafeGyro(5, 1, 0);
                 break;
         }
 
@@ -430,7 +430,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         robot.backClawCollect.setPosition(0.1);
     }
 
-    public void encoderStrafeGyro(double units, double speed, double maintainedAngle) {
+    public void encoderStrafeGyro(double units, double speed, double maintainedAngle, double timeoutMS) {
 
         units = units*0.74;
         int left_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * -units);
