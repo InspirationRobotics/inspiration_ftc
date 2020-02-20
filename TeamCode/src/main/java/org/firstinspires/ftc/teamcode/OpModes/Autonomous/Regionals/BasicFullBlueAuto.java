@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Regionals;
 
 import com.inspiration.inspcv.CameraViewDisplay;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.BasicExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 import org.firstinspires.ftc.teamcode.Hardware.SkystonePosition;
 
+@Autonomous(name = "Basic Full Blue Auto", group = "Main")
 public class BasicFullBlueAuto extends BasicExtendedLinearOpMode {
 
     @Override
@@ -52,6 +54,8 @@ public class BasicFullBlueAuto extends BasicExtendedLinearOpMode {
 
         moveToSkystone(skystoneId, AllianceSide.BLUE);
 
+        moveToFoundation(skystoneId, AllianceSide.BLUE);
+        multipleStones(skystoneId, AllianceSide.BLUE);
         moveToFoundation(skystoneId, AllianceSide.BLUE);
 
 //        if (skystoneId == 1) {

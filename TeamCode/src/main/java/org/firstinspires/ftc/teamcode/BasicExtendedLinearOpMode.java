@@ -157,7 +157,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     public void moveToSkystone(int skystoneId, AllianceSide allianceSide) {
 
         gyroTurn(0,0.5,1);
-        encoderStrafeGyro(robot.constants.WALL_DIST_STONE, 1, 0);
+        encoderStrafeGyro(robot.constants.WALL_DIST_STONE, 1, 0, 3);
         gyroTurn(0,0.5,2);
 
         double targetDistance;
@@ -320,7 +320,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
     public void moveToFoundation(int skystoneId, AllianceSide allianceSide) {
 
-        double targetDriveDist = (120 - (8 * (3 + skystoneId)));
+        double targetDriveDist = (120 - (8 * (7 + -skystoneId)));
 
         if (skystoneId > 4) {
             targetDriveDist = targetDriveDist + 5;
@@ -335,13 +335,19 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
                 targetDriveDist = -(targetDriveDist);
                 encoderDrive(targetDriveDist, targetDriveDist, 1, 1, 10);
 
-                encoderStrafeGyro(5, 1, 0);
+                double endTimeRed = System.currentTimeMillis() + 650;
+                while (System.currentTimeMillis() < endTimeRed) {
+                    strafeGyro(1, 0);
+                }
                 break;
             case BLUE:
-                targetDriveDist = targetDriveDist;
+                targetDriveDist = targetDriveDist - 16;
                 encoderDrive(targetDriveDist, targetDriveDist, 1, 1, 10);
 
-                encoderStrafeGyro(5, 1, 0);
+                double endTimeBlue = System.currentTimeMillis() + 650;
+                while (System.currentTimeMillis() < endTimeBlue) {
+                    strafeGyro(1, 0);
+                }
                 break;
         }
 
@@ -349,6 +355,44 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         gyroTurn(0, 0.5, 2);
 
         releaseAutoArm();
+    }
+
+    public void multipleStones(int skystoneId, AllianceSide allianceSide) {
+
+        double targetDriveDist = -(120 - (8 * (7 + -skystoneId)));
+
+        if (skystoneId > 4) {
+            targetDriveDist = targetDriveDist + 5;
+        } else {
+            targetDriveDist = targetDriveDist - 3;
+        }
+
+        gyroTurn(0,0.5,2);
+
+        switch (allianceSide) {
+            case RED:
+                double endTimeRed = System.currentTimeMillis() + 650;
+                while (System.currentTimeMillis() < endTimeRed) {
+                    strafeGyro(-1, 0);
+                }
+                gyroTurn(0,0.5,2);
+                targetDriveDist = -(targetDriveDist);
+                encoderDrive(targetDriveDist, targetDriveDist, 0.5, 0.5, 10);
+                break;
+            case BLUE:
+                double endTimeBlue = System.currentTimeMillis() + 650;
+                while (System.currentTimeMillis() < endTimeBlue) {
+                    strafeGyro(-1, 0);
+                }
+                gyroTurn(0,0.5,2);
+                targetDriveDist = targetDriveDist + 16;
+                encoderDrive(targetDriveDist, targetDriveDist, 0.5, 0.5, 10);
+                break;
+        }
+
+//        strafeWallDist(robot.constants.WALL_DIST_FOUNDATION,1,robot.distanceLeft, Direction.LEFT, 4000);
+        gyroTurn(0, 0.5, 2);
+        grabAutoArm();
     }
 
     public void moveFoundation(AllianceSide allianceSide) {
@@ -421,7 +465,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
             strafeDist = strafeDist*-1;
         }
 
-        encoderStrafe(strafeDist, 0.5);
+        encoderStrafeGyro(strafeDist, 0.5, 0, 3);
         gyroTurn(targetHeading, 0.5, 1);
         encoderDrive(24, 24, 1, 1, 3.5);
 
@@ -432,13 +476,16 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         robot.backClawCollect.setPosition(0.1);
     }
 
-    public void encoderStrafeGyro(double units, double speed, double maintainedAngle) {
+    public void encoderStrafeGyro(double units, double speed, double maintainedAngle, double timeoutS) {
 
         units = units*0.74;
         int left_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * -units);
         int right_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * units);
 
         // Ensure that the opmode is still active
+
+        long startTime = System.currentTimeMillis();
+        long endTime = (long)(startTime + (1000*timeoutS));
 
         if (opModeIsActive()) {
 
@@ -451,7 +498,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
             // reset the timeout time and start motion.
             runtime.reset();
 
-            while (opModeIsActive() && robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy() && robot.rightBack.isBusy()) {
+            while (opModeIsActive() && robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy() && robot.rightBack.isBusy() && (System.currentTimeMillis() < endTime)) {
 
                 telemetry.addLine("Robot in Encoder Drive");
                 telemetry.addData("Target Distance Left (in)", units);
@@ -479,6 +526,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
                 robot.rightFront.setPower(Math.abs(powerRightFront));
                 robot.rightBack.setPower(Math.abs(powerRightBack));
             }
+            stopMotors();
         }
     }
 
