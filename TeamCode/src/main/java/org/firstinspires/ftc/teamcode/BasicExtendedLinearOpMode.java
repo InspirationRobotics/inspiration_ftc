@@ -432,7 +432,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         robot.backClawCollect.setPosition(0.1);
     }
 
-    public void encoderStrafeGyro(double units, double speed, double maintainedAngle, double timeoutMS) {
+    public void encoderStrafeGyro(double units, double speed, double maintainedAngle) {
 
         units = units*0.74;
         int left_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * -units);
