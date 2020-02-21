@@ -31,7 +31,7 @@ public class PuddleTeleOp extends ExtendedOpMode {
 
     @Override
     public void loop () {
-        setPower(-gamepad1.left_stick_y, -gamepad1.right_stick_y);
+        setPower();
 
         if (gamepad1.left_trigger > 0.2) {
             //strafe(gamepad1.left_trigger, 0);

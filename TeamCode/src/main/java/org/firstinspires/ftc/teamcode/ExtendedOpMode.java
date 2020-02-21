@@ -16,17 +16,42 @@ public abstract class ExtendedOpMode extends OpMode {
 
     public Robot robot = new Robot();
 
-    public void setPower(double left_power, double right_power) {
+    public void setPower() {
         /** Status: in use
          * Usage: (power for the left side of the drivetrain), (power for the right side of the drivetrain)
          */
 
-        robot.leftFront.setPower(left_power);
-        robot.leftBack.setPower(left_power);
-        robot.rightFront.setPower(right_power);
-        robot.rightBack.setPower(right_power);
+        robot.leftFront.setPower(gamepad1.left_stick_y);
+        robot.leftBack.setPower(gamepad1.left_stick_y);
+        robot.rightFront.setPower(gamepad1.right_stick_y);
+        robot.rightBack.setPower(gamepad1.right_stick_y);
     }
 
+    public void lift() {
+        robot.lift.setPower(gamepad2.left_stick_y);
+    }
+
+    public void claw() {
+        int gp1_lb = gamepad1.left_bumper ? 1 : 0;
+        int gp1_rb = gamepad1.right_bumper ? 1 : 0;
+
+        robot.claw.setPower(gp1_rb - gp1_lb);
+    }
+
+    public void dpad_move() {
+        while(gamepad1.dpad_down || gamepad1.dpad_up || gamepad1.dpad_right || gamepad1.dpad_left) {
+            double dp_l = (gamepad1.dpad_left ? 1 : 0) * 0.5;
+            double dp_r = (gamepad1.dpad_right ? 1 : 0) * 0.5;
+            double dp_d = (gamepad1.dpad_down ? 1 : 0) * 0.5;
+            double dp_u = (gamepad1.dpad_up ? 1 : 0) * 0.5;
+
+            robot.leftFront.setPower(dp_u - dp_d - dp_r + dp_l);
+            robot.leftBack.setPower(dp_u - dp_d + dp_r - dp_l);
+            robot.rightFront.setPower(dp_u - dp_d + dp_r - dp_l);
+            robot.rightBack.setPower(dp_u - dp_d - dp_r + dp_l);
+        }
+
+    }
    /*public void strafe(double leftTrigger, double rightTrigger) {
 
        while (gamepad1.left_trigger > 0.2) {

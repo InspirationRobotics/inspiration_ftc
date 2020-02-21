@@ -3,19 +3,20 @@ package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Test;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
+import org.firstinspires.ftc.teamcode.BasicExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 
 //@Disabled
-@Autonomous(name = "IMU Value Test", group = "Test")
-public class IMUTest extends ExtendedLinearOpMode {
+@Autonomous(name = "IMU Test", group = "Test")
+public class IMUTest extends BasicExtendedLinearOpMode {
 
     @Override
     public void runOpMode() {
 
         robot.setHardwareMap(hardwareMap);
-        robot.initWaterfall();
+        robot.initStormDrivebase();
         initIMU(hardwareMap);
 
         telemetry.addLine("Initialized! Ready to go!");
@@ -23,23 +24,6 @@ public class IMUTest extends ExtendedLinearOpMode {
 
         waitForStart();
 
-        long endTime = System.currentTimeMillis() + 4000;
-
-        while((System.currentTimeMillis() < endTime) && opModeIsActive()) {
-            telemetry.addData("IMU heading", getHeading());
-            telemetry.update();
-        }
-
-        gyroTurn(180, 0.5, 4);
-
-
-        sleep(2000);
-
-        gyroTurn(-180, 0.5, 4);
-
-        while(opModeIsActive()) {
-            telemetry.addData("Heading", getHeading());
-            telemetry.update();
-        }
+        gyroTurn(90,0.7,2.5);
     }
 }

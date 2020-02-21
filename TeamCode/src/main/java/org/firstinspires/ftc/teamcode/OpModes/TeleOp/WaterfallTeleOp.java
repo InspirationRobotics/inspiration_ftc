@@ -21,7 +21,7 @@ public class WaterfallTeleOp extends ExtendedOpMode {
 
     @Override
     public void loop() {
-        setPower(gamepad1.left_stick_y, gamepad1.right_stick_y);
+        setPower();
         collectWaterfall(gamepad1.left_bumper, gamepad1.right_bumper);
         moveDpad(gamepad1.dpad_left, gamepad1.dpad_right, gamepad1.dpad_up, gamepad1.dpad_down);
         robot.leftLift.setPower(-gamepad2.left_stick_y);

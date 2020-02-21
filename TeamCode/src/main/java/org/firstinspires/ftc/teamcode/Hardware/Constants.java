@@ -105,7 +105,7 @@ public class Constants {
     public final double LIFT_LOWER_HEIGHT_SPEED = -1;
 
     public final double COUNTS_PER_MOTOR_REV    = 537.6 ;
-    public final double DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP (32 teeth to 16 teeth)
+    public final double DRIVE_GEAR_REDUCTION    = 0.5 ;     // This is < 1.0 if geared UP (32 teeth to 16 teeth)
     public final double WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     public final double COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
@@ -135,7 +135,7 @@ public class Constants {
     public final double HEADING_THRESHOLD = 1;
     public final double DISTANCE_THRESHOLD = 1;
 
-    public final double STRAFE_CONSTANT = 2;
+    public final double STRAFE_CONSTANT = 1;
     public final double STRAFE_TICKS_PER_IN = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION * STRAFE_CONSTANT) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
     public final double ROBOT_WIDTH_IN = 15;
@@ -189,5 +189,32 @@ public class Constants {
     public final double WALL_DIST_FOUNDATION = 30;
 
 
+    //Storm Robot
+    public final String LIFT_MOTOR_NAME = "lift";
+    public final String CLAW_MOTOR_NAME = "claw";
+
+    public final String AUTO_COLLECT_SERVO_NAME = "autoCollect";
+    public final String AUTO_PIVOT_SERVO_NAME = "autoPivot";
+    public final String AUTO_EXTEND_SERVO_NAME = "autoExtend";
+
+    public final double AUTO_PIVOT_DOWN_POSITION = 0.1;
+    public final double AUTO_PIVOT_COMPACT_POSITION = 0.9;
+    public final double AUTO_COLLECT_OPEN_POSITION = 0.8;
+    public final double AUTO_COLLECT_GRAB_POSITION = 0.8;
+    public final double AUTO_COLLECT_MID_POSITION = (AUTO_COLLECT_GRAB_POSITION + AUTO_COLLECT_OPEN_POSITION)/2;
+
+    /*CONSTANTS TO DERIVE:
+    ENCODER_STRAFE offset (STRAFE CONSTANT)
+    Auto Arm Positions:
+        Pivot Down
+        Pivot Compact
+        Claw Collect Open
+        Claw Collect Mid (midpoint between open and grab)
+        Claw collect Grab
+     ROBOT_WIDTH
+     WHEEL_CIRCUMFERENCE
+     GEAR_RATIO
+
+     */
 
 }

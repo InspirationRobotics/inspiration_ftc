@@ -400,6 +400,63 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         grabAutoArm();
     }
 
+    public void moveToSkystoneStorm(int skystoneId, AllianceSide allianceSide) {
+
+        gyroTurn(0,0.5,1);
+        encoderStrafeGyro(robot.constants.WALL_DIST_STONE, 1, 0, 3);
+        gyroTurn(0,0.5,2);
+
+        double targetDistance = 19-(8*skystoneId);
+
+        encoderDrive(targetDistance, targetDistance, 0.7, 0.7, 3500);
+        grabAutoArmStorm();
+    }
+
+    public void grabAutoArmStorm() {
+        long downSleepTimeMS = 500;
+        long grabWaitTimeMS = 400;
+        robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_DOWN_POSITION);
+        sleep(downSleepTimeMS);
+        robot.autoCollect.setPosition(robot.constants.AUTO_COLLECT_GRAB_POSITION);
+        sleep(grabWaitTimeMS);
+        robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_COMPACT_POSITION);
+    }
+
+    public void releaseAutoArmStorm() {
+        long downSleepTimeMS = 500;
+        long grabWaitTimeMS = 400;
+        robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_DOWN_POSITION);
+        sleep(downSleepTimeMS);
+        robot.autoCollect.setPosition(robot.constants.AUTO_COLLECT_OPEN_POSITION);
+        sleep(grabWaitTimeMS);
+        robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_COMPACT_POSITION);
+    }
+
+    public void compactAutoArmStorm() {
+        long downSleepTimeMS = 500;
+        robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_COMPACT_POSITION);
+    }
+
+    public void moveToFoundationStorm(int skystoneId) {
+        double targetDist = 68 + (8*skystoneId);
+
+        gyroTurn(0,0.5,1);
+        encoderDrive(targetDist,targetDist,1,1,5);
+        gyroTurn(0,0.5,1);
+
+        releaseAutoArmStorm();
+    }
+
+    public void multipleStoneStorm(int skystoneId) {
+        double targetDist = 68 + (8*skystoneId);
+
+        gyroTurn(0,0.5,1);
+        encoderDrive(-targetDist,-targetDist,1,1,5);
+        gyroTurn(0,0.5,1);
+
+        grabAutoArmStorm();
+    }
+
     public void moveFoundation(AllianceSide allianceSide) {
 
         if (allianceSide == AllianceSide.BLUE) {
@@ -483,7 +540,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
     public void encoderStrafeGyro(double units, double speed, double maintainedAngle, double timeoutS) {
 
-        units = units*0.74;
+        units = units;
         int left_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * -units);
         int right_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * units);
 
@@ -545,6 +602,8 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
             }
             stopMotors();
         }
+
+
     }
 
 }

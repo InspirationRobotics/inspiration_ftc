@@ -47,6 +47,13 @@ public class Robot {
     public DistanceSensor distanceLeft;
     public DistanceSensor distanceRight;
 
+    public DcMotor lift;
+    public DcMotor claw;
+
+    public Servo autoCollect;
+    public Servo autoPivot;
+    public Servo autoExtend;
+
 //    public ModernRoboticsI2cRangeSensor mrDistanceFront;
 //    public ModernRoboticsI2cRangeSensor mrDistanceBack;
 //    public ModernRoboticsI2cRangeSensor mrDistanceLeft;
@@ -216,6 +223,33 @@ public class Robot {
         distanceLeft = ahwmap.get(DistanceSensor.class, constants.LEFT_DISTANCE_SENSOR_NAME);
         distanceRight = ahwmap.get(DistanceSensor.class, constants.RIGHT_DISTANCE_SENSOR_NAME);
     }
+
+    public void initStormDrivebase() {
+        leftFront = ahwmap.dcMotor.get(constants.LEFT_FRONT_MOTOR_NAME);
+        leftBack = ahwmap.dcMotor.get(constants.LEFT_BACK_MOTOR_NAME);
+        rightFront = ahwmap.dcMotor.get(constants.RIGHT_FRONT_MOTOR_NAME);
+        rightBack = ahwmap.dcMotor.get(constants.RIGHT_BACK_MOTOR_NAME);
+
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    }
+
+    public void initStormAttachments() {
+        lift = ahwmap.dcMotor.get(constants.LIFT_MOTOR_NAME);
+
+        claw = ahwmap.dcMotor.get(constants.CLAW_MOTOR_NAME);
+
+        autoCollect = ahwmap.servo.get(constants.AUTO_COLLECT_SERVO_NAME);
+        autoPivot = ahwmap.servo.get(constants.AUTO_PIVOT_SERVO_NAME);
+        autoExtend = ahwmap.servo.get(constants.AUTO_EXTEND_SERVO_NAME);
+    }
+
+
 
 //    public void initIMU() {
 //        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
