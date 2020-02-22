@@ -135,7 +135,7 @@ public class Constants {
     public final double HEADING_THRESHOLD = 1;
     public final double DISTANCE_THRESHOLD = 1;
 
-    public final double STRAFE_CONSTANT = 1;
+    public final double STRAFE_CONSTANT = 1.43241195;
     public final double STRAFE_TICKS_PER_IN = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION * STRAFE_CONSTANT) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
     public final double ROBOT_WIDTH_IN = 15;
@@ -197,10 +197,10 @@ public class Constants {
     public final String AUTO_PIVOT_SERVO_NAME = "autoPivot";
     public final String AUTO_EXTEND_SERVO_NAME = "autoExtend";
 
-    public final double AUTO_PIVOT_DOWN_POSITION = 0.1;
-    public final double AUTO_PIVOT_COMPACT_POSITION = 0.9;
+    public final double AUTO_PIVOT_DOWN_POSITION = 0.8;
+    public final double AUTO_PIVOT_COMPACT_POSITION = 0;
     public final double AUTO_COLLECT_OPEN_POSITION = 0.8;
-    public final double AUTO_COLLECT_GRAB_POSITION = 0.8;
+    public final double AUTO_COLLECT_GRAB_POSITION = 0.55;
     public final double AUTO_COLLECT_MID_POSITION = (AUTO_COLLECT_GRAB_POSITION + AUTO_COLLECT_OPEN_POSITION)/2;
 
     /*CONSTANTS TO DERIVE:
