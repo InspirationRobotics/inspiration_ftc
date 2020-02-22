@@ -403,7 +403,16 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     public void moveToSkystoneStorm(int skystoneId, AllianceSide allianceSide) {
 
         gyroTurn(0,0.5,1);
-        encoderStrafeGyro(robot.constants.WALL_DIST_STONE, 1, 0, 3);
+
+        double speed;
+
+        if (allianceSide == AllianceSide.BLUE) {
+            speed = 1;
+        } else {
+            speed = -1;
+        }
+
+        encoderStrafeGyro(robot.constants.WALL_DIST_STONE, speed, 0, 3);
         gyroTurn(0,0.5,2);
 
         double targetDistance = 19-(8*skystoneId);

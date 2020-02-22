@@ -14,6 +14,7 @@ public class FullRedAutoStorm extends BasicExtendedLinearOpMode {
         AllianceSide allianceSide = AllianceSide.RED;
         robot.setHardwareMap(hardwareMap);
         robot.initStormDrivebase();
+        robot.initStormAttachments();
         initIMU(hardwareMap);
 
         telemetry.addLine("Ready To Go!");
