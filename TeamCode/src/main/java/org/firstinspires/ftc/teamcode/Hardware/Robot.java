@@ -77,8 +77,11 @@ public class Robot {
     public DigitalChannel extensionLimit;
 
     public BNO055IMU imu;
+
     public Orientation angles;
     //public Acceleration gravity;
+
+    public boolean DEBUG = true;
 
     public HardwareMap ahwmap;
 

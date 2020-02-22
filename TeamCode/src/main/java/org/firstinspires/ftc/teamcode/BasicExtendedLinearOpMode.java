@@ -16,14 +16,18 @@ import org.firstinspires.ftc.teamcode.CV.SkystoneDetector;
 import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 import org.firstinspires.ftc.teamcode.Hardware.Direction;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.OpModes.Autonomous.Test.AxesSigns;
+import org.firstinspires.ftc.teamcode.OpModes.Autonomous.Test.BNO055IMUUtil;
 
 public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
-    public Robot robot = new Robot();
+    public Robot robot;
     public SkystoneDetector detector = new SkystoneDetector();
     private ElapsedTime runtime = new ElapsedTime();
 
-    public DistanceSensor frontDistanceSensor = robot.distanceFrontRight;
-    public DistanceSensor rearDistanceSensor = robot.distanceBackLeft;
+    public double initialIMUOffset = 0;
+
+    public DistanceSensor frontDistanceSensor;
+    public DistanceSensor rearDistanceSensor;
 
     /* imu functions */
 
@@ -32,16 +36,25 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         robot.imu = hardwareMap.get(BNO055IMU.class, robot.constants.IMU_NAME);
 
         //Initialize IMU parameters
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-        robot.imu.initialize(parameters);
+        robot.parameters = new BNO055IMU.Parameters();
+        robot.parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        robot.parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        robot.parameters.calibrationDataFile = "AdafruitIMUCalibration.json"; // see the calibration sample opmode
+        robot.parameters.loggingEnabled      = true;
+        robot.parameters.loggingTag          = "IMU";
+        robot.parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        robot.imu.initialize(robot.parameters);
 
-        //robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+//        BNO055IMUUtil.remapAxes(robot.imu, AxesOrder.ZYX, AxesSigns.NNN);
+
+        robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        for (int i = 0; i<10; i++)
+            getHeading();
+
+        initialIMUOffset = robot.angles.firstAngle;
+
+        robot.imu.initialize(robot.parameters);
 
         telemetry.addData("imu heading", getHeading());
 
@@ -73,7 +86,9 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     public double getHeading() {
         robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        return -robot.angles.firstAngle;
+        if(robot.DEBUG) System.out.println("11128dbg Heading = " + robot.angles);
+
+        return robot.angles.firstAngle-initialIMUOffset;
     }
 
     public void gyroTurn(double targetAngle, double speed, double timeoutS) {
@@ -108,7 +123,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         }
         else {
             steer = getSteer(error, PCoeff);
-            rightSpeed  = speed * steer;
+            rightSpeed  = -speed * steer;
             leftSpeed   = -rightSpeed;
         }
 
@@ -613,6 +628,13 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         }
 
 
+    }
+
+    public void setIMUOffset() {
+        robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        sleep(20);
+
+        initialIMUOffset = robot.angles.firstAngle;
     }
 
 }
