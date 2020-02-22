@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.OpModes.Autonomous.Test.AxesSigns;
 import org.firstinspires.ftc.teamcode.OpModes.Autonomous.Test.BNO055IMUUtil;
 
 public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
-    public Robot robot;
+    public Robot robot = new Robot();
     public SkystoneDetector detector = new SkystoneDetector();
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -164,8 +164,8 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
     public void stopMotors() {
         robot.leftFront.setPower(0);
-        robot.leftBack.setPower(0);
         robot.rightFront.setPower(0);
+        robot.leftBack.setPower(0);
         robot.rightBack.setPower(0);
     }
 
@@ -267,8 +267,8 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
          */
 
         robot.leftFront.setPower(-left_power);
-        robot.leftBack.setPower(-left_power);
         robot.rightFront.setPower(-right_power);
+        robot.leftBack.setPower(-left_power);
         robot.rightBack.setPower(-right_power);
     }
 
@@ -284,6 +284,56 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         robot.rightFront.setMode(runmode);
         robot.leftBack.setMode(runmode);
         robot.rightBack.setMode(runmode);
+    }
+
+    public void encoderDriveAcc(double left_in, double right_in, double speed_l, double speed_r, double timeoutS) {
+
+        int left_distanceEnc = -(int) (robot.constants.COUNTS_PER_INCH * left_in);
+        int right_distanceEnc =  -(int) (robot.constants.COUNTS_PER_INCH * right_in);
+
+        // Ensure that the opmode is still active
+
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            setMotorRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//            sleep(100);
+
+            setTargetPosition(left_distanceEnc, right_distanceEnc);
+            setMotorRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+//            setPower(Math.abs(speed_l), Math.abs(speed_r));
+
+            double inputSpeed_l = 0;
+            double inputSpeed_r = 0;
+            double timesRun = 0;
+
+            while ((opModeIsActive() && runtime.seconds() < timeoutS) && robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy() && robot.rightBack.isBusy()) {
+
+                inputSpeed_l = Range.clip((timesRun*timesRun)*0.005,0,Math.abs(speed_l));
+                inputSpeed_r = Range.clip((timesRun*timesRun)*0.005,0,Math.abs(speed_r));
+                setPower(Math.abs(inputSpeed_l),Math.abs(inputSpeed_r));
+                telemetry.addLine("Robot in Encoder Drive");
+                telemetry.addData("Target Distance Left (in)", left_in);
+                telemetry.addData("Target Distance Right (in)", right_in);
+                telemetry.addData("TickLeft", left_distanceEnc);
+                telemetry.addData("TickRight05", right_distanceEnc);
+                telemetry.update();
+                //just one more test...
+
+                timesRun++;
+                sleep(5);
+            }
+
+            stopMotors();
+
+            setMotorRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            sleep(250);
+
+        }
+
     }
 
     public void encoderDrive(double left_in, double right_in, double speed_l, double speed_r, double timeoutS) {
@@ -464,19 +514,19 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     public void moveToFoundationStorm(int skystoneId) {
         double targetDist = 68 + (8*skystoneId);
 
-        gyroTurn(0,0.5,1);
-        encoderDrive(targetDist,targetDist,1,1,5);
-        gyroTurn(0,0.5,1);
+        gyroTurn(0,0.2,1);
+        encoderDriveAcc(targetDist,targetDist,1,1,5);
+        gyroTurn(0,0.2,1);
 
         releaseAutoArmStorm();
     }
 
     public void multipleStoneStorm(int skystoneId) {
-        double targetDist = 68 + (8*skystoneId);
+        double targetDist = 84 + (8*skystoneId);
 
-        gyroTurn(0,0.5,1);
-        encoderDrive(-targetDist,-targetDist,1,1,5);
-        gyroTurn(0,0.5,1);
+        gyroTurn(0,0.2,1);
+        encoderDriveAcc(-targetDist,-targetDist,1,1,5);
+        gyroTurn(0,0.2,1);
 
         grabAutoArmStorm();
     }

@@ -18,7 +18,6 @@ public class IMUTest extends BasicExtendedLinearOpMode {
 
     @Override
     public void runOpMode() {
-        robot = new Robot();
 
         robot.setHardwareMap(hardwareMap);
         robot.initStormDrivebase();
@@ -29,7 +28,7 @@ public class IMUTest extends BasicExtendedLinearOpMode {
 
         waitForStart();
 
-        //setIMUOffset();
+        setIMUOffset();
 
         gyroTurn(90,0.3,4);
 //        sleep(1000);
