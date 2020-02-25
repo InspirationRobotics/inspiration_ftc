@@ -17,6 +17,8 @@ public class FullRedAutoStorm extends BasicExtendedLinearOpMode {
         robot.initStormAttachments();
         initIMU(hardwareMap);
 
+        initArm();
+
         telemetry.addLine("Ready To Go!");
         telemetry.update();
 

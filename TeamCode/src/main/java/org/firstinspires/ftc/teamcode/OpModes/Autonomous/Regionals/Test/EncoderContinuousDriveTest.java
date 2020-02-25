@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Regionals;
+package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Regionals.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.BasicExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 
-@Autonomous(name = "Full Auto Blue Storm", group = "Storm")
-public class FullBlueAutoStorm extends BasicExtendedLinearOpMode {
+@Autonomous(name = "Encoder Continuous Drive Test", group = "Storm")
+public class EncoderContinuousDriveTest extends BasicExtendedLinearOpMode {
 
     @Override
     public void runOpMode() {
@@ -26,17 +26,13 @@ public class FullBlueAutoStorm extends BasicExtendedLinearOpMode {
 
         setIMUOffset();
 
-        moveToSkystoneStorm(2, allianceSide);
+        grabAutoArmStorm();
         moveToFoundationStorm(2);
 
-        multipleStoneStorm(4);
-        moveToFoundationStorm(4);
+        multipleStoneStorm(5);
+        moveToFoundationStorm(5);
 
         multipleStoneStorm(1);
         moveToFoundationStorm(1);
-
-        moveFoundation(allianceSide);
-
-        parkBridge(allianceSide);
     }
 }

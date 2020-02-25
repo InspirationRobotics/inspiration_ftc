@@ -199,8 +199,8 @@ public class Constants {
 
     public final double AUTO_PIVOT_DOWN_POSITION = 0.8;
     public final double AUTO_PIVOT_COMPACT_POSITION = 0;
-    public final double AUTO_COLLECT_OPEN_POSITION = 0.8;
-    public final double AUTO_COLLECT_GRAB_POSITION = 0.55;
+    public final double AUTO_COLLECT_OPEN_POSITION = 0.85;
+    public final double AUTO_COLLECT_GRAB_POSITION = 0.5;
     public final double AUTO_COLLECT_MID_POSITION = (AUTO_COLLECT_GRAB_POSITION + AUTO_COLLECT_OPEN_POSITION)/2;
 
     /*CONSTANTS TO DERIVE:

@@ -29,6 +29,9 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     public DistanceSensor frontDistanceSensor;
     public DistanceSensor rearDistanceSensor;
 
+    static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
+
+
     /* imu functions */
 
     public void initIMU(HardwareMap ahawmp) {
@@ -154,25 +157,33 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
     public double getSteer(double error, double PCoeff) {
         if(error > 0) {
-            return Range.clip(error * PCoeff, 0.25, 1);
+            return Range.clip(error * PCoeff, 0.15, 1);
         } else {
-            return Range.clip(error * PCoeff, -1, -0.25);
+            return Range.clip(error * PCoeff, -1, -0.15);
         }
     }
 
+    public double getSteerDrive(double error, double PCoeff) {
+            return Range.clip(error * PCoeff, -1, 1);
+    }
     /* movement */
 
     public void stopMotors() {
         robot.leftFront.setPower(0);
         robot.rightFront.setPower(0);
-        robot.leftBack.setPower(0);
         robot.rightBack.setPower(0);
+        robot.leftBack.setPower(0);
     }
 
     public void moveToSkystone(int skystoneId, AllianceSide allianceSide) {
 
         gyroTurn(0,0.5,1);
-        encoderStrafeGyro(robot.constants.WALL_DIST_STONE, 1, 0, 3);
+
+        if (allianceSide == AllianceSide.BLUE) {
+            encoderStrafeGyro(robot.constants.WALL_DIST_STONE, 1, 0, 3);
+        } else {
+            encoderStrafeGyro(robot.constants.WALL_DIST_STONE, 1, 0, 3);
+        }
         gyroTurn(0,0.5,2);
 
         double targetDistance;
@@ -268,8 +279,19 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
         robot.leftFront.setPower(-left_power);
         robot.rightFront.setPower(-right_power);
-        robot.leftBack.setPower(-left_power);
         robot.rightBack.setPower(-right_power);
+        robot.leftBack.setPower(-left_power);
+    }
+
+    public void setPowerReverse (double left_power, double right_power) {
+
+        /** Status: in use
+         * Usage: (power for the left side of the drivetrain), (power for the right side of the drivetrain)
+         */
+        robot.rightBack.setPower(-right_power);
+        robot.leftBack.setPower(-left_power);
+        robot.leftFront.setPower(-left_power);
+        robot.rightFront.setPower(-right_power);
     }
 
     public void setTargetPositionStrafe(int leftTarget, int rightTarget) {
@@ -310,11 +332,23 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
             double inputSpeed_r = 0;
             double timesRun = 0;
 
-            while ((opModeIsActive() && runtime.seconds() < timeoutS) && robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy() && robot.rightBack.isBusy()) {
+            double accelerateRamp = 0;
 
-                inputSpeed_l = Range.clip((timesRun*timesRun)*0.005,0,Math.abs(speed_l));
-                inputSpeed_r = Range.clip((timesRun*timesRun)*0.005,0,Math.abs(speed_r));
-                setPower(Math.abs(inputSpeed_l),Math.abs(inputSpeed_r));
+            while ((opModeIsActive() && runtime.seconds() < timeoutS) && robot.leftFront.isBusy() && robot.rightBack.isBusy()) {
+
+
+
+                inputSpeed_l = Range.clip((accelerateRamp),0,Math.abs(speed_l));
+                inputSpeed_r = Range.clip((accelerateRamp),0,Math.abs(speed_r));
+
+                if (left_distanceEnc < 0) {
+                    setPower(Math.abs(inputSpeed_l),Math.abs(inputSpeed_r));
+                } else {
+                    setPowerReverse(Math.abs(inputSpeed_l),Math.abs(inputSpeed_r));
+                }
+
+                accelerateRamp = Range.clip((timesRun*timesRun)*0.005,0,1);
+
                 telemetry.addLine("Robot in Encoder Drive");
                 telemetry.addData("Target Distance Left (in)", left_in);
                 telemetry.addData("Target Distance Right (in)", right_in);
@@ -329,8 +363,9 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
             stopMotors();
 
+            sleep(250);
+
             setMotorRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            sleep(250);
 
         }
 
@@ -487,8 +522,8 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     }
 
     public void grabAutoArmStorm() {
-        long downSleepTimeMS = 500;
-        long grabWaitTimeMS = 400;
+        long downSleepTimeMS = 800;
+        long grabWaitTimeMS = 450;
         robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_DOWN_POSITION);
         sleep(downSleepTimeMS);
         robot.autoCollect.setPosition(robot.constants.AUTO_COLLECT_GRAB_POSITION);
@@ -511,21 +546,26 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_COMPACT_POSITION);
     }
 
+    public void initArm() {
+        robot.autoPivot.setPosition((robot.constants.AUTO_PIVOT_COMPACT_POSITION+robot.constants.AUTO_PIVOT_DOWN_POSITION)/2);
+        robot.autoCollect.setPosition(robot.constants.AUTO_COLLECT_OPEN_POSITION);
+    }
+
     public void moveToFoundationStorm(int skystoneId) {
-        double targetDist = 68 + (8*skystoneId);
+        double targetDist = 78 + (8*skystoneId);
 
         gyroTurn(0,0.2,1);
-        encoderDriveAcc(targetDist,targetDist,1,1,5);
+        gyroDrive(1,targetDist,0);
         gyroTurn(0,0.2,1);
 
         releaseAutoArmStorm();
     }
 
     public void multipleStoneStorm(int skystoneId) {
-        double targetDist = 84 + (8*skystoneId);
+        double targetDist = 76 + (8*skystoneId);
 
         gyroTurn(0,0.2,1);
-        encoderDriveAcc(-targetDist,-targetDist,1,1,5);
+        gyroDrive(1,-targetDist,0);
         gyroTurn(0,0.2,1);
 
         grabAutoArmStorm();
@@ -669,8 +709,8 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
                 powerRightFront = powerRightFront + error_proportioned;
 
                 robot.leftFront.setPower((powerLeftFront));
-                robot.leftBack.setPower((powerLeftBack));
                 robot.rightFront.setPower((powerRightFront));
+                robot.leftBack.setPower((powerLeftBack));
                 robot.rightBack.setPower((powerRightBack));
 
             }
@@ -678,6 +718,85 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         }
 
 
+    }
+
+    public void gyroDrive ( double speed,
+                            double distance,
+                            double angle) {
+
+        int     newLeftFrontTarget;
+        int     newLeftBackTarget;
+        int     newRightFrontTarget;
+        int     newRightBackTarget;
+        int     moveCounts;
+        double  max;
+        double  error;
+        double  steer;
+        double  leftSpeed;
+        double  rightSpeed;
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            moveCounts = -(int)(distance * robot.constants.COUNTS_PER_INCH);
+            newLeftFrontTarget = robot.leftFront.getCurrentPosition() + moveCounts;
+            newRightBackTarget = robot.rightBack.getCurrentPosition() + moveCounts;
+            newLeftBackTarget = robot.leftBack.getCurrentPosition() + moveCounts;
+            newRightFrontTarget = robot.rightFront.getCurrentPosition() + moveCounts;
+
+            // Set Target and Turn On RUN_TO_POSITION
+            robot.leftFront.setTargetPosition(newLeftFrontTarget);
+            robot.rightFront.setTargetPosition(newRightFrontTarget);
+            robot.leftBack.setTargetPosition(newLeftBackTarget);
+            robot.rightBack.setTargetPosition(newRightBackTarget);
+
+            setMotorRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // start motion.
+            speed = Range.clip(Math.abs(speed), 0.0, 1.0);
+            robot.leftFront.setPower(speed);
+            robot.rightFront.setPower(speed);
+            robot.leftBack.setPower(speed);
+            robot.rightBack.setPower(speed);
+
+            // keep looping while we are still active, and BOTH motors are running.
+            while (opModeIsActive() &&
+                    (robot.leftFront.isBusy() && robot.rightBack.isBusy())) {
+
+                // adjust relative speed based on heading error.
+                error = getError(angle);
+                steer = getSteerDrive(error, P_DRIVE_COEFF);
+
+                // if driving in reverse, the motor correction also needs to be reversed
+                if (distance < 0)
+                    steer *= -1.0;
+
+                leftSpeed = speed - steer;
+                rightSpeed = speed + steer;
+
+                // Normalize speeds if either one exceeds +/- 1.0;
+                max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
+                if (max > 1.0)
+                {
+                    leftSpeed /= max;
+                    rightSpeed /= max;
+                }
+
+                robot.leftFront.setPower(leftSpeed);
+                robot.rightFront.setPower(rightSpeed);
+                robot.leftBack.setPower(leftSpeed);
+                robot.rightBack.setPower(rightSpeed);
+            }
+
+            // Stop all motion;
+            robot.leftFront.setPower(0);
+            robot.rightFront.setPower(0);
+            robot.leftBack.setPower(0);
+            robot.rightBack.setPower(0);
+            // Turn off RUN_TO_POSITION
+            setMotorRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
     }
 
     public void setIMUOffset() {

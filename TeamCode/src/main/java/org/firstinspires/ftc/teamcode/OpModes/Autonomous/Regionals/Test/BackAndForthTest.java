@@ -17,6 +17,8 @@ public class BackAndForthTest extends BasicExtendedLinearOpMode {
         robot.initStormAttachments();
         initIMU(hardwareMap);
 
+        initArm();
+
         telemetry.addLine("Ready To Go!");
         telemetry.update();
 
@@ -27,8 +29,8 @@ public class BackAndForthTest extends BasicExtendedLinearOpMode {
         grabAutoArmStorm();
         moveToFoundationStorm(2);
 
-        multipleStoneStorm(4);
-        moveToFoundationStorm(4);
+        multipleStoneStorm(5);
+        moveToFoundationStorm(5);
 
         multipleStoneStorm(1);
         moveToFoundationStorm(1);
