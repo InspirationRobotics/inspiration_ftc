@@ -20,6 +20,6 @@ public class EncoderStrafeTestDrive10in extends BasicExtendedLinearOpMode {
 
         waitForStart();
 
-        encoderStrafeGyro(10, 1,0,4);
+        encoderStrafeGyro(10,0.7,0,5);
     }
 }

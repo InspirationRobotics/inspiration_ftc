@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Regionals;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.teamcode.BasicExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
@@ -16,6 +17,8 @@ public class FullBlueAutoStorm extends BasicExtendedLinearOpMode {
         robot.initStormDrivebase();
         robot.initStormAttachments();
         initIMU(hardwareMap);
+        robot.distanceBack = hardwareMap.get(DistanceSensor.class, "distanceBack");
+
 
         initArm();
 
@@ -29,14 +32,10 @@ public class FullBlueAutoStorm extends BasicExtendedLinearOpMode {
         moveToSkystoneStorm(2, allianceSide);
         moveToFoundationStorm(2);
 
-        multipleStoneStorm(4);
-        moveToFoundationStorm(4);
+        multipleStoneStorm(5);
+        moveToFoundationStorm(5);
 
         multipleStoneStorm(1);
         moveToFoundationStorm(1);
-
-        moveFoundation(allianceSide);
-
-        parkBridge(allianceSide);
     }
 }

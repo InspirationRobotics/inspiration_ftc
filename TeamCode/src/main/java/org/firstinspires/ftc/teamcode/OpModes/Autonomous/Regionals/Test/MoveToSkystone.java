@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Regionals.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.teamcode.BasicExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
@@ -14,6 +16,7 @@ public class MoveToSkystone extends BasicExtendedLinearOpMode {
         robot.setHardwareMap(hardwareMap);
         robot.initStormDrivebase();
         robot.initStormAttachments();
+        robot.distanceBack = hardwareMap.get(DistanceSensor.class, "distanceBack");
         initIMU(hardwareMap);
 
         int tgtSS = 2;

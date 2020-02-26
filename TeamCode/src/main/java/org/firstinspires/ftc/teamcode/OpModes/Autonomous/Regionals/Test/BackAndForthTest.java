@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Regionals.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.teamcode.BasicExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
@@ -16,6 +17,8 @@ public class BackAndForthTest extends BasicExtendedLinearOpMode {
         robot.initStormDrivebase();
         robot.initStormAttachments();
         initIMU(hardwareMap);
+        robot.distanceBack = hardwareMap.get(DistanceSensor.class, "distanceBack");
+
 
         initArm();
 

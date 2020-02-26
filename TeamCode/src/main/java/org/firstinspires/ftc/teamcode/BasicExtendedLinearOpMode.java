@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.CV.SkystoneDetector;
 import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 import org.firstinspires.ftc.teamcode.Hardware.Direction;
@@ -29,7 +30,9 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     public DistanceSensor frontDistanceSensor;
     public DistanceSensor rearDistanceSensor;
 
-    static final double     P_DRIVE_COEFF           = 0.1;     // Larger is more responsive, but also less stable
+    public double initialLiftPosition = 0;
+
+    static final double     P_DRIVE_COEFF           = 0.085;     // Larger is more responsive, but also less stable
 
 
     /* imu functions */
@@ -502,22 +505,26 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
     public void moveToSkystoneStorm(int skystoneId, AllianceSide allianceSide) {
 
-        gyroTurn(0,0.5,1);
-
-        double speed;
+        double speed = 0.6;
+        double distance;
 
         if (allianceSide == AllianceSide.BLUE) {
-            speed = 1;
+            distance = robot.constants.WALL_DIST_STONE;
         } else {
-            speed = -1;
+            distance = -robot.constants.WALL_DIST_STONE;
         }
 
-        encoderStrafeGyro(robot.constants.WALL_DIST_STONE, speed, 0, 3);
-        gyroTurn(0,0.5,2);
+        encoderStrafeGyro(distance, speed, 0, 7);
 
-        double targetDistance = 19-(8*skystoneId);
+        sleep(100);
 
-        encoderDrive(targetDistance, targetDistance, 0.7, 0.7, 3500);
+        gyroTurn(0,0.4,2);
+
+//        double targetDistance = 19-(8*skystoneId);
+
+        //encoderDrive(targetDistance, targetDistance, 0.7, 0.7, 3500);
+
+        alignToStone(skystoneId);
         grabAutoArmStorm();
     }
 
@@ -547,15 +554,15 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     }
 
     public void initArm() {
-        robot.autoPivot.setPosition((robot.constants.AUTO_PIVOT_COMPACT_POSITION+robot.constants.AUTO_PIVOT_DOWN_POSITION)/2);
+        robot.autoPivot.setPosition((robot.constants.AUTO_COLLECT_MID_POSITION));
         robot.autoCollect.setPosition(robot.constants.AUTO_COLLECT_OPEN_POSITION);
     }
 
     public void moveToFoundationStorm(int skystoneId) {
-        double targetDist = 78 + (8*skystoneId);
+        double targetDist = 74 + (8*skystoneId);
 
 //        gyroTurn(0,0.2,1);
-        gyroDrive(1,targetDist,0);
+        gyroDrive(1,targetDist,0.5);
 //        encoderDrive(targetDist, targetDist, 1, 1, 5);
         gyroTurn(0,0.2,1);
 
@@ -566,11 +573,59 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         double targetDist = 76 + (8*skystoneId);
 
 //        gyroTurn(0,0.2,1);
-        gyroDrive(1,-targetDist,0);
+        gyroDrive(1,-targetDist,-0.5);
 //        encoderDrive(-targetDist, -targetDist, 1, 1, 5);
-        gyroTurn(0,0.2,1);
+        gyroTurn(0,0.3,1);
 
+        alignToStone(skystoneId);
         grabAutoArmStorm();
+    }
+
+    public void alignToStone(int skystoneId) {
+        double targetDist = 52-(8*skystoneId);
+
+        wallAlign(targetDist,1,robot.distanceBack,Direction.BACKWARD);
+    }
+    public void wallAlign(double targetDistance, double speed, DistanceSensor inputDistanceSensor, Direction distanceSensorDirection) {
+        double encoderDist = 0;
+
+        for (int i = 0; i<4; i++)
+            inputDistanceSensor.getDistance(DistanceUnit.INCH);
+
+        double currentDist = inputDistanceSensor.getDistance(DistanceUnit.INCH);
+
+        encoderDist = currentDist - targetDistance;
+
+        if (distanceSensorDirection == Direction.BACKWARD) {
+            encoderDist = -encoderDist;
+        }
+
+        encoderDrive(encoderDist, encoderDist, speed, speed, 6);
+    }
+
+    public void wallAlign(double targetDistance, double speed, DistanceSensor inputDistanceSensor, Direction distanceSensorDirection, double acceptableMargin) {
+        double encoderDist = 0;
+
+        for (int i = 0; i<4; i++)
+            inputDistanceSensor.getDistance(DistanceUnit.INCH);
+
+        sleep(150);
+
+        double currentDist = inputDistanceSensor.getDistance(DistanceUnit.INCH);
+
+        encoderDist = currentDist - targetDistance;
+
+        if(encoderDist <3.5) {
+
+        }
+        else {
+            if (distanceSensorDirection == Direction.BACKWARD) {
+                encoderDist = -encoderDist;
+            }
+
+            encoderDrive(encoderDist, encoderDist, speed, speed, 6);
+
+        }
     }
 
     public void moveFoundation(AllianceSide allianceSide) {
@@ -656,7 +711,6 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
     public void encoderStrafeGyro(double units, double speed, double maintainedAngle, double timeoutS) {
 
-        units = units;
         int left_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * -units);
         int right_distanceEnc = (int) (robot.constants.STRAFE_TICKS_PER_IN * units);
 
@@ -684,17 +738,22 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
             runtime.reset();
 
             double err_lb = Math.abs(robot.leftBack.getCurrentPosition() -robot.leftBack.getTargetPosition());
-            double err_lf = Math.abs(robot.leftFront.getCurrentPosition() -robot.leftFront.getTargetPosition());
-            double err_rb = Math.abs(robot.rightBack.getCurrentPosition() -robot.rightBack.getTargetPosition());
             double err_rf = Math.abs(robot.rightFront.getCurrentPosition() -robot.rightFront.getTargetPosition());
 
+            boolean stayInLoop = true;
 
-            while (opModeIsActive() && (err_lb > robot.constants.ENCODER_STRAFE_ERR_THRESHOLD) && (err_lf > robot.constants.ENCODER_STRAFE_ERR_THRESHOLD) &&
-                    (err_rb > robot.constants.ENCODER_STRAFE_ERR_THRESHOLD) && (err_rf > robot.constants.ENCODER_STRAFE_ERR_THRESHOLD) && (System.currentTimeMillis() < endTime)) {
+            while (opModeIsActive() && (err_lb > robot.constants.ENCODER_STRAFE_ERR_THRESHOLD) && (err_rf > robot.constants.ENCODER_STRAFE_ERR_THRESHOLD) && (System.currentTimeMillis() < endTime) && stayInLoop) {
+
+
+//                if(units > 0 && err_rf > 0) {
+//                    stayInLoop = false;
+//                    break;
+//                } else if(units < 0 && err_rf > 0) {
+//                    stayInLoop = false;
+//                    break;
+//                }
 
                 err_lb = Math.abs(robot.leftBack.getCurrentPosition() -robot.leftBack.getTargetPosition());
-                err_lf = Math.abs(robot.leftFront.getCurrentPosition() -robot.leftFront.getTargetPosition());
-                err_rb = Math.abs(robot.rightBack.getCurrentPosition() -robot.rightBack.getTargetPosition());
                 err_rf = Math.abs(robot.rightFront.getCurrentPosition() -robot.rightFront.getTargetPosition());
 
                 double powerLeftBack = 0.9*speed*speedMultiplier;
@@ -801,11 +860,93 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         }
     }
 
+    public void gyroEncoderStrafe (double speed,
+                                   double distance,
+                                   double angle) {
+
+        int     newLeftFrontTarget;
+        int     newLeftBackTarget;
+        int     newRightFrontTarget;
+        int     newRightBackTarget;
+        int     moveCounts;
+        double  max;
+        double  error;
+        double  steer;
+        double  leftSpeed;
+        double  rightSpeed;
+        int leftTarget;
+        int rightTarget;
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            leftTarget = -(int)(distance * robot.constants.STRAFE_TICKS_PER_IN);
+            rightTarget = (int)(distance * robot.constants.STRAFE_TICKS_PER_IN);
+
+            // Set Target and Turn On RUN_TO_POSITION
+            setTargetPositionStrafe(leftTarget,rightTarget);
+
+            setMotorRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // start motion.
+            speed = Range.clip(Math.abs(speed), 0.0, 1.0);
+            robot.leftFront.setPower(speed);
+            robot.rightFront.setPower(speed);
+            robot.leftBack.setPower(speed);
+            robot.rightBack.setPower(speed);
+
+            // keep looping while we are still active, and BOTH motors are running.
+            while (opModeIsActive() &&
+                    (robot.leftFront.isBusy() && robot.rightBack.isBusy())) {
+
+                // adjust relative speed based on heading error.
+                error = getError(angle);
+                steer = getSteerDrive(error, P_DRIVE_COEFF);
+
+                // if driving in reverse, the motor correction also needs to be reversed
+                if (distance < 0)
+                    steer *= 1.0;
+
+                leftSpeed = speed - steer;
+                rightSpeed = speed + steer;
+
+                // Normalize speeds if either one exceeds +/- 1.0;
+                max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
+                if (max > 1.0)
+                {
+                    leftSpeed /= max;
+                    rightSpeed /= max;
+                }
+
+                robot.leftFront.setPower(leftSpeed);
+                robot.rightFront.setPower(rightSpeed);
+                robot.leftBack.setPower(leftSpeed);
+                robot.rightBack.setPower(rightSpeed);
+            }
+
+            // Stop all motion;
+            robot.leftFront.setPower(0);
+            robot.rightFront.setPower(0);
+            robot.leftBack.setPower(0);
+            robot.rightBack.setPower(0);
+            // Turn off RUN_TO_POSITION
+            setMotorRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+    }
+
     public void setIMUOffset() {
         robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         sleep(20);
 
         initialIMUOffset = robot.angles.firstAngle;
     }
+
+    public void setInitLiftPosition() {
+        robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        initialLiftPosition = robot.lift.getCurrentPosition();
+    }
+
 
 }

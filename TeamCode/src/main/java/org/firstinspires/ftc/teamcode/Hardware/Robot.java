@@ -47,6 +47,11 @@ public class Robot {
     public DistanceSensor distanceLeft;
     public DistanceSensor distanceRight;
 
+    public DistanceSensor distanceLeftFront;
+    public DistanceSensor distanceLeftBack;
+    public DistanceSensor distanceRightFront;
+    public DistanceSensor distanceRightBack;
+
     public DcMotor lift;
     public DcMotor claw;
 
@@ -252,6 +257,15 @@ public class Robot {
         autoExtend = ahwmap.servo.get(constants.AUTO_EXTEND_SERVO_NAME);
 
         foundationServo = ahwmap.servo.get("foundationServo");
+    }
+
+    public void initStormDistanceSensors() {
+        distanceLeftFront = ahwmap.get(DistanceSensor.class, "distanceLeftFront");
+        distanceRightFront = ahwmap.get(DistanceSensor.class, "distanceRightFront");
+        distanceLeftBack = ahwmap.get(DistanceSensor.class, "distanceLeftBack");
+        distanceRightBack = ahwmap.get(DistanceSensor.class, "distanceRightBack");
+        distanceFront = ahwmap.get(DistanceSensor.class, "distanceFront");
+        distanceBack = ahwmap.get(DistanceSensor.class, "distanceBack");
     }
 
 

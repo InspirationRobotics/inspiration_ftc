@@ -132,10 +132,10 @@ public class Constants {
     public final double DIST_SENSOR_THRESHOLD = 5;
     public final double P_TURN_COEFF = 0.07;
     public final double P_WALL_COEFF = 0.0375;
-    public final double HEADING_THRESHOLD = 1;
+    public final double HEADING_THRESHOLD = 0.75;
     public final double DISTANCE_THRESHOLD = 1;
 
-    public final double STRAFE_CONSTANT = 1.43241195;
+    public final double STRAFE_CONSTANT = 1.875;
     public final double STRAFE_TICKS_PER_IN = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION * STRAFE_CONSTANT) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
     public final double ROBOT_WIDTH_IN = 15;
@@ -185,7 +185,7 @@ public class Constants {
 
 
     public final double WALL_DIST_CENTER = 21.75;
-    public final double WALL_DIST_STONE = 26;
+    public final double WALL_DIST_STONE = 25.5;
     public final double WALL_DIST_FOUNDATION = 30;
 
 
@@ -199,9 +199,9 @@ public class Constants {
 
     public final double AUTO_PIVOT_DOWN_POSITION = 0.8;
     public final double AUTO_PIVOT_COMPACT_POSITION = 0;
-    public final double AUTO_COLLECT_OPEN_POSITION = 0.85;
-    public final double AUTO_COLLECT_GRAB_POSITION = 0.5;
-    public final double AUTO_COLLECT_MID_POSITION = 0.3;
+    public final double AUTO_COLLECT_OPEN_POSITION = 1;
+    public final double AUTO_COLLECT_GRAB_POSITION = 0;
+    public final double AUTO_COLLECT_MID_POSITION = 0.7;
 
     /*CONSTANTS TO DERIVE:
     ENCODER_STRAFE offset (STRAFE CONSTANT)
