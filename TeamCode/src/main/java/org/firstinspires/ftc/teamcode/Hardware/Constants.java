@@ -166,8 +166,8 @@ public class Constants {
     public final double BACK_PIVOT_MID = 0.25;
     public final double BACK_PIVOT_DOWN = 1;
 
-    public final double FOUNDATION_SERVO_OPEN_POS = 1;
-    public final double FOUNDATION_SERVO_GRAB_POS = 0.4;
+    public final double FOUNDATION_SERVO_OPEN_POS = 0;
+    public final double FOUNDATION_SERVO_GRAB_POS = 0.6;
 
 
     public final double CLOSE_WALL_LEFT_SKYSTONE_BLUE_ALIGN_DISTANCE = 4;
@@ -201,7 +201,7 @@ public class Constants {
     public final double AUTO_PIVOT_COMPACT_POSITION = 0;
     public final double AUTO_COLLECT_OPEN_POSITION = 0.85;
     public final double AUTO_COLLECT_GRAB_POSITION = 0.5;
-    public final double AUTO_COLLECT_MID_POSITION = (AUTO_COLLECT_GRAB_POSITION + AUTO_COLLECT_OPEN_POSITION)/2;
+    public final double AUTO_COLLECT_MID_POSITION = 0.3;
 
     /*CONSTANTS TO DERIVE:
     ENCODER_STRAFE offset (STRAFE CONSTANT)

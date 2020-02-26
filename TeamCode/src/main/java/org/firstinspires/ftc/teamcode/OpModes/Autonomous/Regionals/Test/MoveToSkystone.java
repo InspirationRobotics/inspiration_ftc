@@ -12,7 +12,8 @@ public class MoveToSkystone extends BasicExtendedLinearOpMode {
     public void runOpMode() {
 
         robot.setHardwareMap(hardwareMap);
-        robot.initWaterfall();
+        robot.initStormDrivebase();
+        robot.initStormAttachments();
         initIMU(hardwareMap);
 
         int tgtSS = 2;
@@ -23,6 +24,7 @@ public class MoveToSkystone extends BasicExtendedLinearOpMode {
 
         waitForStart();
 
-        moveToSkystone(tgtSS, AllianceSide.BLUE);
+        moveToSkystoneStorm(tgtSS, AllianceSide.RED);
+
     }
 }

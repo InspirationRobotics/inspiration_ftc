@@ -250,6 +250,8 @@ public class Robot {
         autoCollect = ahwmap.servo.get(constants.AUTO_COLLECT_SERVO_NAME);
         autoPivot = ahwmap.servo.get(constants.AUTO_PIVOT_SERVO_NAME);
         autoExtend = ahwmap.servo.get(constants.AUTO_EXTEND_SERVO_NAME);
+
+        foundationServo = ahwmap.servo.get("foundationServo");
     }
 
 

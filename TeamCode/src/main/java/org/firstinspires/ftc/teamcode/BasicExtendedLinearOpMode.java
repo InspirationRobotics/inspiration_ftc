@@ -29,7 +29,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     public DistanceSensor frontDistanceSensor;
     public DistanceSensor rearDistanceSensor;
 
-    static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
+    static final double     P_DRIVE_COEFF           = 0.1;     // Larger is more responsive, but also less stable
 
 
     /* imu functions */
@@ -164,7 +164,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     }
 
     public double getSteerDrive(double error, double PCoeff) {
-            return Range.clip(error * PCoeff, -1, 1);
+            return Range.clip(error * PCoeff, -0.25, 0.25);
     }
     /* movement */
 
@@ -554,8 +554,9 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     public void moveToFoundationStorm(int skystoneId) {
         double targetDist = 78 + (8*skystoneId);
 
-        gyroTurn(0,0.2,1);
+//        gyroTurn(0,0.2,1);
         gyroDrive(1,targetDist,0);
+//        encoderDrive(targetDist, targetDist, 1, 1, 5);
         gyroTurn(0,0.2,1);
 
         releaseAutoArmStorm();
@@ -564,8 +565,9 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     public void multipleStoneStorm(int skystoneId) {
         double targetDist = 76 + (8*skystoneId);
 
-        gyroTurn(0,0.2,1);
+//        gyroTurn(0,0.2,1);
         gyroDrive(1,-targetDist,0);
+//        encoderDrive(-targetDist, -targetDist, 1, 1, 5);
         gyroTurn(0,0.2,1);
 
         grabAutoArmStorm();
