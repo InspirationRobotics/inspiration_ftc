@@ -30,6 +30,7 @@ public class StormTeleOp extends ExtendedOpMode {
         lift();
         claw();
         dpad_move();
+        foundationMover(gamepad1.right_trigger, gamepad1.left_trigger);
     }
 
     @Override
