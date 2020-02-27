@@ -577,6 +577,17 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 //        encoderDrive(-targetDist, -targetDist, 1, 1, 5);
         gyroTurn(0,0.3,1);
 
+        grabAutoArmStorm();
+    }
+
+    public void multipleStoneStormDistAlign(int skystoneId) {
+        double targetDist = 76 + (8*skystoneId);
+
+//        gyroTurn(0,0.2,1);
+        gyroDrive(1,-targetDist,-0.5);
+//        encoderDrive(-targetDist, -targetDist, 1, 1, 5);
+        gyroTurn(0,0.3,1);
+
         alignToStone(skystoneId);
         grabAutoArmStorm();
     }
@@ -680,6 +691,43 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 //            sleep(250);
 
             encoderDrive(5, 5, 1, 1, 0.8);
+        }
+
+    }
+
+    public void moveFoundationStorm(AllianceSide allianceSide) {
+
+        if (allianceSide == AllianceSide.BLUE) {
+
+            gyroTurn(-90, 0.6, 10);
+
+            encoderDrive(-10, -10, 0.3, 0.3, 10);
+
+            robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
+
+            sleep(1000);
+            encoderDrive(22, 22, 0.8, 0.8, 10);
+
+            gyroTurn(-180, 1, 10);
+
+            robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
+
+            encoderDrive(5, 5, 1, 1, 0.8);
+        }
+
+        else if (allianceSide == AllianceSide.RED) {
+            gyroTurn(90, 0.4, 2);
+
+            encoderDriveAcc(10, 10, 1, 1, 10);
+
+            robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
+            sleep(500);
+
+            encoderDriveAcc(-18, -18, 1, 1, 10);
+            gyroTurn(0, 0.4, 10);
+            robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
+
+            encoderDrive(-5, -5, 1, 1, 0.8);
         }
 
     }
