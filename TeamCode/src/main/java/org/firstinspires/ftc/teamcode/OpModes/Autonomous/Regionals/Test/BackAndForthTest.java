@@ -20,7 +20,7 @@ public class BackAndForthTest extends BasicExtendedLinearOpMode {
         robot.distanceBack = hardwareMap.get(DistanceSensor.class, "distanceBack");
 
 
-        initArm();
+        //initArm();
 
         telemetry.addLine("Ready To Go!");
         telemetry.update();

@@ -505,7 +505,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
     public void moveToSkystoneStorm(int skystoneId, AllianceSide allianceSide) {
 
-        double speed = 0.6;
+        double speed = 0.9;
         double distance;
 
         if (allianceSide == AllianceSide.BLUE) {
@@ -514,28 +514,30 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
             distance = -robot.constants.WALL_DIST_STONE;
         }
 
-        encoderStrafeGyro(distance, speed, 0, 7);
+        encoderStrafeGyro(distance, speed, 0, 3);
 
         sleep(100);
 
-        gyroTurn(0,0.4,2);
+        gyroTurn(0,0.15,1);
 
-//        double targetDistance = 19-(8*skystoneId);
+        double targetDistance = 19-(8*skystoneId);
 
-        //encoderDrive(targetDistance, targetDistance, 0.7, 0.7, 3500);
+        gyroDrive(0.8,targetDistance,0);
+//        encoderDrive(targetDistance, targetDistance, 0.7, 0.7, 3500);
 
-        alignToStone(skystoneId);
-        grabAutoArmStorm();
+        //alignToStone(skystoneId);
+        //grabAutoArmStorm();
     }
 
     public void grabAutoArmStorm() {
-        long downSleepTimeMS = 800;
-        long grabWaitTimeMS = 450;
+        long downSleepTimeMS = 825;
+        long grabWaitTimeMS = 400;
         robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_DOWN_POSITION);
         sleep(downSleepTimeMS);
         robot.autoCollect.setPosition(robot.constants.AUTO_COLLECT_GRAB_POSITION);
         sleep(grabWaitTimeMS);
         robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_COMPACT_POSITION);
+        sleep(downSleepTimeMS);
     }
 
     public void releaseAutoArmStorm() {
@@ -554,7 +556,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     }
 
     public void initArm() {
-        robot.autoPivot.setPosition((robot.constants.AUTO_COLLECT_MID_POSITION));
+        robot.autoPivot.setPosition(((robot.constants.AUTO_PIVOT_COMPACT_POSITION+robot.constants.AUTO_PIVOT_DOWN_POSITION)/2));
         robot.autoCollect.setPosition(robot.constants.AUTO_COLLECT_OPEN_POSITION);
     }
 
@@ -785,12 +787,23 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
             // reset the timeout time and start motion.
             runtime.reset();
 
-            double err_lb = Math.abs(robot.leftBack.getCurrentPosition() -robot.leftBack.getTargetPosition());
-            double err_rf = Math.abs(robot.rightFront.getCurrentPosition() -robot.rightFront.getTargetPosition());
+            boolean in_threshold_lb;
+            boolean in_threshold_rf;
+
+            if (units>0) {
+                in_threshold_lb = (robot.leftBack.getCurrentPosition() -robot.leftBack.getTargetPosition()) > 0;
+                in_threshold_rf = (robot.rightFront.getCurrentPosition() -robot.rightFront.getTargetPosition()) < 0;
+            } else {
+                in_threshold_lb = (robot.leftBack.getCurrentPosition() -robot.leftBack.getTargetPosition()) < 0;
+                in_threshold_rf = (robot.rightFront.getCurrentPosition() -robot.rightFront.getTargetPosition()) > 0;
+            }
+
+//            double err_lb = (robot.leftBack.getCurrentPosition() -robot.leftBack.getTargetPosition());
+//            double err_rf = (robot.rightFront.getCurrentPosition() -robot.rightFront.getTargetPosition());
 
             boolean stayInLoop = true;
 
-            while (opModeIsActive() && (err_lb > robot.constants.ENCODER_STRAFE_ERR_THRESHOLD) && (err_rf > robot.constants.ENCODER_STRAFE_ERR_THRESHOLD) && (System.currentTimeMillis() < endTime) && stayInLoop) {
+            while (opModeIsActive() && (!in_threshold_lb) && (!in_threshold_rf) && (System.currentTimeMillis() < endTime) && stayInLoop) {
 
 
 //                if(units > 0 && err_rf > 0) {
@@ -801,8 +814,16 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 //                    break;
 //                }
 
-                err_lb = Math.abs(robot.leftBack.getCurrentPosition() -robot.leftBack.getTargetPosition());
-                err_rf = Math.abs(robot.rightFront.getCurrentPosition() -robot.rightFront.getTargetPosition());
+//                err_lb = Math.abs(robot.leftBack.getCurrentPosition() -robot.leftBack.getTargetPosition());
+//                err_rf = Math.abs(robot.rightFront.getCurrentPosition() -robot.rightFront.getTargetPosition());
+
+                if (units>0) {
+                    in_threshold_lb = (robot.leftBack.getCurrentPosition() -robot.leftBack.getTargetPosition()) > 5;
+                    in_threshold_rf = (robot.rightFront.getCurrentPosition() -robot.rightFront.getTargetPosition()) < -5;
+                } else {
+                    in_threshold_lb = (robot.leftBack.getCurrentPosition() -robot.leftBack.getTargetPosition()) < -5;
+                    in_threshold_rf = (robot.rightFront.getCurrentPosition() -robot.rightFront.getTargetPosition()) > 5;
+                }
 
                 double powerLeftBack = 0.9*speed*speedMultiplier;
                 double powerLeftFront = -0.9*speed*speedMultiplier;
@@ -810,7 +831,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
                 double powerRightFront = 0.9*speed*speedMultiplier;
 
                 double error = getError(maintainedAngle);
-                double error_proportioned = Range.clip((error*0.1), -0.1, 0.1);
+                double error_proportioned = -Range.clip((error*0.1), -0.2, 0.2);
 
                 powerLeftBack = powerLeftBack - error_proportioned;
                 powerLeftFront = powerLeftFront - error_proportioned;
