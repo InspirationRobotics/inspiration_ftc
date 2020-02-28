@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Regionals;
+package org.firstinspires.ftc.teamcode.OpModes.Autonomous.LM3;
 
 import com.inspiration.inspcv.CameraViewDisplay;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;

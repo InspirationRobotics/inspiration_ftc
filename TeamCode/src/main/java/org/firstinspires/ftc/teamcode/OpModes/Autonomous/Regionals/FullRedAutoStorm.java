@@ -29,7 +29,8 @@ public class FullRedAutoStorm extends BasicExtendedLinearOpMode {
 
         setIMUOffset();
 
-        moveToSkystoneStorm(2, allianceSide);
+        //moveToSkystoneStorm(2, allianceSide);
+        moveToSkystoneStormBasic(2,allianceSide );
         moveToFoundationStorm(2);
 
         multipleStoneStorm(5);

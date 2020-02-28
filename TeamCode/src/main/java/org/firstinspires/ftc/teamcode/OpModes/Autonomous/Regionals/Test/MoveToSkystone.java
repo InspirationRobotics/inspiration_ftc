@@ -27,7 +27,10 @@ public class MoveToSkystone extends BasicExtendedLinearOpMode {
 
         waitForStart();
 
-        moveToSkystoneStorm(tgtSS, AllianceSide.RED);
+//        moveToSkystoneStorm(tgtSS, AllianceSide.RED);
 
+        encoderDriveBasicGyro(-26,1,0,3);
+
+        gyroTurn(0,0.2,2);
     }
 }

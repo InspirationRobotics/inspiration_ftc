@@ -197,8 +197,8 @@ public class Constants {
     public final String AUTO_PIVOT_SERVO_NAME = "autoPivot";
     public final String AUTO_EXTEND_SERVO_NAME = "autoExtend";
 
-    public final double AUTO_PIVOT_DOWN_POSITION = 0.8;
-    public final double AUTO_PIVOT_COMPACT_POSITION = 0;
+    public final double AUTO_PIVOT_DOWN_POSITION = 0.82;
+    public final double AUTO_PIVOT_COMPACT_POSITION = 0.1;
     public final double AUTO_COLLECT_OPEN_POSITION = 1;
     public final double AUTO_COLLECT_GRAB_POSITION = 0.5;
     public final double AUTO_COLLECT_MID_POSITION = 0.85;

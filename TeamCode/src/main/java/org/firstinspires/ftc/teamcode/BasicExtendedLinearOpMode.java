@@ -304,6 +304,66 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         robot.rightFront.setTargetPosition(robot.rightBack.getCurrentPosition() + rightTarget);
     }
 
+    public void encoderDriveBasicGyro(double distance, double speed, double angle, double timeoutS) {
+        int leftTarget = -(int)(robot.constants.STRAFE_TICKS_PER_IN*distance);
+        int rightTarget = (int)(robot.constants.STRAFE_TICKS_PER_IN*distance);
+
+        setMotorRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        setMotorRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        setTargetPositionStrafe(leftTarget,rightTarget);
+
+        double leftPower;
+        double rightPower;
+        double error;
+        double steer;
+
+        runtime.reset();
+
+        while(robot.rightBack.isBusy() && robot.leftFront.isBusy() && (runtime.seconds() < timeoutS)) {
+
+            double powerLeftBack = 0.9*speed;
+            double powerLeftFront = -0.9*speed;
+            double powerRightBack = -0.9*speed;
+            double powerRightFront = 0.9*speed;
+
+            error = getError(angle);
+            double error_proportioned = -Range.clip((error*0.055), -0.3, 0.3);
+
+            powerLeftBack = powerLeftBack - error_proportioned;
+            powerLeftFront = powerLeftFront - error_proportioned;
+            powerRightBack = powerRightBack + error_proportioned;
+            powerRightFront = powerRightFront + error_proportioned;
+
+            robot.leftFront.setPower((powerLeftFront));
+            robot.rightFront.setPower((powerRightFront));
+            robot.leftBack.setPower((powerLeftBack));
+            robot.rightBack.setPower((powerRightBack));
+        }
+
+        stopMotors();
+
+        setMotorRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void moveToSkystoneStormBasic(int skystoneId, AllianceSide alliance) {
+        double targetDistance = robot.constants.WALL_DIST_STONE;
+
+        if (alliance == AllianceSide.RED) {
+            targetDistance = targetDistance*-1;
+        }
+
+        encoderDriveBasicGyro(targetDistance,1,0,3.5);
+
+        gyroTurn(0,0.2,1.5);
+
+        double targetDriveDistance = 25-(8*skystoneId);
+
+        gyroDrive(0.8,targetDriveDistance,0);
+
+        grabAutoArmStorm();
+    }
+
     public void setMotorRunMode(DcMotor.RunMode runmode) {
         robot.leftFront.setMode(runmode);
         robot.rightFront.setMode(runmode);
@@ -530,7 +590,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     }
 
     public void grabAutoArmStorm() {
-        long downSleepTimeMS = 825;
+        long downSleepTimeMS = 750;
         long grabWaitTimeMS = 400;
         robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_DOWN_POSITION);
         sleep(downSleepTimeMS);
@@ -561,23 +621,23 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     }
 
     public void moveToFoundationStorm(int skystoneId) {
-        double targetDist = 74 + (8*skystoneId);
+        double targetDist = 78 + (8*skystoneId);
 
 //        gyroTurn(0,0.2,1);
-        gyroDrive(1,targetDist,0.5);
+        gyroDrive(1,targetDist,0);
 //        encoderDrive(targetDist, targetDist, 1, 1, 5);
-        gyroTurn(0,0.2,1);
+        gyroTurn(0,0.15,1.5);
 
         releaseAutoArmStorm();
     }
 
     public void multipleStoneStorm(int skystoneId) {
-        double targetDist = 76 + (8*skystoneId);
+        double targetDist = 80 + (8*skystoneId);
 
 //        gyroTurn(0,0.2,1);
-        gyroDrive(1,-targetDist,-0.5);
+        gyroDrive(1,-targetDist,0);
 //        encoderDrive(-targetDist, -targetDist, 1, 1, 5);
-        gyroTurn(0,0.3,1);
+        gyroTurn(0,0.15,1.5);
 
         grabAutoArmStorm();
     }
@@ -778,9 +838,13 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
         if (opModeIsActive()) {
 
+            setMotorRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            sleep(100);
             // Determine new target position, and pass to motor controller
             setMotorRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+            sleep(100);
             setTargetPositionStrafe(left_distanceEnc, right_distanceEnc);
             //setMotorRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -818,11 +882,11 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 //                err_rf = Math.abs(robot.rightFront.getCurrentPosition() -robot.rightFront.getTargetPosition());
 
                 if (units>0) {
-                    in_threshold_lb = (robot.leftBack.getCurrentPosition() -robot.leftBack.getTargetPosition()) > 5;
-                    in_threshold_rf = (robot.rightFront.getCurrentPosition() -robot.rightFront.getTargetPosition()) < -5;
+                    in_threshold_lb = (robot.leftBack.getCurrentPosition() -robot.leftBack.getTargetPosition()) > 0;
+                    in_threshold_rf = (robot.rightFront.getCurrentPosition() -robot.rightFront.getTargetPosition()) < 0;
                 } else {
-                    in_threshold_lb = (robot.leftBack.getCurrentPosition() -robot.leftBack.getTargetPosition()) < -5;
-                    in_threshold_rf = (robot.rightFront.getCurrentPosition() -robot.rightFront.getTargetPosition()) > 5;
+                    in_threshold_lb = (robot.leftBack.getCurrentPosition() -robot.leftBack.getTargetPosition()) < 0;
+                    in_threshold_rf = (robot.rightFront.getCurrentPosition() -robot.rightFront.getTargetPosition()) > 0;
                 }
 
                 double powerLeftBack = 0.9*speed*speedMultiplier;
