@@ -39,7 +39,7 @@ public abstract class ExtendedOpMode extends OpMode {
         if (close)
             robot.claw.setPosition(1);
         if (mid)
-            robot.claw.setPosition(0.5);
+            robot.claw.setPosition(0.6);
 
     }
 
@@ -48,21 +48,22 @@ public abstract class ExtendedOpMode extends OpMode {
 
             double dp_d = -(gamepad1.dpad_down ? 1 : 0) * 0.5;
             double dp_u = -(gamepad1.dpad_up ? 1 : 0) * 0.5;
+            double dp_l = (gamepad1.dpad_left ? 1 : 0) * 0.5;
+            double dp_r = (gamepad1.dpad_right ? 1 : 0) * 0.5;
 
-            robot.leftFront.setPower(dp_u - dp_d);
-            robot.leftBack.setPower(dp_u - dp_d);
-            robot.rightFront.setPower(dp_u - dp_d);
-            robot.rightBack.setPower(dp_u - dp_d);
+            robot.leftFront.setPower(dp_u - dp_d + -dp_r + dp_l);
+            robot.leftBack.setPower(dp_u - dp_d + dp_r - dp_l);
+            robot.rightFront.setPower(dp_u - dp_d + dp_r - dp_l);
+            robot.rightBack.setPower(dp_u - dp_d + -dp_r + dp_l);
 
         }
-
     }
 
-    public void strafe() {
+    public void strafeFast() {
 
-        while(gamepad1.left_trigger > 0.2 || gamepad1.right_trigger>0.2) {
-            double dp_l = (gamepad1.left_trigger > 0.2 ? 1 : 0) * 0.5;
-            double dp_r = (gamepad1.right_trigger > 0.2 ? 1 : 0) * 0.5;
+        while(gamepad1.left_trigger > 0.2 || gamepad1.right_trigger > 0.2) {
+            double dp_l = (gamepad1.left_trigger > 0.2 ? 1 : 0);
+            double dp_r = (gamepad1.right_trigger > 0.2 ? 1 : 0);
             robot.leftFront.setPower(-dp_r + dp_l);
             robot.leftBack.setPower(dp_r - dp_l);
             robot.rightFront.setPower(dp_r - dp_l);
@@ -248,11 +249,11 @@ public abstract class ExtendedOpMode extends OpMode {
     }
 
 
-    public void foundationMover(boolean gp1) {
+    public void foundationMover(boolean open, boolean close) {
 
-        if (gp1 && Math.round(robot.foundationServo.getPosition()) == robot.constants.FOUNDATION_SERVO_GRAB_POS) {
+        if (open) {
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
-        } else if (gp1 && Math.round(robot.foundationServo.getPosition()) == robot.constants.FOUNDATION_SERVO_OPEN_POS) {
+        } else if (close) {
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
         }
     }
