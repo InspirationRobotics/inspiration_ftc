@@ -308,9 +308,10 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         int rightTarget = (int)(robot.constants.STRAFE_TICKS_PER_IN*distance);
 
         setMotorRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        setMotorRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         setTargetPositionStrafe(leftTarget,rightTarget);
+
+        setMotorRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         double leftPower;
         double rightPower;
@@ -595,31 +596,31 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     public void grabAutoArmStorm() {
         long downSleepTimeMS = 625;
         long grabWaitTimeMS = 400;
-        robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_DOWN_POSITION);
+        robot.autoPivotLeft.setPosition(robot.constants.AUTO_PIVOT_DOWN_POSITION);
         sleep(downSleepTimeMS);
         robot.autoCollect.setPosition(robot.constants.AUTO_COLLECT_GRAB_POSITION);
         sleep(grabWaitTimeMS);
-        robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_COMPACT_POSITION);
+        robot.autoPivotLeft.setPosition(robot.constants.AUTO_PIVOT_COMPACT_POSITION);
         sleep(downSleepTimeMS);
     }
 
     public void releaseAutoArmStorm() {
         long downSleepTimeMS = 500;
         long grabWaitTimeMS = 400;
-        robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_DOWN_POSITION);
+        robot.autoPivotLeft.setPosition(robot.constants.AUTO_PIVOT_DOWN_POSITION);
         sleep(downSleepTimeMS);
         robot.autoCollect.setPosition(robot.constants.AUTO_COLLECT_OPEN_POSITION);
         sleep(grabWaitTimeMS);
-        robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_COMPACT_POSITION);
+        robot.autoPivotLeft.setPosition(robot.constants.AUTO_PIVOT_COMPACT_POSITION);
     }
 
     public void compactAutoArmStorm() {
         long downSleepTimeMS = 500;
-        robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_COMPACT_POSITION);
+        robot.autoPivotLeft.setPosition(robot.constants.AUTO_PIVOT_COMPACT_POSITION);
     }
 
     public void initArm() {
-        robot.autoPivot.setPosition(((robot.constants.AUTO_PIVOT_COMPACT_POSITION+robot.constants.AUTO_PIVOT_DOWN_POSITION)/2));
+        robot.autoPivotLeft.setPosition(((robot.constants.AUTO_PIVOT_COMPACT_POSITION+robot.constants.AUTO_PIVOT_DOWN_POSITION)/2));
         robot.autoCollect.setPosition(robot.constants.AUTO_COLLECT_OPEN_POSITION);
     }
 
@@ -629,7 +630,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 //        gyroTurn(0,0.2,1);
         gyroDrive(1,targetDist,0);
 //        encoderDrive(targetDist, targetDist, 1, 1, 5);
-        gyroTurn(0,0.35,1);
+        gyroTurn(0,0.35,0.65);
 
         releaseAutoArmStorm();
     }
@@ -651,7 +652,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 //        gyroTurn(0,0.2,1);
         gyroDrive(0.9,-targetDist,-0.185);
 //        encoderDrive(-targetDist, -targetDist, 1, 1, 5);
-        gyroTurn(-0.55,0.25,1);
+        gyroTurn(-0.55,0.35,0.5);
         alignToStone(skystoneId);
         grabAutoArmStorm();
     }
@@ -772,25 +773,25 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
 
             sleep(1000);
-            encoderDrive(22, 22, 0.8, 0.8, 10);
+            encoderDrive(42, 42, 1, 1, 10);
 
             gyroTurn(-180, 1, 10);
 
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
 
-            encoderDrive(5, 5, 1, 1, 0.8);
+//            encoderDrive(5, 5, 1, 1, 0.8);
         }
 
         else if (allianceSide == AllianceSide.RED) {
             gyroTurn(90, 0.4, 2);
 
-            encoderDriveAcc(10, 10, 1, 1, 10);
+            encoderDrive(20, 20, 1, 1, 10);
 
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
             sleep(500);
 
-            encoderDriveAcc(-18, -18, 1, 1, 10);
-            gyroTurn(0, 0.4, 10);
+            encoderDrive(-42, -42, 1, 1, 10);
+            gyroTurn(0, 0.75, 10);
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
 
             encoderDrive(-5, -5, 1, 1, 0.8);
@@ -972,6 +973,33 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
                 leftSpeed = speed - steer;
                 rightSpeed = speed + steer;
+
+                // Normalize speeds if either one exceeds +/- 1.0;
+                max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
+                if (max > 1.0)
+                {
+                    leftSpeed /= max;
+                    rightSpeed /= max;
+                }
+
+                robot.leftFront.setPower(leftSpeed);
+                robot.rightFront.setPower(rightSpeed);
+                robot.leftBack.setPower(leftSpeed);
+                robot.rightBack.setPower(rightSpeed);
+            }
+
+            runtime.reset();
+
+            while(runtime.seconds()<0.35) {
+                error = getError(angle);
+                steer = getSteerDrive(error, P_DRIVE_COEFF);
+
+                // if driving in reverse, the motor correction also needs to be reversed
+                if (distance < 0)
+                    steer *= -1.0;
+
+                leftSpeed = -steer;
+                rightSpeed = steer;
 
                 // Normalize speeds if either one exceeds +/- 1.0;
                 max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));

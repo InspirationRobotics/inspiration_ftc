@@ -21,13 +21,13 @@ public class AutoArmTest extends ExtendedLinearOpMode {
 
         waitForStart();
 
-        robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_DOWN_POSITION);
+        robot.autoPivotLeft.setPosition(robot.constants.AUTO_PIVOT_DOWN_POSITION);
         telemetry.addData("Position of pivot is", robot.constants.AUTO_PIVOT_DOWN_POSITION);
         telemetry.update();
 
         sleep(3000);
 
-        robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_COMPACT_POSITION);
+        robot.autoPivotLeft.setPosition(robot.constants.AUTO_PIVOT_COMPACT_POSITION);
         telemetry.addData("Position of pivot is", robot.constants.AUTO_PIVOT_COMPACT_POSITION);
         telemetry.update();
 

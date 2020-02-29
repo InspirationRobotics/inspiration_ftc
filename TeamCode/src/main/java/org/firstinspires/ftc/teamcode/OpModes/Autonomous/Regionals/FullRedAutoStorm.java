@@ -42,5 +42,6 @@ public class FullRedAutoStorm extends BasicExtendedLinearOpMode {
         moveToFoundationStorm(1);
 
         compactAutoArmStorm();
+        moveFoundationStorm(AllianceSide.RED);
     }
 }

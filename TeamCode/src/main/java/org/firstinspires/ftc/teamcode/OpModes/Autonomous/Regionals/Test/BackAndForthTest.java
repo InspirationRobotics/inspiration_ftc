@@ -32,10 +32,10 @@ public class BackAndForthTest extends BasicExtendedLinearOpMode {
         grabAutoArmStorm();
         moveToFoundationStorm(2);
 
-        multipleStoneStorm(5);
+        multipleStoneStormDistAlign(5);
         moveToFoundationStorm(5);
 
-        multipleStoneStorm(1);
+        multipleStoneStormDistAlign(1);
         moveToFoundationStorm(1);
         moveFoundationStorm(AllianceSide.RED);
     }

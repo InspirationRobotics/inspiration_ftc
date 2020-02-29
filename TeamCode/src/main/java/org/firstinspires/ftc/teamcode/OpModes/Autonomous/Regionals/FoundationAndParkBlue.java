@@ -1,19 +1,17 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Regionals;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.BasicExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.AllianceSide;
 
-@Autonomous(name = "Foundation And Park Red", group = "Storm")
-public class FoundationAndParkRed extends BasicExtendedLinearOpMode {
+@Autonomous(name = "Foundation And Park Blue", group = "Storm")
+public class FoundationAndParkBlue extends BasicExtendedLinearOpMode {
 
     @Override
     public void runOpMode() {
 
-        AllianceSide allianceSide = AllianceSide.RED;
+        AllianceSide allianceSide = AllianceSide.BLUE;
         robot.setHardwareMap(hardwareMap);
         robot.initStormDrivebase();
         robot.initStormAttachments();
@@ -26,7 +24,7 @@ public class FoundationAndParkRed extends BasicExtendedLinearOpMode {
 
         setIMUOffset();
 
-        encoderDriveBasicGyro(16,1,0,4);
+        encoderDriveBasicGyro(-16,1,0,4);
 
         encoderDrive(-8,-8,0.5,0.5,2);
 
@@ -42,7 +40,7 @@ public class FoundationAndParkRed extends BasicExtendedLinearOpMode {
 
         encoderDrive(-26, -26, 0.8, 0.8, 10);
 
-        gyroTurn(-90, 0.8, 10);
+        gyroTurn(90, 0.8, 10);
 
         robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
 
@@ -57,7 +55,7 @@ public class FoundationAndParkRed extends BasicExtendedLinearOpMode {
 
         encoderDrive(22,22,0.5,0.5,5);
 
-        gyroTurn(-90,0.2,3);
+        gyroTurn(90,0.2,3);
 
         encoderDrive(-25,-25,0.6,0.6,5);
     }

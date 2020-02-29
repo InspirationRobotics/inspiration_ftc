@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode.OpModes.Autonomous.LM3;
 
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
+@Disabled
 @Autonomous(name="MoveArm")
 public class MoveArm extends ExtendedLinearOpMode {
 
