@@ -185,7 +185,7 @@ public class Constants {
 
 
     public final double WALL_DIST_CENTER = 21.75;
-    public final double WALL_DIST_STONE = 26.25;
+    public final double WALL_DIST_STONE = 26.5;
     public final double WALL_DIST_FOUNDATION = 30;
 
 

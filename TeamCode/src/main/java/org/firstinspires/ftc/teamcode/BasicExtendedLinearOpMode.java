@@ -27,8 +27,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
     public double initialIMUOffset = 0;
 
-    public DistanceSensor frontDistanceSensor;
-    public DistanceSensor rearDistanceSensor;
+    public boolean useDistanceSensor = true;
 
     public double initialLiftPosition = 0;
 
@@ -160,9 +159,9 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
     public double getSteer(double error, double PCoeff) {
         if(error > 0) {
-            return Range.clip(error * PCoeff, 0.15, 1);
+            return Range.clip(error * PCoeff, 0.225, 1);
         } else {
-            return Range.clip(error * PCoeff, -1, -0.15);
+            return Range.clip(error * PCoeff, -1, -0.225);
         }
     }
 
@@ -355,12 +354,16 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
         encoderDriveBasicGyro(targetDistance,1,0,3.5);
 
-        gyroTurn(0,0.2,1.5);
+        gyroTurn(1,0.175,1.5);
 
-        double targetDriveDistance = 25-(8*skystoneId);
+        if (useDistanceSensor) {
+            alignToStone(skystoneId);
+        } else {
+            double targetDriveDistance = 25 - (8 * skystoneId);
 
-        gyroDrive(0.8,targetDriveDistance,0);
+            gyroDrive(0.8, targetDriveDistance, 0);
 
+        }
         grabAutoArmStorm();
     }
 
@@ -578,7 +581,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 
         sleep(100);
 
-        gyroTurn(0,0.15,1);
+        gyroTurn(0,0.25,1);
 
         double targetDistance = 19-(8*skystoneId);
 
@@ -590,7 +593,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
     }
 
     public void grabAutoArmStorm() {
-        long downSleepTimeMS = 750;
+        long downSleepTimeMS = 625;
         long grabWaitTimeMS = 400;
         robot.autoPivot.setPosition(robot.constants.AUTO_PIVOT_DOWN_POSITION);
         sleep(downSleepTimeMS);
@@ -626,7 +629,7 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
 //        gyroTurn(0,0.2,1);
         gyroDrive(1,targetDist,0);
 //        encoderDrive(targetDist, targetDist, 1, 1, 5);
-        gyroTurn(0,0.15,1.5);
+        gyroTurn(0,0.35,1);
 
         releaseAutoArmStorm();
     }
@@ -635,29 +638,30 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         double targetDist = 80 + (8*skystoneId);
 
 //        gyroTurn(0,0.2,1);
-        gyroDrive(1,-targetDist,0);
+        gyroDrive(0.9,-targetDist,-0.275);
 //        encoderDrive(-targetDist, -targetDist, 1, 1, 5);
-        gyroTurn(0,0.15,1.5);
+        gyroTurn(-0.55,0.35,1);
 
         grabAutoArmStorm();
     }
 
     public void multipleStoneStormDistAlign(int skystoneId) {
-        double targetDist = 76 + (8*skystoneId);
+            double targetDist = 80 + (8*skystoneId);
 
 //        gyroTurn(0,0.2,1);
-        gyroDrive(1,-targetDist,-0.5);
+        gyroDrive(0.9,-targetDist,-0.185);
 //        encoderDrive(-targetDist, -targetDist, 1, 1, 5);
-        gyroTurn(0,0.3,1);
-
+        gyroTurn(-0.55,0.25,1);
         alignToStone(skystoneId);
         grabAutoArmStorm();
     }
 
     public void alignToStone(int skystoneId) {
-        double targetDist = 52-(8*skystoneId);
+        if (useDistanceSensor) {
+            double targetDist = 50 - (8 * skystoneId);
 
-        wallAlign(targetDist,1,robot.distanceBack,Direction.BACKWARD);
+            wallAlign(targetDist, 1, robot.distanceBack, Direction.BACKWARD);
+        }
     }
     public void wallAlign(double targetDistance, double speed, DistanceSensor inputDistanceSensor, Direction distanceSensorDirection) {
         double encoderDist = 0;
@@ -1081,5 +1085,14 @@ public abstract class BasicExtendedLinearOpMode extends LinearOpMode {
         initialLiftPosition = robot.lift.getCurrentPosition();
     }
 
+    public void verifyBackDS(double expectedValue) {
+        double currentPosition = robot.distanceBack.getDistance(DistanceUnit.INCH);
+
+        double error = Math.abs(currentPosition - expectedValue);
+
+        if (error > 5) {
+            useDistanceSensor = false;
+        }
+    }
 
 }

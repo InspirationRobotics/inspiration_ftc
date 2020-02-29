@@ -37,5 +37,7 @@ public class FullBlueAutoStorm extends BasicExtendedLinearOpMode {
 
         multipleStoneStorm(1);
         moveToFoundationStorm(1);
+
+        compactAutoArmStorm();
     }
 }
