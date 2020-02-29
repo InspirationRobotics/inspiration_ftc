@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.firstinspires.ftc.teamcode.BasicExtendedLinearOpMode;
 import org.firstinspires.ftc.teamcode.ExtendedLinearOpMode;
 
-//@Disabled
+@Disabled
 @Autonomous(name = "Encoder Strafe Test 20in", group = "Test")
 public class EncoderStrafeTestDrive20in extends BasicExtendedLinearOpMode {
 
