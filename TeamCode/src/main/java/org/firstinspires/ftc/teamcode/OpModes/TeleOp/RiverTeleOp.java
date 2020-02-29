@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.configuration.annotations.DigitalIoDeviceType;
 
 import org.firstinspires.ftc.teamcode.ExtendedOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.RobotVersion;
 
+@Disabled
 @TeleOp(name = "River TeleOp", group = "River")
 public class RiverTeleOp extends ExtendedOpMode {
 

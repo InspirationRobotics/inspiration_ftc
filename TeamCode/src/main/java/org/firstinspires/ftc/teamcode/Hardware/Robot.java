@@ -53,11 +53,12 @@ public class Robot {
     public DistanceSensor distanceRightBack;
 
     public DcMotor lift;
-    public DcMotor claw;
+    public Servo claw;
 
     public Servo autoCollect;
-    public Servo autoPivot;
-    public Servo autoExtend;
+    public Servo autoPivotLeft;
+    public Servo autoPivotRight;
+//    public Servo autoExtend;
 
 //    public ModernRoboticsI2cRangeSensor mrDistanceFront;
 //    public ModernRoboticsI2cRangeSensor mrDistanceBack;
@@ -250,11 +251,12 @@ public class Robot {
     public void initStormAttachments() {
         lift = ahwmap.dcMotor.get(constants.LIFT_MOTOR_NAME);
 
-        claw = ahwmap.dcMotor.get(constants.CLAW_MOTOR_NAME);
+        claw = ahwmap.servo.get(constants.CLAW_MOTOR_NAME);
 
         autoCollect = ahwmap.servo.get(constants.AUTO_COLLECT_SERVO_NAME);
-        autoPivot = ahwmap.servo.get(constants.AUTO_PIVOT_SERVO_NAME);
-        autoExtend = ahwmap.servo.get(constants.AUTO_EXTEND_SERVO_NAME);
+        autoPivotLeft = ahwmap.servo.get(constants.LEFT_AUTO_PIVOT_SERVO_NAME);
+        autoPivotRight = ahwmap.servo.get(constants.RIGHT_AUTO_PIVOT_SERVO_NAME);
+//        autoExtend = ahwmap.servo.get(constants.AUTO_EXTEND_SERVO_NAME);
 
         foundationServo = ahwmap.servo.get("foundationServo");
     }

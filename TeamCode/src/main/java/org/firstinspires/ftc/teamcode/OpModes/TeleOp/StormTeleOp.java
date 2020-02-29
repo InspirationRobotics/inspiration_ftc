@@ -28,9 +28,10 @@ public class StormTeleOp extends ExtendedOpMode {
     public void loop() {
         setPower();
         lift();
-        claw();
+        claw(gamepad1.left_bumper, gamepad1.right_bumper, gamepad1.x);
+        strafe();
         dpad_move();
-        foundationMover(gamepad1.right_trigger, gamepad1.left_trigger);
+        foundationMover(gamepad1.a);
     }
 
     @Override

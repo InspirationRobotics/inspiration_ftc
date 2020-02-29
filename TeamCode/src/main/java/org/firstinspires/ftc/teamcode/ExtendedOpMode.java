@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
+import java.sql.Time;
 import java.util.logging.XMLFormatter;
 
 /**
@@ -31,26 +32,42 @@ public abstract class ExtendedOpMode extends OpMode {
         robot.lift.setPower(gamepad2.left_stick_y);
     }
 
-    public void claw() {
-        int gp1_lb = gamepad1.left_bumper ? 1 : 0;
-        int gp1_rb = gamepad1.right_bumper ? 1 : 0;
+    public void claw(boolean open, boolean close, boolean mid) {
 
-        robot.claw.setPower(gp1_rb - gp1_lb);
+        if (open)
+            robot.claw.setPosition(0);
+        if (close)
+            robot.claw.setPosition(1);
+        if (mid)
+            robot.claw.setPosition(0.5);
+
     }
 
     public void dpad_move() {
         while(gamepad1.dpad_down || gamepad1.dpad_up || gamepad1.dpad_right || gamepad1.dpad_left) {
-            double dp_l = (gamepad1.dpad_left ? 1 : 0) * 0.5;
-            double dp_r = (gamepad1.dpad_right ? 1 : 0) * 0.5;
-            double dp_d = (gamepad1.dpad_down ? 1 : 0) * 0.5;
-            double dp_u = (gamepad1.dpad_up ? 1 : 0) * 0.5;
 
-            robot.leftFront.setPower(dp_u - dp_d - dp_r + dp_l);
-            robot.leftBack.setPower(dp_u - dp_d + dp_r - dp_l);
-            robot.rightFront.setPower(dp_u - dp_d + dp_r - dp_l);
-            robot.rightBack.setPower(dp_u - dp_d - dp_r + dp_l);
+            double dp_d = -(gamepad1.dpad_down ? 1 : 0) * 0.5;
+            double dp_u = -(gamepad1.dpad_up ? 1 : 0) * 0.5;
+
+            robot.leftFront.setPower(dp_u - dp_d);
+            robot.leftBack.setPower(dp_u - dp_d);
+            robot.rightFront.setPower(dp_u - dp_d);
+            robot.rightBack.setPower(dp_u - dp_d);
+
         }
 
+    }
+
+    public void strafe() {
+
+        while(gamepad1.left_trigger > 0.2 || gamepad1.right_trigger>0.2) {
+            double dp_l = (gamepad1.left_trigger > 0.2 ? 1 : 0) * 0.5;
+            double dp_r = (gamepad1.right_trigger > 0.2 ? 1 : 0) * 0.5;
+            robot.leftFront.setPower(-dp_r + dp_l);
+            robot.leftBack.setPower(dp_r - dp_l);
+            robot.rightFront.setPower(dp_r - dp_l);
+            robot.rightBack.setPower(-dp_r + dp_l);
+        }
     }
    /*public void strafe(double leftTrigger, double rightTrigger) {
 
@@ -231,15 +248,11 @@ public abstract class ExtendedOpMode extends OpMode {
     }
 
 
-    public void foundationMover(float gp1RT, float gp1LT) {
+    public void foundationMover(boolean gp1) {
 
-        // move foundation mover @ touch of x or y. x = open, y = grab fn
-        // you're so smart!
-        if (gp1LT > 0.2) {
+        if (gp1 && Math.round(robot.foundationServo.getPosition()) == robot.constants.FOUNDATION_SERVO_GRAB_POS) {
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_OPEN_POS);
-        }
-
-        if (gp1RT > 0.2) {
+        } else if (gp1 && Math.round(robot.foundationServo.getPosition()) == robot.constants.FOUNDATION_SERVO_OPEN_POS) {
             robot.foundationServo.setPosition(robot.constants.FOUNDATION_SERVO_GRAB_POS);
         }
     }

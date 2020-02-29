@@ -185,7 +185,7 @@ public class Constants {
 
 
     public final double WALL_DIST_CENTER = 21.75;
-    public final double WALL_DIST_STONE = 26.5;
+    public final double WALL_DIST_STONE = 26.75;
     public final double WALL_DIST_FOUNDATION = 30;
 
 
@@ -194,7 +194,8 @@ public class Constants {
     public final String CLAW_MOTOR_NAME = "claw";
 
     public final String AUTO_COLLECT_SERVO_NAME = "autoCollect";
-    public final String AUTO_PIVOT_SERVO_NAME = "autoPivot";
+    public final String LEFT_AUTO_PIVOT_SERVO_NAME = "autoPivotLeft";
+    public final String RIGHT_AUTO_PIVOT_SERVO_NAME = "autoPivotRight";
     public final String AUTO_EXTEND_SERVO_NAME = "autoExtend";
 
     public final double AUTO_PIVOT_DOWN_POSITION = 0.82;
