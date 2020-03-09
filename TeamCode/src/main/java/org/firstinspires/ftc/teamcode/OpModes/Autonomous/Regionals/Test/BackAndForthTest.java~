@@ -18,9 +18,7 @@ public class BackAndForthTest extends BasicExtendedLinearOpMode {
         robot.initStormAttachments();
         initIMU(hardwareMap);
         robot.distanceBack = hardwareMap.get(DistanceSensor.class, "distanceBack");
-        robot.distanceFront = hardwareMap.get(DistanceSensor.class, "distanceFront");
-        robot.distanceLeftBack = hardwareMap.get(DistanceSensor.class, "distanceLeftBack");
-        robot.distanceRightBack = hardwareMap.get(DistanceSensor.class, "distanceRightBack");
+
 
         //initArm();
 

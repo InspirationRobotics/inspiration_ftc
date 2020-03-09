@@ -17,6 +17,8 @@ public class MoveToSkystone extends BasicExtendedLinearOpMode {
         robot.initStormDrivebase();
         robot.initStormAttachments();
         robot.distanceBack = hardwareMap.get(DistanceSensor.class, "distanceBack");
+        robot.distanceLeftBack = hardwareMap.get(DistanceSensor.class, "distanceLeftBack");
+
         initIMU(hardwareMap);
 
         int tgtSS = 2;
@@ -29,8 +31,10 @@ public class MoveToSkystone extends BasicExtendedLinearOpMode {
 
 //        moveToSkystoneStorm(tgtSS, AllianceSide.RED);
 
-        encoderDriveBasicGyro(-26,1,0,3);
+        encoderDriveBasicGyro(robot.constants.WALL_DIST_STONE,1,0,3);
 
         gyroTurn(0,0.2,2);
+
+        alignHorizontally(robot.constants.WALL_DIST_STONE);
     }
 }

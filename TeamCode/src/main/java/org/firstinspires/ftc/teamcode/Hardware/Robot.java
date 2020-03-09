@@ -272,24 +272,24 @@ public class Robot {
 
 
 
-//    public void initIMU() {
-//        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-//        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-//        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-//        parameters.loggingEnabled = true;
-//        parameters.loggingTag = "IMU";
-//
-//        imu = ahwmap.get(BNO055IMU.class, constants.IMU_NAME);
-//        imu.initialize(parameters);
-//    }
+    public void initIMU() {
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
 
-//    public double getHeading() {
-//
-//        double heading;
-//
-//        heading = angles.firstAngle;
-//
-//        return heading;
-//    }
+        imu = ahwmap.get(BNO055IMU.class, constants.IMU_NAME);
+        imu.initialize(parameters);
+    }
+
+    public double getHeading() {
+
+        double heading;
+
+        heading = angles.firstAngle;
+
+        return heading;
+    }
 
 }

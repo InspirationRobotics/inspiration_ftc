@@ -132,7 +132,7 @@ public class Constants {
     public final double DIST_SENSOR_THRESHOLD = 5;
     public final double P_TURN_COEFF = 0.07;
     public final double P_WALL_COEFF = 0.0375;
-    public final double HEADING_THRESHOLD = 1;
+    public final double HEADING_THRESHOLD = 0.65;
     public final double DISTANCE_THRESHOLD = 1;
 
     public final double STRAFE_CONSTANT = 1.875;
@@ -185,7 +185,7 @@ public class Constants {
 
 
     public final double WALL_DIST_CENTER = 21.75;
-    public final double WALL_DIST_STONE = 26.75;
+    public final double WALL_DIST_STONE = 26.4;
     public final double WALL_DIST_FOUNDATION = 30;
 
 
@@ -203,6 +203,14 @@ public class Constants {
     public final double AUTO_COLLECT_OPEN_POSITION = 1;
     public final double AUTO_COLLECT_GRAB_POSITION = 0.5;
     public final double AUTO_COLLECT_MID_POSITION = 0.85;
+
+    public final double LEFT_AUTO_PIVOT_DOWN_POSITION = 0.1;
+    public final double LEFT_AUTO_PIVOT_UP_POSITION = 0.9;
+    public final double LEFT_AUTO_PIVOT_MID_POSITION = 0.75;
+
+    public final double RIGHT_AUTO_PIVOT_DOWN_POSITION = 1;
+    public final double RIGHT_AUTO_PIVOT_UP_POSITION = 0.15;
+    public final double RIGHT_AUTO_PIVOT_MID_POSITION = 0.45;
 
     /*CONSTANTS TO DERIVE:
     ENCODER_STRAFE offset (STRAFE CONSTANT)
