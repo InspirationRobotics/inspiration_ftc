@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Hardware;
 
 /**
  * robot hardware as defined by this configuration document: https://docs.google.com/document/d/1KFLzqu7Pr19PzTmmKGaU6Zq64Gp2DHFgC8-qw7VF-Us/edit
@@ -44,10 +43,10 @@ public class Robot
     public DcMotor motorWobbleGoal = null;
 
     /* i2c -- distance sensors on sides */
-    public DistanceSensor distLF = null;   /* p0 */
-    public DistanceSensor distRF = null;   /* p1 */
-    public DistanceSensor distLB = null;   /* p2 */
-    public DistanceSensor distRB = null;   /* p3 */
+    public DistanceSensor distLF = null;    /* p0 */
+    public DistanceSensor distRF = null;    /* p1 */
+    public DistanceSensor distLB = null;    /* p2 */
+    public DistanceSensor distRB = null;    /* p3 */
 
 
     /* HW End --------------------------------------------------- */
