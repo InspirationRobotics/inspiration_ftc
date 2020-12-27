@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public abstract class MovementHelperFunctions extends LinearOpMode {
+public abstract class CommonAutoFunctions extends LinearOpMode {
 
     Robot robot = new Robot();
     private ElapsedTime runtime = new ElapsedTime();
