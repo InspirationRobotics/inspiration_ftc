@@ -4,11 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.CommonAutoFunctions;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous(name="Pushbot: Auto Drive By Time", group="Pushbot")
 @Disabled
-public class Rings extends MovementHelperFunctions {
+public class Rings extends CommonAutoFunctions {
 
     /* Declare OpMode members. */
     Robot robot   = new Robot();   // Use a Pushbot's hardware
