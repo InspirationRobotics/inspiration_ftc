@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "TeleOp wb", group = "TeleOp")
+@TeleOp(name = "TeleOp wb")
 public class teleop extends LinearOpMode {
 
     //drivetrain
