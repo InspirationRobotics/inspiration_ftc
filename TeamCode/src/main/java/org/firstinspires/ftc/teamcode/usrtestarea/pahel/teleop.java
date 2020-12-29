@@ -16,7 +16,9 @@ public class teleop extends LinearOpMode {
     public DcMotor backRight;
 
     //servos
-    public Servo shooter;                   /* p0 */
+    public Servo shooter;            /* p0 */
+
+    public static final double STRAFE_SPEED = 0.5;
 
 
     @Override
@@ -43,6 +45,27 @@ public class teleop extends LinearOpMode {
             backLeft.setPower(-gamepad1.left_stick_y);
             backRight.setPower(-gamepad1.right_stick_y);
 
+            while (gamepad1.dpad_left){
+                frontLeft.setPower(STRAFE_SPEED);
+                frontRight.setPower(-STRAFE_SPEED);
+                backLeft.setPower(-STRAFE_SPEED);
+                backRight.setPower(STRAFE_SPEED);
+
+                if(!gamepad1.dpad_left){
+                    break;
+                }
+            }
+            while(gamepad1.dpad_right){
+                frontLeft.setPower(-STRAFE_SPEED);
+                frontRight.setPower(STRAFE_SPEED);
+                backLeft.setPower(STRAFE_SPEED);
+                backRight.setPower(-STRAFE_SPEED);
+
+                if(!gamepad1.dpad_right){
+                    break;
+                }
+
+            }
 
             idle();
         }
