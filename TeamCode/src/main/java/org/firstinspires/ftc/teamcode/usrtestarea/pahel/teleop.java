@@ -31,6 +31,7 @@ public class teleop extends LinearOpMode {
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
         //servos
+        //need to figure out how the servo moves and stuff, will probably go to the lab on 12/30/2020
         //shooter = hardwareMap.get(Servo.class, "shooter");
 
         waitForStart();
@@ -41,6 +42,7 @@ public class teleop extends LinearOpMode {
             frontRight.setPower(-gamepad1.right_stick_y);
             backLeft.setPower(-gamepad1.left_stick_y);
             backRight.setPower(-gamepad1.right_stick_y);
+
 
             idle();
         }
