@@ -19,7 +19,8 @@ public class teleop extends LinearOpMode {
     public Servo shooter;            /* p0 */
 
     public static final double STRAFE_SPEED = 0.5;
-
+    public static final double SERVO_POSITION = 0.8;
+    public static final double SERVO_RETRACTED_POSITION = 0.1;
 
     @Override
     public void runOpMode(){
@@ -64,6 +65,13 @@ public class teleop extends LinearOpMode {
                 if(!gamepad1.dpad_right){
                     break;
                 }
+
+            if(gamepad2.a){
+                shooter.setPosition(SERVO_POSITION);
+            }
+            if(gamepad2.b){
+                shooter.setPosition(SERVO_RETRACTED_POSITION);
+            }
 
             }
 
