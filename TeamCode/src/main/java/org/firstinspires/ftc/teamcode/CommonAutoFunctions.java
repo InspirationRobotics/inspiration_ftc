@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.usrtestarea.rishi;
+package org.firstinspires.ftc.teamcode;
 
 import org.firstinspires.ftc.teamcode.Robot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -11,11 +11,6 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
 
     Robot robot = new Robot();
     private ElapsedTime runtime = new ElapsedTime();
-
-
-
-
-
 
     public final double COUNTS_PER_MOTOR_REV    = 537.6 ;
     public final double DRIVE_GEAR_REDUCTION    = 0.5 ;     // This is < 1.0 if geared UP (32 teeth to 16 teeth)
