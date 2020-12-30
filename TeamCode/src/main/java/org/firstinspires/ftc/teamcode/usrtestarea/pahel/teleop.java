@@ -6,6 +6,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+/*MECHANICAL PEOPLE (noah): i added two variables: SERVO_POSITION and SERVER_RETRACTED_POSITION
+(I don't know how effective the name is lol). Feel free to increase/decrease the variable values as you figure out what
+position you need the servos to go to (I just set them arbitrarily). The greater the number the more it turns basically
+ */
+
 @TeleOp(name = "TeleOp wb")
 public class teleop extends LinearOpMode {
 
