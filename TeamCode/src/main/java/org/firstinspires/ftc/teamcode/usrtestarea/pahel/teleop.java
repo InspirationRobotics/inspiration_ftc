@@ -40,7 +40,8 @@ public class teleop extends LinearOpMode {
 
         //servos
         //need to figure out how the servo moves and stuff, will probably go to the lab on 12/30/2020
-        //shooter = hardwareMap.get(Servo.class, "shooter");
+        shooter = hardwareMap.get(Servo.class, "shooter");
+        shooter.setPosition(SERVO_RETRACTED_POSITION);
 
         waitForStart();
 
