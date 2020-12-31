@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -65,6 +66,9 @@ public class Robot
         frontRight = hwmap.get(DcMotor.class, "frontRight");
         backLeft = hwmap.get(DcMotor.class, "backLeft");
         backRight = hwmap.get(DcMotor.class, "backRight");
+
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     /* if you want to init them all at once use this */
