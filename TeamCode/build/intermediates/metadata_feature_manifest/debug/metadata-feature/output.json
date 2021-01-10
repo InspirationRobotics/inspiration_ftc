@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "applicationId": "com.qualcomm.ftcrobotcontroller",
+  "variantType": "BASE_APK",
+  "elements": [
+    {
+      "outputType": {
+        "type": "METADATA_FEATURE_MANIFEST"
+      },
+      "apkData": {
+        "type": "MAIN",
+        "splits": [],
+        "versionCode": 38,
+        "versionName": "6.0",
+        "outputFile": "TeamCode-debug.apk",
+        "fullName": "debug",
+        "baseName": "debug",
+        "dirName": ""
+      },
+      "path": "AndroidManifest.xml",
+      "properties": {}
+    }
+  ]
+}
