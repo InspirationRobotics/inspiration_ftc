@@ -56,9 +56,7 @@ public class RingCVCode extends LinearOpMode
     {
         public enum NumberOfRings
         {
-            FOUR,
-            ONE,
-            NONE
+            four, one, zero
         }
 
         static final Scalar RED = new Scalar(255, 0, 0);
@@ -87,7 +85,7 @@ public class RingCVCode extends LinearOpMode
         Mat Cb = new Mat();
         int avg1;
 
-        private volatile NumberOfRings rings = NumberOfRings.FOUR;
+        private volatile NumberOfRings rings = NumberOfRings.four;
         void inputToCb(Mat input)
         {
             Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
@@ -109,13 +107,13 @@ public class RingCVCode extends LinearOpMode
 
             Imgproc.rectangle (input, topLeft, bottomRight, RED, 2);
 
-            rings = NumberOfRings.FOUR;
+            rings = NumberOfRings.four;
             if(avg1 > FOUR_RING_THRESHOLD){
-                rings = NumberOfRings.FOUR;
+                rings = NumberOfRings.four;
             }else if (avg1 > ONE_RING_THRESHOLD){
-                rings = NumberOfRings.ONE;
+                rings = NumberOfRings.one;
             }else{
-                rings = NumberOfRings.NONE;
+                rings = NumberOfRings.zero;
             }
 
             Imgproc.rectangle( input, topLeft, bottomRight, GREEN, -1);
