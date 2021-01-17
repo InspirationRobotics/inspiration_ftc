@@ -19,8 +19,10 @@ public class SimpleAutoStorm extends CommonAutoFunctions {
     public void encoderDriveByInchesDuplicate(double leftIn, double rightIn, double speed, int timeoutSec, int lfcurr, int rfcurr,
                                               int lbcurr, int rbcurr) {
 
-
         if (opModeIsActive()) {
+
+            int lSpeedMult = (leftIn >= 0) ? 1 : -1;
+            int rSpeedMult = (rightIn >= 0) ? 1 : -1;
 
             int lTgt = (int) (leftIn * 23);
             int rTgt = (int) (rightIn * 23);
@@ -37,10 +39,10 @@ public class SimpleAutoStorm extends CommonAutoFunctions {
 
             runtime.reset();
 
-            robot.frontLeft.setPower(speed);
-            robot.backLeft.setPower(speed);
-            robot.frontRight.setPower(speed);
-            robot.backRight.setPower(speed);
+            robot.frontLeft.setPower(speed * lSpeedMult);
+            robot.backLeft.setPower(speed * lSpeedMult);
+            robot.frontRight.setPower(speed * rSpeedMult);
+            robot.backRight.setPower(speed * rSpeedMult);
 
             while ((opModeIsActive() && runtime.seconds() < timeoutSec) &&
                     (robot.frontLeft.isBusy() && robot.frontRight.isBusy() && robot.backLeft.isBusy() && robot.backRight.isBusy())) {
