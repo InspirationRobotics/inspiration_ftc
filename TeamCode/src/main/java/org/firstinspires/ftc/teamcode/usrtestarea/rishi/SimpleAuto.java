@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.usrtestarea.rishi;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.CommonAutoFunctions;
@@ -128,7 +130,7 @@ public class SimpleAuto extends CommonAutoFunctions {
                 robot.backLeft.getCurrentPosition(),
                 robot.backRight.getCurrentPosition());
 
-        robot.shooterOne.setPower(-1);
+//        encoderShooterVelocity(-200);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 0.5)) {
             telemetry.addLine("r2");
@@ -141,7 +143,7 @@ public class SimpleAuto extends CommonAutoFunctions {
             telemetry.update();
         }
         robot.shooter.setPosition(0.6);
-        robot.shooterOne.setPower(0);
+//        encoderShooterVelocity(0);
 
         /* ring 3 */
         encoderTurnDuplicate(-90, 0.5, 5,
