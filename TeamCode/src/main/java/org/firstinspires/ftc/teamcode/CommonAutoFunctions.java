@@ -88,48 +88,4 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
                 );
     }
 
-    public void encoderDriveByInches(double leftIn, double rightIn, double speed, int timeoutSec) {
-        int lTgt;
-        int rTgt;
-
-        if (opModeIsActive()) {
-            lTgt = (int) (leftIn * COUNTS_PER_INCH);
-            rTgt = (int) (rightIn * COUNTS_PER_INCH);
-
-            robot.frontLeft.setTargetPosition(robot.frontLeft.getTargetPosition() + lTgt);
-            robot.backLeft.setTargetPosition(robot.backLeft.getTargetPosition() + lTgt); // will this redundancy harm?
-            robot.frontRight.setTargetPosition(robot.frontRight.getTargetPosition() + rTgt);
-            robot.backRight.setTargetPosition(robot.backRight.getTargetPosition() + rTgt);
-
-            robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            runtime.reset();
-
-            robot.frontLeft.setPower(speed);
-            robot.backLeft.setPower(speed);
-            robot.frontRight.setPower(speed);
-            robot.backRight.setPower(speed);
-
-            while ((opModeIsActive() && runtime.seconds() < timeoutSec) &&
-                    (robot.frontLeft.isBusy() && robot.backLeft.isBusy() && robot.frontRight.isBusy() && robot.backRight.isBusy())) {}
-
-                robot.frontLeft.setPower(0);
-            robot.backLeft.setPower(0);
-            robot.frontRight.setPower(0);
-            robot.backRight.setPower(0);
-
-            robot.frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
-    }
-
-    public void encoderTurn(int degrees, double speed, int timeoutSec)
-    {
-        encoderDriveByInches((degrees / 360) * (ROBOT_CIRCUMFERENCE), -(degrees / 360) * (ROBOT_CIRCUMFERENCE), speed, timeoutSec);
-    }
 }
