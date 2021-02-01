@@ -19,7 +19,7 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
     public final double ROBOT_DIAMETER = 18;
     public final double ROBOT_CIRCUMFERENCE = ROBOT_DIAMETER * 3.1415;
 
-    // A
+    
     
     public void hwit()
     {
