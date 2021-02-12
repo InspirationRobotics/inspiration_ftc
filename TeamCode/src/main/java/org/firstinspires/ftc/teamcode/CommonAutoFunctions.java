@@ -1,11 +1,19 @@
 package org.firstinspires.ftc.teamcode;
 
-import org.firstinspires.ftc.teamcode.Robot;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.Robot;
+
+import java.lang.Math;
+
+/* note: every single encoder procedure takes "lfcurr [...] rbcurr" as parameters
+   because it matters from where you access the current number of encoder ticks,
+   planning to fix this later
+*/
 
 public abstract class CommonAutoFunctions extends LinearOpMode {
 
@@ -19,7 +27,8 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
     public final double ROBOT_DIAMETER = 18;
     public final double ROBOT_CIRCUMFERENCE = ROBOT_DIAMETER * 3.1415;
 
-    
+    double[] globalCoordinates = {48, 18};
+    double globalHeading = 0;
     
     public void hwit()
     {
@@ -29,8 +38,60 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
         robot.initMiscMotors();
     }
 
+    public void encoderDriveByInches(double distance, double speed, int timeoutSec, int lfcurr, int rfcurr,
+                                              int lbcurr, int rbcurr) {
+
+        if (opModeIsActive()) {
+	    
+            int speedMult = (distance >= 0) ? 1 : -1;
+	    
+            int tgt = (int) (distance * 45);
+
+            robot.frontLeft.setTargetPosition(lfcurr + tgt);
+            robot.backLeft.setTargetPosition(lbcurr + tgt);
+            robot.frontRight.setTargetPosition(rfcurr + tgt);
+            robot.backRight.setTargetPosition(rbcurr + tgt);
+
+            robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            runtime.reset();
+
+            robot.frontLeft.setPower(speed * speedMult);
+            robot.backLeft.setPower(speed * speedMult);
+            robot.frontRight.setPower(speed * speedMult);
+            robot.backRight.setPower(speed * speedMult);
+
+            while ((opModeIsActive() && runtime.seconds() < timeoutSec) &&
+                    (robot.frontLeft.isBusy() && robot.backLeft.isBusy()) || (robot.frontRight.isBusy() && robot.backRight.isBusy())) {
+                telemetry.addData("lf, rf, lb, rb", "%7d, %7d, %7d, %7d", robot.frontLeft.getCurrentPosition(), robot.frontRight.getCurrentPosition(),
+                        robot.backLeft.getCurrentPosition(), robot.backRight.getCurrentPosition());
+                telemetry.addData("tgt:", "%7d, %7d, %7d, %7d", robot.frontLeft.getTargetPosition(), robot.frontRight.getTargetPosition(),
+                        robot.backLeft.getTargetPosition(), robot.backRight.getTargetPosition());
+                telemetry.update();
+            }
+
+            robot.frontLeft.setPower(0);
+            robot.backLeft.setPower(0);
+            robot.frontRight.setPower(0);
+            robot.backRight.setPower(0);
+
+            robot.frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+	
+	globalCoordinates = calculateTargetPosition(globalHeading, distance);  
+    }
+
+    
     public void encoderDriveByInchesDuplicate(double leftIn, double rightIn, double speed, int timeoutSec, int lfcurr, int rfcurr,
                                               int lbcurr, int rbcurr) {
+
+	
 
         if (opModeIsActive()) {
 
@@ -41,7 +102,7 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
             int rTgt = (int) (rightIn * 45);
 
             robot.frontLeft.setTargetPosition(lfcurr + lTgt);
-            robot.backLeft.setTargetPosition(lbcurr + lTgt); // will this redundancy harm?
+            robot.backLeft.setTargetPosition(lbcurr + lTgt);
             robot.frontRight.setTargetPosition(rfcurr + rTgt);
             robot.backRight.setTargetPosition(rbcurr + rTgt);
 
@@ -76,11 +137,15 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
             robot.frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
+  
     }
 
     public void encoderTurnDuplicate(double degrees, double speed, int timeoutSec,
                                      int lfcurr, int rfcurr, int lbcurr, int rbcurr) {
-        encoderDriveByInchesDuplicate(ROBOT_CIRCUMFERENCE * (degrees/360) * 1.7, -ROBOT_CIRCUMFERENCE * (degrees/360) * 1.7,
+
+        globalHeading = sumAndNormalizeHeading(globalHeading, degrees);
+
+	encoderDriveByInchesDuplicate(ROBOT_CIRCUMFERENCE * (degrees/360) * 1.7, -ROBOT_CIRCUMFERENCE * (degrees/360) * 1.7,
                 speed,
                 timeoutSec,
                 lfcurr,
@@ -90,4 +155,53 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
                 );
     }
 
+    public double sumAndNormalizeHeading(double initialHeading, double addedHeading) {
+	double headingSum = (initialHeading + addedHeading);
+
+	if (headingSum > 180) {
+	    headingSum = headingSum - 360;
+	} else if (headingSum <= -180) {
+	    headingSum = headingSum + 360;
+	}
+	return headingSum;
+    }
+
+    public double[] calculateTargetPosition(double heading, double distance) {
+	double[] tempArray = globalCoordinates;
+
+	tempArray[0] = (distance * Math.sin(globalHeading)) + tempArray[0];
+	tempArray[1] = (distance * Math.cos(globalHeading)) + tempArray[1];
+
+	return tempArray;
+    }
+
+    public void driveToXPos(double tgt,
+			    int lfcurr, int rfcurr, int lbcurr, int rbcurr) {
+	if (Math.abs(tgt - globalCoordinates[0]) < 0.2) {
+	    return;
+	}
+	
+	double tgtHeading = (tgt > globalCoordinates[0]) ? 90 : -90;
+
+	encoderTurnDuplicate(tgtHeading - globalHeading, 0.2, 10,
+			     lfcurr, rfcurr, lbcurr, rbcurr);
+	encoderDriveByInches(Math.abs(tgt - globalCoordinates[0]), 0.4, 10,
+			     lfcurr, rfcurr, lbcurr, rbcurr);
+	
+    }
+
+    public void driveToYPos(double tgt,
+			    int lfcurr, int rfcurr, int lbcurr, int rbcurr) {
+	if (Math.abs(tgt - globalCoordinates[1]) < 0.2) {
+	    return;
+	}
+	
+	double tgtHeading = (tgt > globalCoordinates[1]) ? 0 : 180;
+
+	encoderTurnDuplicate(tgtHeading - globalHeading, 0.2, 10,
+			     lfcurr, rfcurr, lbcurr, rbcurr);
+	encoderDriveByInches(Math.abs(tgt - globalCoordinates[1]), 0.4, 10,
+			     lfcurr, rfcurr, lbcurr, rbcurr);
+	
+    }
 }

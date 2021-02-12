@@ -98,7 +98,7 @@ public class Robot
         shooterTwo = hwmap.get(DcMotor.class, "shooterTwo");
         motorWobbleGoal = hwmap.get(DcMotor.class, "motorWobbleGoal");
     }
-
+    
     /* Init End ------------------------------------------------- */
 
 }
