@@ -41,7 +41,7 @@ public class Robot
     public DcMotor collector = null;        /* p0 */
     public DcMotor shooterOne = null;       /* p1 */
     public DcMotor shooterTwo = null;       /* p2 */
-    public DcMotor motorWobbleGoal = null;
+    public DcMotor wobbleGoal = null;
 
     /* i2c -- distance sensors on sides */
     public DistanceSensor distLF = null;    /* p0 */
@@ -88,15 +88,15 @@ public class Robot
     public void initAllServos()
     {
         shooter = hwmap.get(Servo.class, "shooter");
-        servoWobbleGoal = hwmap.get(Servo.class, "servoWobbleGoal");
+//        servoWobbleGoal = hwmap.get(Servo.class, "servoWobbleGoal");
     }
 
     public void initMiscMotors()
     {
         collector = hwmap.get(DcMotor.class, "collector");
         shooterOne = hwmap.get(DcMotor.class, "shooterOne");
-        shooterTwo = hwmap.get(DcMotor.class, "shooterTwo");
-        motorWobbleGoal = hwmap.get(DcMotor.class, "motorWobbleGoal");
+        // shooterTwo = hwmap.get(DcMotor.class, "shooterTwo");
+        wobbleGoal = hwmap.get(DcMotor.class, "wobbleGoal");
     }
     
     /* Init End ------------------------------------------------- */

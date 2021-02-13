@@ -28,7 +28,7 @@ public class ShooterVelTest extends CommonAutoFunctions {
 
         robot.shooterOne.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         double motorVel = -1470;
-        robot.shooterOne.setVelocity(motorVel);
+//        robot.shooterOne.setVelocity(motorVel);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 3)) {}
         while (opModeIsActive()) {

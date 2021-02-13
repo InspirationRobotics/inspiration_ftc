@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.CommonAutoFunctions;
 import org.firstinspires.ftc.teamcode.Robot;
 
 
-@Autonomous(name="Simple Auto Storm", group="Simple Auto")
+@Autonomous(name="Simple CV Auto Storm", group="Simple Auto")
 public class integratedCVAuto extends CommonAutoFunctions {
     /* Declare OpMode members. */
     Robot robot   = new Robot();   // Use a Pushbot's hardware
