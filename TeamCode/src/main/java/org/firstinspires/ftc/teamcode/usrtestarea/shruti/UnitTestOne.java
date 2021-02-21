@@ -30,7 +30,7 @@ public class UnitTestOne extends CommonAutoFunctions{
         telemetry.update();
         waitForStart();
 
-        wobbleDrop();
+//        wobbleDrop();
 
         /* int count = 1;
 

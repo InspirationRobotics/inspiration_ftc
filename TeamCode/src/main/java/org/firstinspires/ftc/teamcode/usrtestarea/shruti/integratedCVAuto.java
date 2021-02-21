@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.usrtestarea.shruti;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -71,10 +72,10 @@ public class integratedCVAuto extends CommonAutoFunctions {
     public void runOpMode() {
 
         /* init hw */
-        robot.frontLeft = hardwareMap.get(DcMotor.class, "lf");
-        robot.frontRight = hardwareMap.get(DcMotor.class, "rf");
-        robot.backLeft = hardwareMap.get(DcMotor.class, "lb");
-        robot.backRight = hardwareMap.get(DcMotor.class, "rb");
+        robot.frontLeft = hardwareMap.get(DcMotorEx.class, "lf");
+        robot.frontRight = hardwareMap.get(DcMotorEx.class, "rf");
+        robot.backLeft = hardwareMap.get(DcMotorEx.class, "lb");
+        robot.backRight = hardwareMap.get(DcMotorEx.class, "rb");
         robot.frontRight.setDirection(DcMotor.Direction.REVERSE);
         robot.backRight.setDirection(DcMotor.Direction.REVERSE);
 

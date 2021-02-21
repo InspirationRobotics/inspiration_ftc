@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -20,10 +21,10 @@ public class Robot
 
     /** REV Control Hub */
     /* (drivetrain) motors */
-    public DcMotor frontLeft = null;        /* p0 */
-    public DcMotor frontRight = null;       /* p1 */
-    public DcMotor backLeft = null;         /* p2 */
-    public DcMotor backRight = null;        /* p3 */
+    public DcMotorEx frontLeft = null;        /* p0 */
+    public DcMotorEx frontRight = null;       /* p1 */
+    public DcMotorEx backLeft = null;         /* p2 */
+    public DcMotorEx backRight = null;        /* p3 */
 
     /* servos */
     public Servo shooter;                   /* p0 */
@@ -39,7 +40,7 @@ public class Robot
     /* REV Expansion Hub */
     /* motors */
     public DcMotor collector = null;        /* p0 */
-    public DcMotor shooterOne = null;       /* p1 */
+    public DcMotorEx shooterOne = null;       /* p1 */
     public DcMotor shooterTwo = null;       /* p2 */
     public DcMotor wobbleGoal = null;
 
@@ -62,10 +63,10 @@ public class Robot
 
     public void initDrivetrain()
     {
-        frontLeft = hwmap.get(DcMotor.class, "frontLeft");
-        frontRight = hwmap.get(DcMotor.class, "frontRight");
-        backLeft = hwmap.get(DcMotor.class, "backLeft");
-        backRight = hwmap.get(DcMotor.class, "backRight");
+        frontLeft = hwmap.get(DcMotorEx.class, "frontLeft");
+        frontRight = hwmap.get(DcMotorEx.class, "frontRight");
+        backLeft = hwmap.get(DcMotorEx.class, "backLeft");
+        backRight = hwmap.get(DcMotorEx.class, "backRight");
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -88,13 +89,13 @@ public class Robot
     public void initAllServos()
     {
         shooter = hwmap.get(Servo.class, "shooter");
-//        servoWobbleGoal = hwmap.get(Servo.class, "servoWobbleGoal");
+        servoWobbleGoal = hwmap.get(Servo.class, "servoWobbleGoal");
     }
 
     public void initMiscMotors()
     {
         collector = hwmap.get(DcMotor.class, "collector");
-        shooterOne = hwmap.get(DcMotor.class, "shooterOne");
+        shooterOne = hwmap.get(DcMotorEx.class, "shooterOne");
         // shooterTwo = hwmap.get(DcMotor.class, "shooterTwo");
         wobbleGoal = hwmap.get(DcMotor.class, "wobbleGoal");
     }

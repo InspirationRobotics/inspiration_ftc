@@ -67,7 +67,9 @@ public class RingCVCode extends LinearOpMode {
         static final int REGION_HEIGHT = 25;
 
         final int FOUR_RING_THRESHOLD = 163;
+//        final int ONE_RING_THRESHOLD = 135;
         final int ONE_RING_THRESHOLD = 135;
+
 
         Point topLeft = new Point(
                 REGION1_TOPLEFT_ANCHOR_POINT.x,
@@ -84,7 +86,7 @@ public class RingCVCode extends LinearOpMode {
         Mat Cb = new Mat();
         int avg1;
 
-        private volatile NumberOfRings rings = NumberOfRings.four;
+        public volatile NumberOfRings rings = NumberOfRings.four;
         void inputToCb(Mat input)
         {
             Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
