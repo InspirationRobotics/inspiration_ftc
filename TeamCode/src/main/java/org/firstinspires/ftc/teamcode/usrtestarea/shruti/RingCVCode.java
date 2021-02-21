@@ -16,8 +16,7 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 @TeleOp
-public class RingCVCode extends LinearOpMode
-{
+public class RingCVCode extends LinearOpMode {
     OpenCvInternalCamera phoneCam;
     SkystoneDeterminationPipeline pipeline;
 
@@ -67,7 +66,7 @@ public class RingCVCode extends LinearOpMode
         static final int REGION_WIDTH = 35;
         static final int REGION_HEIGHT = 25;
 
-        final int FOUR_RING_THRESHOLD = 150;
+        final int FOUR_RING_THRESHOLD = 163;
         final int ONE_RING_THRESHOLD = 135;
 
         Point topLeft = new Point(
