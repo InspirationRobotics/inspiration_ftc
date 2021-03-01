@@ -335,7 +335,7 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
 	
 	    double tgtHeading = (tgt > globalCoordinates[0]) ? -90 : 90;
 
-	    encoderTurnDuplicateVel(tgtHeading - globalHeading, 1, 10,
+	    encoderTurnDuplicateVel(tgtHeading - globalHeading, 2, 10,
 			     lfcurr, rfcurr, lbcurr, rbcurr);
 
 	    telemetry.addData("dist", Math.abs(tgt - globalCoordinates[0]));
