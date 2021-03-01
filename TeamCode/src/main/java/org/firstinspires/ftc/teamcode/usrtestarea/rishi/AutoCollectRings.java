@@ -141,7 +141,16 @@ public class AutoCollectRings extends CommonAutoFunctions {
                 robot.backLeft.getCurrentPosition(),
                 robot.backRight.getCurrentPosition());
 
-        robot.collector.setPower(1);
+//        int count = 1;
+//
+//        while (count <= 166) {
+//            robot.collector.setPower(1);
+//            sleep(20);
+//            robot.collector.setPower(0);
+//            sleep(20);
+//
+//            count = count +1;
+//        }
 
         robot.shooterOne.setVelocity(-177, AngleUnit.DEGREES);
         sleep(500);
@@ -154,12 +163,6 @@ public class AutoCollectRings extends CommonAutoFunctions {
         robot.shooter.setPosition(0.6);
         sleep(500);
         robot.shooter.setPosition(0.2);
-        sleep(1000);
-        robot.shooter.setPosition(0.6);
-        sleep(500);
-        robot.shooter.setPosition(0.2);
-        sleep(1000);
-        robot.shooterOne.setVelocity(0);
 
 //        driveToYPos(wobbleGoalPos[1], 3,
 //                robot.frontLeft.getCurrentPosition(),
@@ -179,10 +182,10 @@ public class AutoCollectRings extends CommonAutoFunctions {
 //                robot.backLeft.getCurrentPosition(),
 //                robot.backRight.getCurrentPosition());
 
-        telemetry.addData("Heading", globalHeading);
-        telemetry.addData("Status", globalCoordinates[0]);
-        telemetry.addData("Status", globalCoordinates[1]);
-        telemetry.update();
+            telemetry.addData("Heading", globalHeading);
+            telemetry.addData("Status", globalCoordinates[0]);
+            telemetry.addData("Status", globalCoordinates[1]);
+            telemetry.update();
 
+        }
     }
-}

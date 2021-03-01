@@ -268,6 +268,8 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
             robot.frontRight.setVelocity(vel * rSpeedMult, AngleUnit.RADIANS);
             robot.backRight.setVelocity(vel * rSpeedMult, AngleUnit.RADIANS);
 
+            double tickDifference;
+            double proportionalConstant = 0.01;
             while ((opModeIsActive() && runtime.seconds() < timeoutSec) &&
                     (robot.frontLeft.isBusy() && robot.backLeft.isBusy()) || (robot.frontRight.isBusy() && robot.backRight.isBusy())) {
                 telemetry.addData("lf, rf, lb, rb", "%7d, %7d, %7d, %7d", robot.frontLeft.getCurrentPosition(), robot.frontRight.getCurrentPosition(),
@@ -275,6 +277,19 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
                 telemetry.addData("tgt:", "%7d, %7d, %7d, %7d", robot.frontLeft.getTargetPosition(), robot.frontRight.getTargetPosition(),
                         robot.backLeft.getTargetPosition(), robot.backRight.getTargetPosition());
                 telemetry.update();
+                tickDifference = (robot.frontLeft.getTargetPosition() - robot.frontLeft.getCurrentPosition()) * proportionalConstant * lSpeedMult;
+
+                if (tickDifference > 0.1) {
+                    robot.frontLeft.setPower(tickDifference * lSpeedMult);
+                    robot.backLeft.setPower(tickDifference * lSpeedMult);
+                    robot.frontRight.setPower(tickDifference * rSpeedMult);
+                    robot.backRight.setPower(tickDifference * rSpeedMult);
+                } else {
+                    robot.frontLeft.setPower(0.1 * lSpeedMult);
+                    robot.backLeft.setPower(0.1 * lSpeedMult);
+                    robot.frontRight.setPower(0.1 * rSpeedMult);
+                    robot.backRight.setPower(0.1 * rSpeedMult);
+                }
             }
 
             robot.frontLeft.setPower(0);
