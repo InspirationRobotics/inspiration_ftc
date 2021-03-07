@@ -16,6 +16,7 @@ apply from: '../build.common.gradle'
 
 repositories {
     maven { url = "https://dl.bintray.com/first-tech-challenge/ftcsdk/" }
+    maven { url = 'https://maven.brott.dev/' }
 }
 
 dependencies {

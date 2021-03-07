@@ -8,8 +8,8 @@ import org.firstinspires.ftc.teamcode.CommonAutoFunctions;
 import org.firstinspires.ftc.teamcode.Robot;
 
 
-@Autonomous(name="Auto Collect Rings", group="SimpleAuto")
-public class AutoCollectRings extends CommonAutoFunctions {
+@Autonomous(name="Auto Collect Rings Quick", group="SimpleAuto")
+public class AutoCollectRingsQuick extends CommonAutoFunctions {
 
     /* Declare OpMode members. */
     Robot robot   = new Robot();   // Use a Pushbot's hardware
@@ -46,9 +46,6 @@ public class AutoCollectRings extends CommonAutoFunctions {
 //            telemetry.update();
 //        }
 
-        telemetry.addLine("Ready to go!");
-        telemetry.update();
-
         waitForStart();
 
         encoderDriveByInchesVel(12, 3, 10,
@@ -58,7 +55,7 @@ public class AutoCollectRings extends CommonAutoFunctions {
                 robot.backRight.getCurrentPosition());
 
 
-        encoderTurnDuplicateVel(-30, 2, 10,
+        /*encoderTurnDuplicateVel(-30, 2, 10,
                 robot.frontLeft.getCurrentPosition(),
                 robot.frontRight.getCurrentPosition(),
                 robot.backLeft.getCurrentPosition(),
@@ -92,9 +89,9 @@ public class AutoCollectRings extends CommonAutoFunctions {
                 robot.frontLeft.getCurrentPosition(),
                 robot.frontRight.getCurrentPosition(),
                 robot.backLeft.getCurrentPosition(),
-                robot.backRight.getCurrentPosition());
+                robot.backRight.getCurrentPosition());*/
 
-        robot.shooterOne.setVelocity(-177, AngleUnit.DEGREES);
+        robot.shooterOne.setVelocity(-210, AngleUnit.DEGREES);
         sleep(500);
         robot.shooter.setPosition(0.2);
         sleep(1000);
@@ -114,15 +111,15 @@ public class AutoCollectRings extends CommonAutoFunctions {
 
         //turn around to get the ring
 
-        encoderTurnDuplicateVel(globalHeading, 2, 10,
+        /*encoderTurnDuplicateVel(globalHeading, 2, 10,
                 robot.frontLeft.getCurrentPosition(),
                 robot.frontRight.getCurrentPosition(),
                 robot.backLeft.getCurrentPosition(),
-                robot.backRight.getCurrentPosition());
+                robot.backRight.getCurrentPosition());*/
 
         robot.collector.setPower(1);
 
-        driveToYPos(50, 3,
+        driveToYPos(47, 3,
                 robot.frontLeft.getCurrentPosition(),
                 robot.frontRight.getCurrentPosition(),
                 robot.backLeft.getCurrentPosition(),
