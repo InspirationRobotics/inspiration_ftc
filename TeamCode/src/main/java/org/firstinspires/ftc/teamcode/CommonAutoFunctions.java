@@ -496,5 +496,7 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
 
             return input;
         }
-    }
+
+
+        }
 }
