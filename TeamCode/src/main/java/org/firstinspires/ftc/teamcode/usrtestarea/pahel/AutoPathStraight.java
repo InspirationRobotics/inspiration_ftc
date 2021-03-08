@@ -35,25 +35,21 @@ public class AutoPathStraight extends CommonAutoFunctions {
 
         double[] wobbleGoalPos = {24, 84};
 //
-        if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.four)
-        {
-            wobbleGoalPos[0] = 24;
-            wobbleGoalPos[1] = 132;
-        } else if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.one) {
-            wobbleGoalPos[0] = 48;
-            wobbleGoalPos[1] = 108;
-        }
+//        if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.four)
+//        {
+//            wobbleGoalPos[0] = 24;
+//            wobbleGoalPos[1] = 132;
+//        } else if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.one) {
+//            wobbleGoalPos[0] = 48;
+//            wobbleGoalPos[1] = 108;
+//        }
 
-        while (!isStarted()) {
-            telemetry.addData("ringnum", pipeline.rings);
-            telemetry.update();
-        }
         telemetry.addLine("Ready to go.");
         telemetry.update();
 
         waitForStart();
 
-        robot.collector.setPower(1);
+        //robot.collector.setPower(1);
 
         driveToYPos(45, 4,
                 robot.frontLeft.getCurrentPosition(),
@@ -61,7 +57,13 @@ public class AutoPathStraight extends CommonAutoFunctions {
                 robot.backLeft.getCurrentPosition(),
                 robot.backRight.getCurrentPosition());
 
-        robot.shooterOne.setVelocity(-210, AngleUnit.DEGREES);
+        encoderTurnDuplicateVel(5, 2, 10,
+                robot.frontLeft.getCurrentPosition(),
+                robot.frontRight.getCurrentPosition(),
+                robot.backLeft.getCurrentPosition(),
+                robot.backRight.getCurrentPosition());
+
+        robot.shooterOne.setVelocity(-203, AngleUnit.DEGREES);
         sleep(1000);
         robot.shooter.setPosition(0.2);
         sleep(1000);
@@ -76,6 +78,8 @@ public class AutoPathStraight extends CommonAutoFunctions {
         robot.shooter.setPosition(0.6);
         sleep(1000);
         robot.shooter.setPosition(0.2);
+        sleep(1000);
+        robot.shooterOne.setVelocity(0);
 
 
 
