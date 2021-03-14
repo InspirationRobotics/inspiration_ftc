@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.CommonAutoFunctions;
 import org.firstinspires.ftc.teamcode.Robot;
 
 
-@Autonomous(name="Auto Collect Rings", group="SimpleAuto")
+@Autonomous(name="Auto Collect Rings Wobble", group="SimpleAuto")
 public class AutoCollectRingsWobble extends CommonAutoFunctions {
 
     /* Declare OpMode members. */

@@ -19,7 +19,6 @@ public class AutoCollectRingsStraight extends CommonAutoFunctions {
     @Override
     public void runOpMode() {
 
-
         /* init hardware */
         hwit();
         robot.setHardwareMap(hardwareMap);
