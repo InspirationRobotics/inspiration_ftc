@@ -53,6 +53,10 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
         telemetry.addLine("Ready to go!");
         telemetry.update();
 
+        telemetry.addData("num rings",pipeline.rings);
+        telemetry.update();
+        sleep(5000);
+
         waitForStart();
 
         robot.shooterOne.setVelocity(-210, AngleUnit.DEGREES);
@@ -66,26 +70,29 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
                 robot.backRight.getCurrentPosition());
 
 
-        encoderTurnDuplicateVel(8, 2, 10,
+       /* encoderTurnDuplicateVel(8, 2, 10,
                 robot.frontLeft.getCurrentPosition(),
                 robot.frontRight.getCurrentPosition(),
                 robot.backLeft.getCurrentPosition(),
-                robot.backRight.getCurrentPosition());
+                robot.backRight.getCurrentPosition());*/
 
 
         robot.shooter.setPosition(0.6);
-        sleep(500);
+        sleep(1000);
         robot.shooter.setPosition(0.2);
         sleep(1000);
         robot.shooter.setPosition(0.6);
-        sleep(500);
+        sleep(1000);
         robot.shooter.setPosition(0.2);
+        sleep(1000);
         robot.shooter.setPosition(0.6);
-        sleep(500);
+        sleep(1000);
+        robot.shooter.setPosition(0.2);
+        sleep(1000);
+        robot.shooter.setPosition(0.6);
 
 
-        telemetry.addData("num rings",pipeline.rings);
-        telemetry.update();
+
 
         if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.zero)
         {
