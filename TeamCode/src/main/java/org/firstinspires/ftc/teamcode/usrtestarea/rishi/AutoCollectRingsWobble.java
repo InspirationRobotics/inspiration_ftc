@@ -83,13 +83,12 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
         robot.shooter.setPosition(0.6);
         sleep(500);
 
-        if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.zero)
 
         telemetry.addData("num rings",pipeline.rings);
         telemetry.update();
-        
-        {
 
+        if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.zero)
+        {
 
             driveToYPos(wobbleGoalPos[1], 3,
                     robot.frontLeft.getCurrentPosition(),
