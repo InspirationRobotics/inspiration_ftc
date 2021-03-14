@@ -69,7 +69,7 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
                 robot.backRight.getCurrentPosition());
 
 
-        robot.shooterOne.setVelocity(210, AngleUnit.DEGREES);
+        robot.shooterOne.setVelocity(-177, AngleUnit.DEGREES);
         sleep(500);
         robot.shooter.setPosition(0.2);
         sleep(1000);
@@ -80,12 +80,8 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
         robot.shooter.setPosition(0.6);
         sleep(500);
         robot.shooter.setPosition(0.2);
-        sleep(1000);
         robot.shooter.setPosition(0.6);
         sleep(500);
-        robot.shooter.setPosition(0.2);
-        sleep(1000);
-        robot.shooterOne.setVelocity(0);
 
         if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.zero)
         {
