@@ -70,7 +70,7 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
                 robot.backRight.getCurrentPosition());
 
 
-        encoderTurnDuplicateVel(5, 2, 10,
+        encoderTurnDuplicateVel(10, 2, 10,
                 robot.frontLeft.getCurrentPosition(),
                 robot.frontRight.getCurrentPosition(),
                 robot.backLeft.getCurrentPosition(),
@@ -125,6 +125,11 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
                     robot.backLeft.getCurrentPosition(),
                     robot.backRight.getCurrentPosition());
 
+            encoderTurnDuplicateVel(180, 2, 10,
+                    robot.frontLeft.getCurrentPosition(),
+                    robot.frontRight.getCurrentPosition(),
+                    robot.backLeft.getCurrentPosition(),
+                    robot.backRight.getCurrentPosition());
 
 
         } else if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.one) {
