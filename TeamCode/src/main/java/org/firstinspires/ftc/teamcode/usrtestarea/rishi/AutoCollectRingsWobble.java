@@ -55,69 +55,41 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
 
         waitForStart();
 
+        driveToYPos(45, 4,
+                robot.frontLeft.getCurrentPosition(),
+                robot.frontRight.getCurrentPosition(),
+                robot.backLeft.getCurrentPosition(),
+                robot.backRight.getCurrentPosition());
+
+
+        encoderTurnDuplicateVel(8, 2, 10,
+                robot.frontLeft.getCurrentPosition(),
+                robot.frontRight.getCurrentPosition(),
+                robot.backLeft.getCurrentPosition(),
+                robot.backRight.getCurrentPosition());
+
+
+        robot.shooterOne.setVelocity(210, AngleUnit.DEGREES);
+        sleep(500);
+        robot.shooter.setPosition(0.2);
+        sleep(1000);
+        robot.shooter.setPosition(0.6);
+        sleep(500);
+        robot.shooter.setPosition(0.2);
+        sleep(1000);
+        robot.shooter.setPosition(0.6);
+        sleep(500);
+        robot.shooter.setPosition(0.2);
+        sleep(1000);
+        robot.shooter.setPosition(0.6);
+        sleep(500);
+        robot.shooter.setPosition(0.2);
+        sleep(1000);
+        robot.shooterOne.setVelocity(0);
+
         if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.zero)
         {
 
-            encoderDriveByInchesVel(12, 3, 10,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-
-            encoderTurnDuplicateVel(-30, 2, 10,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-            encoderDriveByInchesVel(12, 3, 10,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-            encoderTurnDuplicateVel(-globalHeading, 2, 10,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-            driveToYPos(73, 3,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-            driveToXPos(38, 3,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-            encoderTurnDuplicateVel(-globalHeading, 2, 10,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-            robot.shooterOne.setVelocity(-177, AngleUnit.DEGREES);
-            sleep(500);
-            robot.shooter.setPosition(0.2);
-            sleep(1000);
-            robot.shooter.setPosition(0.6);
-            sleep(500);
-            robot.shooter.setPosition(0.2);
-            sleep(1000);
-            robot.shooter.setPosition(0.6);
-            sleep(500);
-            robot.shooter.setPosition(0.2);
-            sleep(1000);
-            robot.shooter.setPosition(0.6);
-            sleep(500);
-            robot.shooter.setPosition(0.2);
-            sleep(1000);
-            robot.shooterOne.setVelocity(0);
 
             driveToYPos(wobbleGoalPos[1], 3,
                     robot.frontLeft.getCurrentPosition(),
@@ -131,74 +103,9 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
                     robot.backLeft.getCurrentPosition(),
                     robot.backRight.getCurrentPosition());
 
-            encoderTurnDuplicateVel(-globalHeading - 135, 2, 10,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
         }
         else if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.four)
         {
-            encoderDriveByInchesVel(12, 3, 10,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-
-            encoderTurnDuplicateVel(-30, 2, 10,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-            encoderDriveByInchesVel(12, 3, 10,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-            encoderTurnDuplicateVel(-globalHeading, 2, 10,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-            driveToYPos(73, 3,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-            driveToXPos(38, 3,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-            encoderTurnDuplicateVel(-globalHeading, 2, 10,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-            robot.shooterOne.setVelocity(-177, AngleUnit.DEGREES);
-            sleep(500);
-            robot.shooter.setPosition(0.2);
-            sleep(1000);
-            robot.shooter.setPosition(0.6);
-            sleep(500);
-            robot.shooter.setPosition(0.2);
-            sleep(1000);
-            robot.shooter.setPosition(0.6);
-            sleep(500);
-            robot.shooter.setPosition(0.2);
-            sleep(1000);
-            robot.shooter.setPosition(0.6);
-            sleep(500);
-            robot.shooter.setPosition(0.2);
-            sleep(1000);
-            robot.shooterOne.setVelocity(0);
 
             driveToYPos(wobbleGoalPos[1], 3,
                     robot.frontLeft.getCurrentPosition(),
@@ -216,14 +123,7 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
 
         } else if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.one) {
 
-            encoderDriveByInchesVel(12, 3, 10,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-
-            encoderTurnDuplicateVel(-30, 2, 10,
+            encoderTurnDuplicateVel(90, 2, 10,
                     robot.frontLeft.getCurrentPosition(),
                     robot.frontRight.getCurrentPosition(),
                     robot.backLeft.getCurrentPosition(),
@@ -235,114 +135,33 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
                     robot.backLeft.getCurrentPosition(),
                     robot.backRight.getCurrentPosition());
 
-            encoderTurnDuplicateVel(-globalHeading, 2, 10,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-            driveToYPos(73, 3,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-            driveToXPos(38, 3,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-            encoderTurnDuplicateVel(-globalHeading, 2, 10,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-            robot.shooterOne.setVelocity(-177, AngleUnit.DEGREES);
-            sleep(500);
-            robot.shooter.setPosition(0.2);
-            sleep(1000);
-            robot.shooter.setPosition(0.6);
-            sleep(500);
-            robot.shooter.setPosition(0.2);
-            sleep(1000);
-            robot.shooter.setPosition(0.6);
-            sleep(500);
-            robot.shooter.setPosition(0.2);
-            sleep(1000);
-            robot.shooter.setPosition(0.6);
-            sleep(500);
-            robot.shooter.setPosition(0.2);
-            sleep(1000);
-            robot.shooterOne.setVelocity(0);
-
-            //turn around to get the ring
-
-            encoderTurnDuplicateVel(globalHeading, 2, 10,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
             robot.collector.setPower(1);
 
-            driveToYPos(50, 3,
+            encoderTurnDuplicateVel(-90, 2, 10,
                     robot.frontLeft.getCurrentPosition(),
                     robot.frontRight.getCurrentPosition(),
                     robot.backLeft.getCurrentPosition(),
                     robot.backRight.getCurrentPosition());
 
-            sleep(1000);
 
-            robot.collector.setPower(1);
-
-            driveToYPos(72, 3,
+            driveToYPos(wobbleGoalPos[1], 3,
                     robot.frontLeft.getCurrentPosition(),
                     robot.frontRight.getCurrentPosition(),
                     robot.backLeft.getCurrentPosition(),
                     robot.backRight.getCurrentPosition());
 
-            encoderTurnDuplicateVel(-globalHeading, 2, 10,
+            driveToXPos(wobbleGoalPos[0], 3,
                     robot.frontLeft.getCurrentPosition(),
                     robot.frontRight.getCurrentPosition(),
                     robot.backLeft.getCurrentPosition(),
                     robot.backRight.getCurrentPosition());
 
-//        int count = 1;
-//
-//        while (count <= 166) {
-//            robot.collector.setPower(1);
-//            sleep(20);
-//            robot.collector.setPower(0);
-//            sleep(20);
-//
-//            count = count +1;
-//        }
 
-            robot.shooterOne.setVelocity(-177, AngleUnit.DEGREES);
-            sleep(500);
-            robot.shooter.setPosition(0.2);
-            sleep(1000);
-            robot.shooter.setPosition(0.6);
-            sleep(500);
-            robot.shooter.setPosition(0.2);
-            sleep(1000);
-            robot.shooter.setPosition(0.6);
-            sleep(500);
-            robot.shooter.setPosition(0.2);
+
+
         }
 
-        encoderTurnDuplicateVel(-globalHeading - 135, 2, 10,
-                robot.frontLeft.getCurrentPosition(),
-                robot.frontRight.getCurrentPosition(),
-                robot.backLeft.getCurrentPosition(),
-                robot.backRight.getCurrentPosition());
 
-            telemetry.addData("Heading", globalHeading);
-            telemetry.addData("Status", globalCoordinates[0]);
-            telemetry.addData("Status", globalCoordinates[1]);
-            telemetry.update();
 
-        }
+    }
     }
