@@ -55,12 +55,11 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
 
         telemetry.addData("num rings",pipeline.rings);
         telemetry.update();
-        sleep(5000);
 
         waitForStart();
 
         robot.shooterOne.setVelocity(-208, AngleUnit.DEGREES);
-        sleep(500);
+        sleep(1000);
         robot.shooter.setPosition(0.2);
 
         driveToYPos(45, 4,
@@ -70,7 +69,7 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
                 robot.backRight.getCurrentPosition());
 
 
-        encoderTurnDuplicateVel(10, 2, 10,
+        encoderTurnDuplicateVel(7, 2, 10,
                 robot.frontLeft.getCurrentPosition(),
                 robot.frontRight.getCurrentPosition(),
                 robot.backLeft.getCurrentPosition(),
@@ -146,6 +145,12 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
                     robot.backLeft.getCurrentPosition(),
                     robot.backRight.getCurrentPosition());
 
+            encoderTurnDuplicateVel(180, 2, 10,
+                    robot.frontLeft.getCurrentPosition(),
+                    robot.frontRight.getCurrentPosition(),
+                    robot.backLeft.getCurrentPosition(),
+                    robot.backRight.getCurrentPosition());
+
             robot.collector.setPower(1);
 
             encoderTurnDuplicateVel(-90, 2, 10,
@@ -167,7 +172,12 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
                     robot.backLeft.getCurrentPosition(),
                     robot.backRight.getCurrentPosition());
 
-
+            encoderTurnDuplicateVel(180, 2, 10,
+                    robot.frontLeft.getCurrentPosition(),
+                    robot.frontRight.getCurrentPosition(),
+                    robot.backLeft.getCurrentPosition(),
+                    robot.backRight.getCurrentPosition());
+            
 
 
         }
