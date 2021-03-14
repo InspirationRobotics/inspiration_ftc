@@ -59,7 +59,7 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
 
         waitForStart();
 
-        robot.shooterOne.setVelocity(-210, AngleUnit.DEGREES);
+        robot.shooterOne.setVelocity(-208, AngleUnit.DEGREES);
         sleep(500);
         robot.shooter.setPosition(0.2);
 
@@ -70,11 +70,11 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
                 robot.backRight.getCurrentPosition());
 
 
-       /* encoderTurnDuplicateVel(8, 2, 10,
+        encoderTurnDuplicateVel(5, 2, 10,
                 robot.frontLeft.getCurrentPosition(),
                 robot.frontRight.getCurrentPosition(),
                 robot.backLeft.getCurrentPosition(),
-                robot.backRight.getCurrentPosition());*/
+                robot.backRight.getCurrentPosition());
 
 
         robot.shooter.setPosition(0.6);
