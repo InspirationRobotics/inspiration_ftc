@@ -66,9 +66,9 @@ public class RingCVCode extends LinearOpMode {
         static final int REGION_WIDTH = 35;
         static final int REGION_HEIGHT = 25;
 
-        final int FOUR_RING_THRESHOLD = 163;
+        final double FOUR_RING_THRESHOLD = (double) 0.6;
 //        final int ONE_RING_THRESHOLD = 135;
-        final int ONE_RING_THRESHOLD = 135;
+        final double ONE_RING_THRESHOLD = (double) 0.15;
 
 
         Point topLeft = new Point(
@@ -77,6 +77,12 @@ public class RingCVCode extends LinearOpMode {
         Point bottomRight = new Point(
                 REGION1_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
                 REGION1_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
+        Point bottomLeft = new Point(
+                REGION1_TOPLEFT_ANCHOR_POINT.x,
+                REGION1_TOPLEFT_ANCHOR_POINT.y+ REGION_HEIGHT);
+        Point topRight = new Point(
+                REGION1_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
+                REGION1_TOPLEFT_ANCHOR_POINT.y);
 
         /*
          * Working variables
@@ -84,7 +90,7 @@ public class RingCVCode extends LinearOpMode {
         Mat region1_Cb;
         Mat YCrCb = new Mat();
         Mat Cb = new Mat();
-        int avg1;
+        double avg1;
 
         public volatile NumberOfRings rings = NumberOfRings.four;
         void inputToCb(Mat input)
@@ -96,22 +102,27 @@ public class RingCVCode extends LinearOpMode {
         public void init(Mat firstFrame)
         {
             inputToCb(firstFrame);
-
-            region1_Cb = Cb.submat(new Rect(topLeft, bottomRight));
+           // region1_Cb = Cb.submat(new Rect(ratio));
         }
 
         public Mat processFrame(Mat input)
         {
+
             inputToCb(input);
 
-            avg1 = (int) Core.mean(region1_Cb).val[0];
+            double x = Math.abs(topRight.x - bottomLeft.x);
+            double y = Math.abs(topRight.y - bottomLeft.y);
+
+            double ratio = (double) Core.mean(new Rect(y, x)).val[0];
+
+            //avg1 = (double) Core.mean(ratio).val[0];
 
             Imgproc.rectangle (input, topLeft, bottomRight, RED, 2);
 
             rings = NumberOfRings.four;
-            if(avg1 > FOUR_RING_THRESHOLD){
+            if(ratio > FOUR_RING_THRESHOLD){
                 rings = NumberOfRings.four;
-            }else if (avg1 > ONE_RING_THRESHOLD){
+            }else if (ratio > ONE_RING_THRESHOLD){
                 rings = NumberOfRings.one;
             }else{
                 rings = NumberOfRings.zero;

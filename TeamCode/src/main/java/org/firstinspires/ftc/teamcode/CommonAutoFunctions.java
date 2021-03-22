@@ -443,7 +443,7 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
         static final int REGION_WIDTH = 35;
         static final int REGION_HEIGHT = 25;
 
-        final int FOUR_RING_THRESHOLD = 163;
+        final int FOUR_RING_THRESHOLD = 180;
         final int ONE_RING_THRESHOLD = 135;
 
         Point topLeft = new Point(
