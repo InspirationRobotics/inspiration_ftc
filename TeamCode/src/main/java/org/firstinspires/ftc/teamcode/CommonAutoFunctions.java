@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.usrtestarea.shruti.RingCVCode;
 import org.opencv.core.Core;
@@ -44,7 +46,7 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
     public final double ROBOT_DIAMETER = 18;
     public final double ROBOT_CIRCUMFERENCE = ROBOT_DIAMETER * 3.1415;
 
-    public double[] globalCoordinates = {47, 18};
+    public double[] globalCoordinates = {51, 18};
     public double globalHeading = 0;
     
     public void hwit()
@@ -426,6 +428,13 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
                 robot.backLeft.getCurrentPosition(),
                 robot.backRight.getCurrentPosition());
 
+    }
+
+    public void imuTurn(double tgtDeg, double speed) {
+
+
+        telemetry.addData("imu", robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES));
+        telemetry.update();
     }
 
     public static class SkystoneDeterminationPipeline extends OpenCvPipeline
