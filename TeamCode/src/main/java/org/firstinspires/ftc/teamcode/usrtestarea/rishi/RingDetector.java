@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.usrtestarea.rishi;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -23,7 +24,7 @@ import java.util.List;
 
 @Autonomous(name="RingDetector", group="SimpleAuto")
 public class RingDetector extends LinearOpMode {
-    OpenCvInternalCamera phoneCam;
+    OpenCvInternalCamera Webcam;
     SkystoneDeterminationPipeline pipeline;
 
     public void runOpMode()
@@ -31,52 +32,50 @@ public class RingDetector extends LinearOpMode {
         telemetry.addData("1", pipeline);
         telemetry.update();
 
+        ElapsedTime runtime = new ElapsedTime();
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+        Webcam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         pipeline = new SkystoneDeterminationPipeline();
-        phoneCam.setPipeline(pipeline);
+        Webcam.setPipeline(pipeline);
 
-        phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+        Webcam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
 
-        phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        Webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
 
             public void onOpened()
             {
-                phoneCam.startStreaming(1280,720, OpenCvCameraRotation.UPRIGHT);
+                Webcam.startStreaming(1280,720, OpenCvCameraRotation.UPRIGHT);
+                telemetry.addLine("WEEEEEEEEEEEEEEEE");
+                telemetry.update();
             }
         });
 
         waitForStart();
 
-        telemetry.addData("2", pipeline);
-        telemetry.update();
-
-        //int counter = 0;
-
-        while (opModeIsActive())
+        runtime.reset();
+        while (runtime.seconds() < 3)
         {
-            telemetry.addData("Amount of Rings", pipeline.rings);
+            telemetry.addData("Amount of Rings", runtime.seconds());
             telemetry.update();
 
-            telemetry.addData("sleeping", pipeline);
-            telemetry.update();
             // Don't burn CPU cycles busy-looping in this sample
             sleep(100);
-
-            return;
         }
 
-        telemetry.addData("3", pipeline);
-        telemetry.update();
+
+
+        Webcam.stopStreaming();
+//        Webcam.closeCameraDevice();
     }
 
     public static class SkystoneDeterminationPipeline extends OpenCvPipeline
     {
         public enum NumberOfRings
-        {
-            four, one, zero
-        }
+    {
+        four, one, zero
+    }
 
         Mat hsv = new Mat();
         Mat thresholded_orange = new Mat();
@@ -96,7 +95,7 @@ public class RingDetector extends LinearOpMode {
             input = new Mat(input.clone(), roi);
 
             /* color conversion and thresholding */
-            Imgproc.cvtColor(input, hsv, Imgproc.COLOR_BGR2HSV, 3);
+            Imgproc.cvtColor(input, hsv, Imgproc.COLOR_RGB2HSV, 3);
             Core.inRange(hsv, new Scalar(15, 100, 40), new Scalar(35, 255, 255), thresholded_orange);
 
             /* locate all the contours */
