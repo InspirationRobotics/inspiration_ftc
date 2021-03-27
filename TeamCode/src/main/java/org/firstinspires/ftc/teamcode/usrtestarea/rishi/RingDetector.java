@@ -43,7 +43,7 @@ public class RingDetector extends LinearOpMode {
 
             public void onOpened()
             {
-                phoneCam.startStreaming(320,240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+                phoneCam.startStreaming(1280,720, OpenCvCameraRotation.SIDEWAYS_LEFT);
             }
         });
 
