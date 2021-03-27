@@ -7,7 +7,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.CommonAutoFunctions;
 import org.firstinspires.ftc.teamcode.Robot;
 
-
 @Autonomous(name="Simple Pos Track", group="SimpleAuto")
 public class SimplePosTrackAuto extends CommonAutoFunctions {
 
