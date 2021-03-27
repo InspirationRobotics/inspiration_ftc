@@ -81,7 +81,7 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
         phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
 
             public void onOpened() {
-                phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+                phoneCam.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
             }
         });
     }
