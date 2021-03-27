@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.usrtestarea.shruti.RingCVCode;
+//import org.firstinspires.ftc.teamcode.usrtestarea.shruti.RingCVCode;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -39,18 +39,17 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
     public OpenCvInternalCamera phoneCam;
     public SkystoneDeterminationPipeline pipeline;
 
-    public final double COUNTS_PER_MOTOR_REV    = 537.6 ;
-    public final double DRIVE_GEAR_REDUCTION    = 0.5 ;     // This is < 1.0 if geared UP (32 teeth to 16 teeth)
-    public final double WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    public final double COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
+    public final double COUNTS_PER_MOTOR_REV = 537.6;
+    public final double DRIVE_GEAR_REDUCTION = 0.5;     // This is < 1.0 if geared UP (32 teeth to 16 teeth)
+    public final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
+    public final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
     public final double ROBOT_DIAMETER = 18;
     public final double ROBOT_CIRCUMFERENCE = ROBOT_DIAMETER * 3.1415;
 
     public double[] globalCoordinates = {51, 18};
     public double globalHeading = 0;
-    
-    public void hwit()
-    {
+
+    public void hwit() {
         robot.setHardwareMap(hardwareMap);
         robot.initDrivetrain();
         robot.initAllServos();
@@ -65,23 +64,21 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
 
         phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
 
-        phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
+        phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
 
-            public void onOpened()
-            {
-                phoneCam.startStreaming(320,240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+            public void onOpened() {
+                phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
             }
         });
     }
 
     public void encoderDriveByInches(double distance, double speed, int timeoutSec, int lfcurr, int rfcurr,
-                                              int lbcurr, int rbcurr) {
+                                     int lbcurr, int rbcurr) {
 
         if (opModeIsActive()) {
-	    
+
             int speedMult = (distance >= 0) ? 1 : -1;
-	    
+
             int tgt = (int) (distance * 43);
 
             robot.frontLeft.setTargetPosition(lfcurr + tgt);
@@ -120,12 +117,12 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
             robot.frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
-	
-	    globalCoordinates = calculateTargetPosition(globalHeading, distance);
+
+        globalCoordinates = calculateTargetPosition(globalHeading, distance);
     }
 
     public void encoderDriveByInchesVel(double distance, double vel, int timeoutSec, int lfcurr, int rfcurr,
-                                     int lbcurr, int rbcurr) {
+                                        int lbcurr, int rbcurr) {
 
         if (opModeIsActive()) {
 
@@ -173,11 +170,10 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
         globalCoordinates = calculateTargetPosition(globalHeading, distance);
     }
 
-    
-    public void encoderDriveByInchesForTurns(double leftIn, double rightIn, double speed, int timeoutSec, int lfcurr, int rfcurr,
-                                              int lbcurr, int rbcurr) {
 
-	
+    public void encoderDriveByInchesForTurns(double leftIn, double rightIn, double speed, int timeoutSec, int lfcurr, int rfcurr,
+                                             int lbcurr, int rbcurr) {
+
 
         if (opModeIsActive()) {
 
@@ -238,11 +234,11 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
             robot.frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
-  
-    }
-    public void encoderDriveByInchesForTurnsVel(double leftIn, double rightIn, double vel, int timeoutSec, int lfcurr, int rfcurr,
-                                             int lbcurr, int rbcurr) {
 
+    }
+
+    public void encoderDriveByInchesForTurnsVel(double leftIn, double rightIn, double vel, int timeoutSec, int lfcurr, int rfcurr,
+                                                int lbcurr, int rbcurr) {
 
 
         if (opModeIsActive()) {
@@ -312,22 +308,22 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
 
         globalHeading = sumAndNormalizeHeading(globalHeading, degrees);
 
-	    encoderDriveByInchesForTurns(ROBOT_CIRCUMFERENCE * (degrees/360) * 1.72, -ROBOT_CIRCUMFERENCE * (degrees/360) * 1.72,
+        encoderDriveByInchesForTurns(ROBOT_CIRCUMFERENCE * (degrees / 360) * 1.72, -ROBOT_CIRCUMFERENCE * (degrees / 360) * 1.72,
                 speed,
                 timeoutSec,
                 lfcurr,
                 rfcurr,
                 lbcurr,
                 rbcurr
-                );
+        );
     }
 
     public void encoderTurnDuplicateVel(double degrees, double vel, int timeoutSec,
-                                     int lfcurr, int rfcurr, int lbcurr, int rbcurr) {
+                                        int lfcurr, int rfcurr, int lbcurr, int rbcurr) {
 
         globalHeading = sumAndNormalizeHeading(globalHeading, degrees);
 
-        encoderDriveByInchesForTurnsVel(ROBOT_CIRCUMFERENCE * (degrees/360) * 1.72, -ROBOT_CIRCUMFERENCE * (degrees/360) * 1.72,
+        encoderDriveByInchesForTurnsVel(ROBOT_CIRCUMFERENCE * (degrees / 360) * 1.72, -ROBOT_CIRCUMFERENCE * (degrees / 360) * 1.72,
                 vel,
                 timeoutSec,
                 lfcurr,
@@ -349,40 +345,40 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
     }
 
     public double[] calculateTargetPosition(double heading, double distance) {
-	    double[] tempArray = globalCoordinates;
+        double[] tempArray = globalCoordinates;
 
-	    double globalHeadingRad = Math.toRadians(globalHeading);
+        double globalHeadingRad = Math.toRadians(globalHeading);
 
-	    tempArray[0] = -(distance * Math.sin(globalHeadingRad)) + tempArray[0];
-	    tempArray[1] = (distance * Math.cos(globalHeadingRad)) + tempArray[1];
+        tempArray[0] = -(distance * Math.sin(globalHeadingRad)) + tempArray[0];
+        tempArray[1] = (distance * Math.cos(globalHeadingRad)) + tempArray[1];
 
-	    return tempArray;
+        return tempArray;
     }
 
     public void driveToXPos(double tgt, double speed,
-			    int lfcurr, int rfcurr, int lbcurr, int rbcurr) {
-	    if (Math.abs(tgt - globalCoordinates[0]) < 0.2) {
-	        return;
-	    }
-	
-	    double tgtHeading = (tgt > globalCoordinates[0]) ? -90 : 90;
+                            int lfcurr, int rfcurr, int lbcurr, int rbcurr) {
+        if (Math.abs(tgt - globalCoordinates[0]) < 0.2) {
+            return;
+        }
 
-	    encoderTurnDuplicateVel(tgtHeading - globalHeading, 2, 10,
-			     lfcurr, rfcurr, lbcurr, rbcurr);
+        double tgtHeading = (tgt > globalCoordinates[0]) ? -90 : 90;
 
-	    telemetry.addData("dist", Math.abs(tgt - globalCoordinates[0]));
-	    telemetry.update();
-	    encoderDriveByInchesVel(Math.abs(tgt - globalCoordinates[0]), speed, 10,
+        encoderTurnDuplicateVel(tgtHeading - globalHeading, 2, 10,
+                lfcurr, rfcurr, lbcurr, rbcurr);
+
+        telemetry.addData("dist", Math.abs(tgt - globalCoordinates[0]));
+        telemetry.update();
+        encoderDriveByInchesVel(Math.abs(tgt - globalCoordinates[0]), speed, 10,
                 robot.frontLeft.getCurrentPosition(),
                 robot.frontRight.getCurrentPosition(),
                 robot.backLeft.getCurrentPosition(),
                 robot.backRight.getCurrentPosition());
 
-	
+
     }
 
     public void driveToXYPos(double tgtX, double tgtY, double speed,
-                            int lfcurr, int rfcurr, int lbcurr, int rbcurr) {
+                             int lfcurr, int rfcurr, int lbcurr, int rbcurr) {
 
         /* not accurate as of now */
 
@@ -395,10 +391,10 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
         double dispY = tgtY - globalCoordinates[1];
         double tgtHeading;
 
-        if(dispY > 0) {
-            tgtHeading = -(Math.toDegrees(Math.atan(dispY/dispX)));
+        if (dispY > 0) {
+            tgtHeading = -(Math.toDegrees(Math.atan(dispY / dispX)));
         } else {
-            tgtHeading = (dispX < 0) ? 90 + (Math.toDegrees(Math.atan(dispY/dispX))) : -90 - (Math.toDegrees(Math.atan(dispY/dispX)));
+            tgtHeading = (dispX < 0) ? 90 + (Math.toDegrees(Math.atan(dispY / dispX))) : -90 - (Math.toDegrees(Math.atan(dispY / dispX)));
         }
         encoderTurnDuplicateVel(tgtHeading - globalHeading, 2, 10,
                 lfcurr, rfcurr, lbcurr, rbcurr);
@@ -413,16 +409,16 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
     }
 
     public void driveToYPos(double tgt, double speed,
-			    int lfcurr, int rfcurr, int lbcurr, int rbcurr) {
-	    if (Math.abs(tgt - globalCoordinates[1]) < 0.2) {
-	        return;
-	    }
-	
-	    double tgtHeading = (tgt > globalCoordinates[1]) ? 0 : 180;
+                            int lfcurr, int rfcurr, int lbcurr, int rbcurr) {
+        if (Math.abs(tgt - globalCoordinates[1]) < 0.2) {
+            return;
+        }
 
-	    encoderTurnDuplicateVel(tgtHeading - globalHeading, 2, 10,
-			     lfcurr, rfcurr, lbcurr, rbcurr);
-	    encoderDriveByInchesVel(Math.abs(tgt - globalCoordinates[1]), speed, 10,
+        double tgtHeading = (tgt > globalCoordinates[1]) ? 0 : 180;
+
+        encoderTurnDuplicateVel(tgtHeading - globalHeading, 2, 10,
+                lfcurr, rfcurr, lbcurr, rbcurr);
+        encoderDriveByInchesVel(Math.abs(tgt - globalCoordinates[1]), speed, 10,
                 robot.frontLeft.getCurrentPosition(),
                 robot.frontRight.getCurrentPosition(),
                 robot.backLeft.getCurrentPosition(),
@@ -437,17 +433,15 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
         telemetry.update();
     }
 
-    public static class SkystoneDeterminationPipeline extends OpenCvPipeline
-    {
-        public enum NumberOfRings
-        {
+    public static class SkystoneDeterminationPipeline extends OpenCvPipeline {
+        public enum NumberOfRings {
             four, one, zero
         }
 
         static final Scalar RED = new Scalar(255, 0, 0);
         static final Scalar GREEN = new Scalar(0, 255, 0);
 
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(181,98);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(181, 98);
 
         static final int REGION_WIDTH = 35;
         static final int REGION_HEIGHT = 25;
@@ -466,46 +460,45 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
          * Working variables
          */
         Mat region1_Cb;
-        Mat YCrCb = new Mat();
+        Mat hsv = new Mat();
         Mat Cb = new Mat();
         int avg1;
 
         public volatile SkystoneDeterminationPipeline.NumberOfRings rings = SkystoneDeterminationPipeline.NumberOfRings.four;
-        void inputToCb(Mat input)
-        {
-            Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
-            Core.extractChannel(YCrCb, Cb, 1);
+
+        void inputToCb(Mat input) {
+            // color conversion + thresholding
+            Imgproc.cvtColor(input, hsv, Imgproc.COLOR_BGR2HSV, 3);
+            Core.inRange(hsv, new Scalar(15, 100, 40), new Scalar(35, 255, 255), hsv);
         }
 
-        public void init(Mat firstFrame)
-        {
+        public void init(Mat firstFrame) {
             inputToCb(firstFrame);
 
             region1_Cb = Cb.submat(new Rect(topLeft, bottomRight));
         }
 
-        public Mat processFrame(Mat input)
-        {
+        public Mat processFrame(Mat input) {
             inputToCb(input);
 
             avg1 = (int) Core.mean(region1_Cb).val[0];
 
-            Imgproc.rectangle (input, topLeft, bottomRight, RED, 2);
+            Imgproc.rectangle(input, topLeft, bottomRight, RED, 2);
 
             rings = SkystoneDeterminationPipeline.NumberOfRings.four;
-            if(avg1 > FOUR_RING_THRESHOLD){
+            if (avg1 > FOUR_RING_THRESHOLD) {
                 rings = SkystoneDeterminationPipeline.NumberOfRings.four;
-            }else if (avg1 > ONE_RING_THRESHOLD){
+            } else if (avg1 > ONE_RING_THRESHOLD) {
                 rings = SkystoneDeterminationPipeline.NumberOfRings.one;
-            }else{
+            } else {
                 rings = SkystoneDeterminationPipeline.NumberOfRings.zero;
             }
 
-            Imgproc.rectangle( input, topLeft, bottomRight, GREEN, -1);
+            Imgproc.rectangle(input, topLeft, bottomRight, GREEN, -1);
 
             return input;
         }
 
 
-        }
+    }
 }

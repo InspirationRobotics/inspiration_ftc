@@ -77,7 +77,7 @@ public class Teleop extends OpMode {
         if (gamepad1.b) {
             robot.shooter.setPosition(SERVO_RETRACTED_POSITION);
         }
-        if (gamepad1.dpad_up && !gamepad1.dpad_down) {
+        if (gamepad2.dpad_up && !gamepad2.dpad_down) {
             //robot.wobbleGoal.setTargetPosition(5);
             //robot.wobbleGoal.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.wobbleGoal.setPower(0.3);
@@ -89,15 +89,15 @@ public class Teleop extends OpMode {
             telemetry.update();
             robot.wobbleGoal.setPower(0);
             robot.wobbleGoal.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);*/
-        } else if(!gamepad1.dpad_up && gamepad1.dpad_down){
+        } else if(!gamepad2.dpad_up && gamepad2.dpad_down){
             robot.wobbleGoal.setPower(-0.5);
-        } else if(!gamepad1.dpad_up && !gamepad1.dpad_down){
+        } else if(!gamepad2.dpad_up && !gamepad2.dpad_down){
             robot.wobbleGoal.setPower(0);
         }
-        if (gamepad1.dpad_right && !gamepad1.dpad_left) {
+        if (gamepad2.dpad_right && !gamepad2.dpad_left) {
             robot.servoWobbleGoal.setPosition(0);
         }
-        if (!gamepad1.dpad_right && gamepad1.dpad_left) {
+        if (!gamepad2.dpad_right && gamepad2.dpad_left) {
             robot.servoWobbleGoal.setPosition(1.2);
         }
 

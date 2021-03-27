@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.usrtestarea.rishi;
+package org.firstinspires.ftc.teamcode.usrtestarea.shruti;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.usrtestarea.rishi.RingDetector;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -21,15 +21,13 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-@Autonomous(name="RingDetector", group="SimpleAuto")
-public class RingDetector extends LinearOpMode {
+@TeleOp
+public class cv2 extends LinearOpMode {
     OpenCvInternalCamera phoneCam;
     SkystoneDeterminationPipeline pipeline;
 
     public void runOpMode()
     {
-        telemetry.addData("1", pipeline);
-        telemetry.update();
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
@@ -49,26 +47,14 @@ public class RingDetector extends LinearOpMode {
 
         waitForStart();
 
-        telemetry.addData("2", pipeline);
-        telemetry.update();
-
-        //int counter = 0;
-
         while (opModeIsActive())
         {
             telemetry.addData("Amount of Rings", pipeline.rings);
             telemetry.update();
 
-            telemetry.addData("sleeping", pipeline);
-            telemetry.update();
             // Don't burn CPU cycles busy-looping in this sample
             sleep(100);
-
-            return;
         }
-
-        telemetry.addData("3", pipeline);
-        telemetry.update();
     }
 
     public static class SkystoneDeterminationPipeline extends OpenCvPipeline
@@ -89,7 +75,7 @@ public class RingDetector extends LinearOpMode {
         double largest_area;
 
 
-        public volatile NumberOfRings rings = NumberOfRings.zero;
+        public volatile RingDetector.SkystoneDeterminationPipeline.NumberOfRings rings = RingDetector.SkystoneDeterminationPipeline.NumberOfRings.zero;
 
         public Mat processFrame(Mat input) {
             Imgproc.resize(input, input, size);
@@ -125,13 +111,14 @@ public class RingDetector extends LinearOpMode {
             if (bounding_rect.height == 0){
                 return input;
             }else if(bounding_rect.width / bounding_rect.height > 2.5) {
-                rings = NumberOfRings.one;
+                rings = RingDetector.SkystoneDeterminationPipeline.NumberOfRings.one;
             } else if (largest_area < 150) {
-                rings = NumberOfRings.zero;
+                rings = RingDetector.SkystoneDeterminationPipeline.NumberOfRings.zero;
             }
             else {
-                rings = NumberOfRings.four;
+                rings = RingDetector.SkystoneDeterminationPipeline.NumberOfRings.four;
             }
+
 
             return input;
         }
