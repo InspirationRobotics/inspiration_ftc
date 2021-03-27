@@ -71,7 +71,7 @@ public class Robot
     /* Init Procedures ------------------------------------------ */
 
     /* local OpMode members. */
-    HardwareMap hwmap           =  null;
+    public HardwareMap hwmap           =  null;
 
     /* call this before hw initialization */
     public void setHardwareMap(HardwareMap ahwmap) { hwmap = ahwmap; }

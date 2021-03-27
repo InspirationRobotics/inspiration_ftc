@@ -26,44 +26,46 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
         robot.initAllServos();
         robot.initMiscMotors();
 
-        cvinit();
+//        cvinit();
 
         sleep(2000);
 
         double[] wobbleGoalPos = {24, 84};
-        if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.zero) {
-            wobbleGoalPos[0] = 24;
-            wobbleGoalPos[1] = 84;
-        } else if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.four) {
-            wobbleGoalPos[0] = 24;
-            wobbleGoalPos[1] = 132;
-        } else if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.one) {
-            wobbleGoalPos[0] = 48;
-            wobbleGoalPos[1] = 108;
-        }
+//        if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.zero) {
+//            wobbleGoalPos[0] = 24;
+//            wobbleGoalPos[1] = 84;
+//        } else if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.four) {
+//            wobbleGoalPos[0] = 24;
+//            wobbleGoalPos[1] = 132;
+//        } else if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.one) {
+//            wobbleGoalPos[0] = 48;
+//            wobbleGoalPos[1] = 108;
+//        }
 
         // override 1
         SkystoneDeterminationPipeline.NumberOfRings ringnum = SkystoneDeterminationPipeline.NumberOfRings.one;
         wobbleGoalPos[0] = 48;
         wobbleGoalPos[1] = 108;
 
-        while (!isStarted()) {
-            telemetry.addData("ringnum", pipeline.rings);
-            telemetry.update();
-        }
+//        while (!isStarted()) {
+//            telemetry.addData("ringnum", pipeline.rings);
+//            telemetry.update();
+//        }
+//
+//        telemetry.addLine("Ready to go!");
+//        telemetry.update();
+//
+//        telemetry.addData("num rings", pipeline.rings);
+//        telemetry.update();
 
-        telemetry.addLine("Ready to go!");
-        telemetry.update();
-
-        telemetry.addData("num rings", pipeline.rings);
-        telemetry.update();
+        robot.servoWobbleGoal.setPosition(-0.6);
 
         waitForStart();
 
         robot.servoWobbleGoal.setPosition(-0.4);
 
 //        robot.shooterOne.setVelocity(-211, AngleUnit.DEGREES);
-        robot.shooterOne.setPower(-0.65);
+        robot.shooterOne.setPower(-0.60);
         sleep(1000);
         robot.shooter.setPosition(0.2);
 
@@ -210,7 +212,7 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
 //                    robot.backLeft.getCurrentPosition(),
 //                    robot.backRight.getCurrentPosition());
 
-            driveToYPos(72, 2,
+            encoderDriveByInchesVel(12, 2, 10,
                     robot.frontLeft.getCurrentPosition(),
                     robot.frontRight.getCurrentPosition(),
                     robot.backLeft.getCurrentPosition(),
@@ -218,7 +220,6 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
 
 
         }
-
 
     }
 

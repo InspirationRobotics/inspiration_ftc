@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -10,8 +10,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.usrtestarea.shruti.RingCVCode;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -23,8 +21,6 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
-
-import java.lang.Math;
 
 /* note: every single encoder procedure takes "lfcurr [...] rbcurr" as parameters
    because it matters from where you access the current number of encoder ticks,
@@ -48,6 +44,7 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
 
     public double[] globalCoordinates = {51, 18};
     public double globalHeading = 0;
+    public double imuStart = 0;
     
     public void hwit()
     {
@@ -55,6 +52,21 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
         robot.initDrivetrain();
         robot.initAllServos();
         robot.initMiscMotors();
+    }
+
+    public void initIMU()
+    {
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        robot.imu = robot.hwmap.get(BNO055IMU.class, "imu");
+        robot.imu.initialize(parameters);
+        imuStart = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     }
 
     public void cvinit() {
@@ -430,15 +442,50 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
 
     }
 
+    public double unNormalizeHeading(double h) {
+        return (h < 0) ? -h : h;
+    }
+
     public void imuTurn(double tgtDeg, double speed) {
+        int direction;
+        tgtDeg = sumAndNormalizeHeading(imuStart, tgtDeg);
 
+//        if ((tgtDeg >= 0 &&
+//                robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle >= 0)
+//            || (tgtDeg < 0 &&
+//                robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle <= 0)) {
+//
+//            direction = (tgtDeg > robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle)
+//                    ? 1 : -1;
+//        } else {
+//
+//        }
 
-        telemetry.addData("imu", robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES));
-        telemetry.update();
+        if (Math.abs(tgtDeg - robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) < 180) {
+            direction = (tgtDeg > robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle)
+                    ? 1 : -1;
+        } else {
+            direction = (tgtDeg > robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle)
+                    ? -1 : 1;
+        }
+
+        while (!(
+                (robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle < (tgtDeg + 1))
+                && (robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle > (tgtDeg - 1))))
+        {
+            robot.frontLeft.setPower(speed * -direction);
+            robot.backLeft.setPower(speed * -direction);
+            robot.frontRight.setPower(speed * direction);
+            robot.backRight.setPower(speed * direction);
+            telemetry.addData("imu", robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES));
+            telemetry.addData("tgt", tgtDeg);
+            telemetry.update();
+        }
     }
 
     public static class SkystoneDeterminationPipeline extends OpenCvPipeline
     {
+
         public enum NumberOfRings
         {
             four, one, zero
@@ -470,7 +517,7 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
         Mat Cb = new Mat();
         int avg1;
 
-        public volatile SkystoneDeterminationPipeline.NumberOfRings rings = SkystoneDeterminationPipeline.NumberOfRings.four;
+        public volatile NumberOfRings rings = NumberOfRings.four;
         void inputToCb(Mat input)
         {
             Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
@@ -486,26 +533,28 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
 
         public Mat processFrame(Mat input)
         {
+
+
             inputToCb(input);
 
             avg1 = (int) Core.mean(region1_Cb).val[0];
 
             Imgproc.rectangle (input, topLeft, bottomRight, RED, 2);
 
-            rings = SkystoneDeterminationPipeline.NumberOfRings.four;
-            if(avg1 > FOUR_RING_THRESHOLD){
-                rings = SkystoneDeterminationPipeline.NumberOfRings.four;
-            }else if (avg1 > ONE_RING_THRESHOLD){
-                rings = SkystoneDeterminationPipeline.NumberOfRings.one;
-            }else{
-                rings = SkystoneDeterminationPipeline.NumberOfRings.zero;
+            rings = NumberOfRings.four;
+            if (avg1 > FOUR_RING_THRESHOLD) {
+                rings = NumberOfRings.four;
+            } else if (avg1 > ONE_RING_THRESHOLD){
+                rings = NumberOfRings.one;
+            } else{
+                rings = NumberOfRings.zero;
             }
-
-            Imgproc.rectangle( input, topLeft, bottomRight, GREEN, -1);
 
             return input;
         }
 
 
-        }
+    }
+
+
 }
