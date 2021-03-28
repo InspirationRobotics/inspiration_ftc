@@ -25,49 +25,57 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
         robot.initDrivetrain();
         robot.initAllServos();
         robot.initMiscMotors();
-
-//        cvinit();
-
+        initIMU();
         sleep(2000);
+        imuStart();
 
-        double[] wobbleGoalPos = {24, 84};
-//        if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.zero) {
-//            wobbleGoalPos[0] = 24;
-//            wobbleGoalPos[1] = 84;
-//        } else if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.four) {
-//            wobbleGoalPos[0] = 24;
-//            wobbleGoalPos[1] = 132;
-//        } else if (pipeline.rings == SkystoneDeterminationPipeline.NumberOfRings.one) {
-//            wobbleGoalPos[0] = 48;
-//            wobbleGoalPos[1] = 108;
-//        }
+        int numberOfRings;
 
-        // override 1
-        SkystoneDeterminationPipeline.NumberOfRings ringnum = SkystoneDeterminationPipeline.NumberOfRings.one;
-        wobbleGoalPos[0] = 48;
-        wobbleGoalPos[1] = 108;
+        cvinit();
 
-//        while (!isStarted()) {
-//            telemetry.addData("ringnum", pipeline.rings);
-//            telemetry.update();
-//        }
-//
-//        telemetry.addLine("Ready to go!");
-//        telemetry.update();
-//
-//        telemetry.addData("num rings", pipeline.rings);
-//        telemetry.update();
+        sleep(3000);
+
+
+
+
+        while (!isStarted()) {
+            telemetry.addData("ringnum", pipeline.returnNum());
+            telemetry.update();
+        }
 
         robot.servoWobbleGoal.setPosition(-0.6);
 
         waitForStart();
 
+        sleep(1000);
+        numberOfRings = pipeline.returnNum();
+        // override 1
+//        numberOfRings = 1;
+//        wobbleGoalPos[0] = 48;
+//        wobbleGoalPos[1] = 108;
+
+        double[] wobbleGoalPos = {24, 84};
+        if (numberOfRings == 0) {
+            wobbleGoalPos[0] = 24;
+            wobbleGoalPos[1] = 84;
+        } else if (numberOfRings == 4) {
+            wobbleGoalPos[0] = 24;
+            wobbleGoalPos[1] = 132;
+        } else if (numberOfRings == 1) {
+            wobbleGoalPos[0] = 48;
+            wobbleGoalPos[1] = 120;
+        }
+
+        telemetry.addLine("started");
+
         robot.servoWobbleGoal.setPosition(-0.4);
 
-//        robot.shooterOne.setVelocity(-211, AngleUnit.DEGREES);
-        robot.shooterOne.setPower(-0.60);
+        robot.shooterOne.setVelocity(-196, AngleUnit.DEGREES);
+        // robot.shooterOne.setPower(-0.60);
         sleep(1000);
         robot.shooter.setPosition(0.2);
+
+        closeCamera();
 
         driveToYPos(45, 4,
                 robot.frontLeft.getCurrentPosition(),
@@ -76,12 +84,13 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
                 robot.backRight.getCurrentPosition());
 
 
-        encoderTurnDuplicateVel(10, 2, 10,
-                robot.frontLeft.getCurrentPosition(),
-                robot.frontRight.getCurrentPosition(),
-                robot.backLeft.getCurrentPosition(),
-                robot.backRight.getCurrentPosition());
+//        encoderTurnDuplicateVel(10, 2, 10,
+//                robot.frontLeft.getCurrentPosition(),
+//                robot.frontRight.getCurrentPosition(),
+//                robot.backLeft.getCurrentPosition(),
+//                robot.backRight.getCurrentPosition());
 
+        imuTurn2(-6, 0.2, imuStart);
 
         robot.shooter.setPosition(0.6);
         sleep(1000);
@@ -98,21 +107,17 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
         robot.shooter.setPosition(0.6);
 
 
-        if (ringnum == SkystoneDeterminationPipeline.NumberOfRings.zero) {
+        if (numberOfRings == 0) {
 
-            driveToYPos(wobbleGoalPos[1], 3,
+            robot.shooterOne.setVelocity(0, AngleUnit.DEGREES);
+
+            encoderTurnDuplicateVel(-10, 2, 10,
                     robot.frontLeft.getCurrentPosition(),
                     robot.frontRight.getCurrentPosition(),
                     robot.backLeft.getCurrentPosition(),
                     robot.backRight.getCurrentPosition());
 
-            driveToXPos(wobbleGoalPos[0], 3,
-                    robot.frontLeft.getCurrentPosition(),
-                    robot.frontRight.getCurrentPosition(),
-                    robot.backLeft.getCurrentPosition(),
-                    robot.backRight.getCurrentPosition());
-
-        } else if (ringnum == SkystoneDeterminationPipeline.NumberOfRings.four) {
+            globalHeading = 0;
 
             driveToYPos(wobbleGoalPos[1], 3,
                     robot.frontLeft.getCurrentPosition(),
@@ -132,8 +137,73 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
                     robot.backLeft.getCurrentPosition(),
                     robot.backRight.getCurrentPosition());
 
+            robot.wobbleGoal.setPower(1);
+            sleep(1000);
+            robot.wobbleGoal.setPower(0);
+            robot.servoWobbleGoal.setPosition(1.2);
+            sleep(500);
+            robot.wobbleGoal.setPower(-1);
+            sleep(500);
+            robot.wobbleGoal.setPower(0);
 
-        } else if (ringnum == SkystoneDeterminationPipeline.NumberOfRings.one) {
+            encoderTurnDuplicateVel(-90, 2, 10,
+                    robot.frontLeft.getCurrentPosition(),
+                    robot.frontRight.getCurrentPosition(),
+                    robot.backLeft.getCurrentPosition(),
+                    robot.backRight.getCurrentPosition());
+
+        } else if (numberOfRings == 4) {
+
+            robot.shooterOne.setVelocity(0, AngleUnit.DEGREES);
+
+            encoderTurnDuplicateVel(-10, 2, 10,
+                    robot.frontLeft.getCurrentPosition(),
+                    robot.frontRight.getCurrentPosition(),
+                    robot.backLeft.getCurrentPosition(),
+                    robot.backRight.getCurrentPosition());
+
+            globalHeading = 0;
+
+            driveToYPos(wobbleGoalPos[1], 3,
+                    robot.frontLeft.getCurrentPosition(),
+                    robot.frontRight.getCurrentPosition(),
+                    robot.backLeft.getCurrentPosition(),
+                    robot.backRight.getCurrentPosition());
+
+            driveToXPos(wobbleGoalPos[0], 3,
+                    robot.frontLeft.getCurrentPosition(),
+                    robot.frontRight.getCurrentPosition(),
+                    robot.backLeft.getCurrentPosition(),
+                    robot.backRight.getCurrentPosition());
+
+            encoderTurnDuplicateVel(180, 2, 10,
+                    robot.frontLeft.getCurrentPosition(),
+                    robot.frontRight.getCurrentPosition(),
+                    robot.backLeft.getCurrentPosition(),
+                    robot.backRight.getCurrentPosition());
+
+            robot.wobbleGoal.setPower(1);
+            sleep(1000);
+            robot.wobbleGoal.setPower(0);
+            robot.servoWobbleGoal.setPosition(1.2);
+            sleep(500);
+            robot.wobbleGoal.setPower(-1);
+            sleep(500);
+            robot.wobbleGoal.setPower(0);
+
+            encoderTurnDuplicateVel(-90, 2, 10,
+                    robot.frontLeft.getCurrentPosition(),
+                    robot.frontRight.getCurrentPosition(),
+                    robot.backLeft.getCurrentPosition(),
+                    robot.backRight.getCurrentPosition());
+
+            encoderDriveByInchesVel(36, 2, 10,
+                    robot.frontLeft.getCurrentPosition(),
+                    robot.frontRight.getCurrentPosition(),
+                    robot.backLeft.getCurrentPosition(),
+                    robot.backRight.getCurrentPosition());
+
+        } else if (numberOfRings == 1) {
 
             encoderTurnDuplicateVel(90, 2, 10,
                     robot.frontLeft.getCurrentPosition(),
@@ -180,7 +250,7 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
                     robot.backRight.getCurrentPosition());
 
 
-            robot.shooterOne.setVelocity(-200, AngleUnit.DEGREES);
+            robot.shooterOne.setVelocity(-250, AngleUnit.DEGREES);
             sleep(1000);
             robot.shooter.setPosition(0.2);
             sleep(1000);
@@ -199,18 +269,20 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
                     robot.backRight.getCurrentPosition());
 
             // WOBBLE GOAL NOW
-            robot.wobbleGoal.setPower(1);
+            robot.wobbleGoal.setPower(0.5);
             sleep(2000);
             robot.wobbleGoal.setPower(0);
             robot.servoWobbleGoal.setPosition(1.2);
             sleep(500);
             robot.wobbleGoal.setPower(-1);
+            sleep(500);
+            robot.wobbleGoal.setPower(0);
 
-//            encoderTurnDuplicateVel(-90, 2, 10,
-//                    robot.frontLeft.getCurrentPosition(),
-//                    robot.frontRight.getCurrentPosition(),
-//                    robot.backLeft.getCurrentPosition(),
-//                    robot.backRight.getCurrentPosition());
+            encoderTurnDuplicateVel(-90, 2, 10,
+                    robot.frontLeft.getCurrentPosition(),
+                    robot.frontRight.getCurrentPosition(),
+                    robot.backLeft.getCurrentPosition(),
+                    robot.backRight.getCurrentPosition());
 
             encoderDriveByInchesVel(12, 2, 10,
                     robot.frontLeft.getCurrentPosition(),
@@ -220,6 +292,8 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
 
 
         }
+
+        stop();
 
     }
 

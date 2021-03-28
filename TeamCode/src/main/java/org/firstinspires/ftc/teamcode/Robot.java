@@ -114,20 +114,6 @@ public class Robot
         // shooterTwo = hwmap.get(DcMotor.class, "shooterTwo");
         wobbleGoal = hwmap.get(DcMotor.class, "wobbleGoal");
     }
-
-    public void initIMU()
-    {
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-
-        imu = hwmap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
-    }
     
     /* Init End ------------------------------------------------- */
 

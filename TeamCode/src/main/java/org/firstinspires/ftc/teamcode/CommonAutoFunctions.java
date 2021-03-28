@@ -12,15 +12,20 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /* note: every single encoder procedure takes "lfcurr [...] rbcurr" as parameters
    because it matters from where you access the current number of encoder ticks,
@@ -44,9 +49,8 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
 
     public double[] globalCoordinates = {51, 18};
     public double globalHeading = 0;
+    public double imuStart;
 
-    public double imuStart = 0;
-    
     public void hwit()
     {
         robot.setHardwareMap(hardwareMap);
@@ -67,6 +71,9 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
 
         robot.imu = robot.hwmap.get(BNO055IMU.class, "imu");
         robot.imu.initialize(parameters);
+    }
+
+    public void imuStart() {
         imuStart = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     }
 
@@ -76,14 +83,22 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
         pipeline = new SkystoneDeterminationPipeline();
         phoneCam.setPipeline(pipeline);
 
-        phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+        phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.MAXIMIZE_EFFICIENCY);
+        phoneCam.pauseViewport();
 
-        phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+//        phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+//
+//            public void onOpened() {
+//                phoneCam.startStreaming(1280, 720, OpenCvCameraRotation.SIDEWAYS_LEFT);
+//            }
+//        });
+        phoneCam.openCameraDevice();
+        phoneCam.startStreaming(1280, 720, OpenCvCameraRotation.SIDEWAYS_LEFT);
+    }
 
-            public void onOpened() {
-                phoneCam.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
-            }
-        });
+    public void closeCamera() {
+        phoneCam.stopStreaming();
+        phoneCam.closeCameraDevice();
     }
 
     public void encoderDriveByInches(double distance, double speed, int timeoutSec, int lfcurr, int rfcurr,
@@ -444,114 +459,183 @@ public abstract class CommonAutoFunctions extends LinearOpMode {
         return (h < 0) ? -h : h;
     }
 
-    public void imuTurn(double tgtDeg, double speed) {
-        int direction;
-        tgtDeg = sumAndNormalizeHeading(imuStart, tgtDeg);
-
-//        if ((tgtDeg >= 0 &&
-//                robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle >= 0)
-//            || (tgtDeg < 0 &&
-//                robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle <= 0)) {
+//    public void imuTurn(double tgtDeg, double speed) {
+//        int direction;
+//        tgtDeg = sumAndNormalizeHeading(imuStart, tgtDeg);
 //
+////        if ((tgtDeg >= 0 &&
+////                robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle >= 0)
+////            || (tgtDeg < 0 &&
+////                robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle <= 0)) {
+////
+////            direction = (tgtDeg > robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle)
+////                    ? 1 : -1;
+////        } else {
+////
+////        }
+//
+//        if (Math.abs(tgtDeg - robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) < 180) {
 //            direction = (tgtDeg > robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle)
 //                    ? 1 : -1;
 //        } else {
-//
+//            direction = (tgtDeg > robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle)
+//                    ? -1 : 1;
 //        }
+//
+//        while (!(
+//                (robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle < (tgtDeg + 1))
+//                && (robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle > (tgtDeg - 1))))
+//        {
+//            robot.frontLeft.setPower(speed * -direction);
+//            robot.backLeft.setPower(speed * -direction);
+//            robot.frontRight.setPower(speed * direction);
+//            robot.backRight.setPower(speed * direction);
+//            telemetry.addData("imu", robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES));
+//            telemetry.addData("tgt", tgtDeg);
+//            telemetry.update();
+//        }
+//    }
 
-        if (Math.abs(tgtDeg - robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) < 180) {
-            direction = (tgtDeg > robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle)
-                    ? 1 : -1;
+    public void imuTurn2(double tgtDeg, double speed, double imuStart) {
+
+        int directionality;
+
+        globalHeading = sumAndNormalizeHeading(globalHeading, -tgtDeg);
+
+        tgtDeg = tgtDeg + imuStart;
+        if (tgtDeg <= -180) {
+            tgtDeg = tgtDeg + 360;
+        } else if (tgtDeg > 180) {
+            tgtDeg = tgtDeg - 360;
+        }
+
+        if (tgtDeg > robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) {
+            if (Math.abs(tgtDeg - robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) > 180) {
+                directionality = -1;
+            } else {
+                directionality = 1;
+            }
+        } else if (tgtDeg < robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) {
+            if (Math.abs(robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - tgtDeg) > 180) {
+                directionality = 1;
+            } else {
+                directionality = -1;
+            }
         } else {
-            direction = (tgtDeg > robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle)
-                    ? -1 : 1;
+            return;
         }
 
         while (!(
                 (robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle < (tgtDeg + 1))
-                && (robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle > (tgtDeg - 1))))
+                        && (robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle > (tgtDeg - 1))) && opModeIsActive())
         {
-            robot.frontLeft.setPower(speed * -direction);
-            robot.backLeft.setPower(speed * -direction);
-            robot.frontRight.setPower(speed * direction);
-            robot.backRight.setPower(speed * direction);
+            robot.frontLeft.setPower(speed * -directionality);
+            robot.backLeft.setPower(speed * -directionality);
+            robot.frontRight.setPower(speed * directionality);
+            robot.backRight.setPower(speed * directionality);
             telemetry.addData("imu", robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES));
+            telemetry.addData("imu start", imuStart);
             telemetry.addData("tgt", tgtDeg);
+            telemetry.addData("directionality", directionality);
             telemetry.update();
         }
+
+        robot.frontLeft.setPower(0);
+        robot.backLeft.setPower(0);
+        robot.frontRight.setPower(0);
+        robot.backRight.setPower(0);
     }
 
-    public static class SkystoneDeterminationPipeline extends OpenCvPipeline {
-        public enum NumberOfRings {
+    public class SkystoneDeterminationPipeline extends OpenCvPipeline {
+        private boolean showContours = true;
+        int ringnum = 0;
 
-            four, one, zero
+        /* bounding rect and contours */
+        private List<MatOfPoint> contours = new ArrayList<>();
+        Rect bounding_rect_orange_global = new Rect();
+        private List<MatOfPoint> contours_orange = new ArrayList<>();
+        private Rect roi = new Rect(109, 0, 234, 198);
+
+        public synchronized void setShowCountours(boolean enabled) {
+            showContours = enabled;
         }
 
-        static final Scalar RED = new Scalar(255, 0, 0);
-        static final Scalar GREEN = new Scalar(0, 255, 0);
-
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(181, 98);
-
-        static final int REGION_WIDTH = 35;
-        static final int REGION_HEIGHT = 25;
-
-        final int FOUR_RING_THRESHOLD = 180;
-        final int ONE_RING_THRESHOLD = 135;
-
-        Point topLeft = new Point(
-                REGION1_TOPLEFT_ANCHOR_POINT.x,
-                REGION1_TOPLEFT_ANCHOR_POINT.y);
-        Point bottomRight = new Point(
-                REGION1_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-                REGION1_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
-
-        /*
-         * Working variables
-         */
-        Mat region1_Cb;
-        Mat hsv = new Mat();
-        Mat Cb = new Mat();
-        int avg1;
-
-        public volatile SkystoneDeterminationPipeline.NumberOfRings rings = SkystoneDeterminationPipeline.NumberOfRings.four;
-
-        void inputToCb(Mat input) {
-            // color conversion + thresholding
-            Imgproc.cvtColor(input, hsv, Imgproc.COLOR_BGR2HSV, 3);
-            Core.inRange(hsv, new Scalar(15, 100, 40), new Scalar(35, 255, 255), hsv);
-
+        public synchronized List<MatOfPoint> getContours() {
+            return contours;
         }
 
-        public void init(Mat firstFrame) {
-            inputToCb(firstFrame);
+        double largest_area;
+        public Mat processFrame(Mat rgba) {
 
-            region1_Cb = Cb.submat(new Rect(topLeft, bottomRight));
-        }
+            Size size = new Size(352, 198);
+            Imgproc.resize(rgba, rgba, size);
+            rgba = new Mat(rgba.clone(), roi);
 
-        public Mat processFrame(Mat input) {
+            /* bounding boxes */
+            Rect bounding_rect_orange = new Rect();
 
-            inputToCb(input);
+            /* matricies: hsv, thresholded, and rgba/thresholded cropped */
+            Mat hsv = new Mat();
+            Mat grey = new Mat();
+            Mat thresholded_orange = new Mat();
 
-            avg1 = (int) Core.mean(region1_Cb).val[0];
+            /* change colorspace */
+            Imgproc.cvtColor(rgba, hsv, Imgproc.COLOR_RGB2HSV, 3);
 
-            Imgproc.rectangle(input, topLeft, bottomRight, RED, 2);
+            /* threshold */
+            Core.inRange(hsv, new Scalar(15, 100, 40), new Scalar(35, 255, 255), thresholded_orange);
 
+            /* find contours */
+            contours_orange = new ArrayList<>();
+            Imgproc.findContours(thresholded_orange, contours_orange, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
-            rings = SkystoneDeterminationPipeline.NumberOfRings.four;
-            if (avg1 > FOUR_RING_THRESHOLD) {
-                rings = SkystoneDeterminationPipeline.NumberOfRings.four;
-            } else if (avg1 > ONE_RING_THRESHOLD) {
-                rings = SkystoneDeterminationPipeline.NumberOfRings.one;
-            } else {
-                rings = SkystoneDeterminationPipeline.NumberOfRings.zero;
+            /* create a bounding rect based on the largest contour */
+
+            if (showContours && !contours_orange.isEmpty()) {
+
+                largest_area = 0;
+                for (int i = 0; i < contours_orange.size(); i++) /* iterate through the contours */ {
+                    double area = Imgproc.contourArea(contours_orange.get(i));  /* get contour area */
+                    if (area > largest_area) {
+                        largest_area = area; /* save the largest contour area */
+
+                        /* get a bounding rectangle based on the largest contour */
+                        bounding_rect_orange = Imgproc.boundingRect(contours_orange.get(i));
+                    }
+                }
+
+                /* draw the contours and the bounding rect */
+                Imgproc.drawContours(rgba, contours_orange, -1, new Scalar(255, 255, 0), 1, 8);
+
             }
 
-            Imgproc.rectangle(input, topLeft, bottomRight, GREEN, -1);
 
-            return input;
+            bounding_rect_orange_global = bounding_rect_orange;
+
+
+            hsv.release();
+            thresholded_orange.release();
+            grey.release();
+
+
+            if (bounding_rect_orange_global.height == 0){
+                return rgba;
+            } else if(bounding_rect_orange_global.width / bounding_rect_orange_global.height > 2.5) {
+                ringnum = 1;
+            } else if (largest_area < 150) {
+                ringnum = 0;
+            }
+            else {
+                ringnum = 4;
+            }
+
+            /* return the rgba matrix */
+            return rgba;
         }
 
-
+        public int returnNum() {
+            return ringnum;
+        }
     }
 
 }
