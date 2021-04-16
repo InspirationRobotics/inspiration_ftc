@@ -71,7 +71,7 @@ public abstract class CommonAutoRegionals extends LinearOpMode {
         parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
-        newrobot.imu = newrobot.hwmap.get(BNO055IMU.class, "imu");
+        newrobot.imu = newrobot.hwmap.get(BNO055IMU.class, "imu 1");
         newrobot.imu.initialize(parameters);
     }
 
@@ -104,6 +104,55 @@ public abstract class CommonAutoRegionals extends LinearOpMode {
     /* position tracking (drivetrain encoders) related start ------------------------------------------------------------------------------------- */
 
     public void encoderDriveByInches(double distance, double speed, int timeoutSec, int lfcurr, int rfcurr,
+                                     int lbcurr, int rbcurr) {
+
+        if (opModeIsActive()) {
+
+            int speedMult = (distance >= 0) ? 1 : -1;
+
+            int tgt = (int) (distance * 43);
+
+            newrobot.frontLeft.setTargetPosition(lfcurr + tgt);
+            newrobot.backLeft.setTargetPosition(lbcurr + tgt);
+            newrobot.frontRight.setTargetPosition(rfcurr + tgt);
+            newrobot.backRight.setTargetPosition(rbcurr + tgt);
+
+            newrobot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            newrobot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            newrobot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            newrobot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            runtime.reset();
+
+            newrobot.frontLeft.setPower(speed * speedMult);
+            newrobot.backLeft.setPower(speed * speedMult);
+            newrobot.frontRight.setPower(speed * speedMult);
+            newrobot.backRight.setPower(speed * speedMult);
+
+            while ((opModeIsActive() && runtime.seconds() < timeoutSec) &&
+                    (newrobot.frontLeft.isBusy() && newrobot.backLeft.isBusy()) || (newrobot.frontRight.isBusy() && newrobot.backRight.isBusy())) {
+                telemetry.addData("lf, rf, lb, rb", "%7d, %7d, %7d, %7d", newrobot.frontLeft.getCurrentPosition(), newrobot.frontRight.getCurrentPosition(),
+                        newrobot.backLeft.getCurrentPosition(), newrobot.backRight.getCurrentPosition());
+                telemetry.addData("tgt:", "%7d, %7d, %7d, %7d", newrobot.frontLeft.getTargetPosition(), newrobot.frontRight.getTargetPosition(),
+                        newrobot.backLeft.getTargetPosition(), newrobot.backRight.getTargetPosition());
+                telemetry.update();
+            }
+
+            newrobot.frontLeft.setPower(0);
+            newrobot.backLeft.setPower(0);
+            newrobot.frontRight.setPower(0);
+            newrobot.backRight.setPower(0);
+
+            newrobot.frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            newrobot.backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            newrobot.frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            newrobot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+
+        globalCoordinates = calculateTargetPosition(globalHeading, distance);
+    }
+
+    public void encoderDriveByInchesTwoWheel(double distance, double speed, int timeoutSec, int lfcurr, int rfcurr,
                                      int lbcurr, int rbcurr) {
 
         if (opModeIsActive()) {
@@ -510,6 +559,13 @@ public abstract class CommonAutoRegionals extends LinearOpMode {
         newrobot.backRight.setPower(0);
     }
 
+    public void imuRead() {
+        while (opModeIsActive()) {
+            telemetry.addData("imu", newrobot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+            telemetry.update();
+        }
+    }
+
     /* computer vision start ------------------------------------------------ */
 
     public class SkystoneDeterminationPipeline extends OpenCvPipeline {
@@ -607,3 +663,5 @@ public abstract class CommonAutoRegionals extends LinearOpMode {
     /* computer vision end ------------------------------------------------------------------------------------- */
 
 }
+
+

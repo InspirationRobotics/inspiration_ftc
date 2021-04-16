@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.usrtestarea.rishi;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.CommonAutoFunctions;
 import org.firstinspires.ftc.teamcode.Robot;
 
+@Disabled
 @Autonomous(name="Shooter Vel Test", group="Simple Auto")
 public class ShooterVelTest extends CommonAutoFunctions {
 

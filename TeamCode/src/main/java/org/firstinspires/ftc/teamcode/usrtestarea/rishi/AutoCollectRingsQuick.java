@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode.usrtestarea.rishi;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.CommonAutoFunctions;
 import org.firstinspires.ftc.teamcode.Robot;
 
-
+@Disabled
 @Autonomous(name="Auto Collect Rings Quick", group="SimpleAuto")
 public class AutoCollectRingsQuick extends CommonAutoFunctions {
 
@@ -18,7 +19,6 @@ public class AutoCollectRingsQuick extends CommonAutoFunctions {
 
     @Override
     public void runOpMode() {
-
 
         /* init hardware */
         hwit();

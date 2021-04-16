@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.usrtestarea.rishi;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.CommonAutoFunctions;
 import org.firstinspires.ftc.teamcode.Robot;
 
+@Disabled
 @Autonomous(name="Simple Pos Track", group="SimpleAuto")
 public class SimplePosTrackAuto extends CommonAutoFunctions {
 

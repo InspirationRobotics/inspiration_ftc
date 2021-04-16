@@ -28,15 +28,13 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
         initIMU();
         sleep(2000);
         imuStart();
+        boolean secondRound = false;
 
         int numberOfRings;
 
         cvinit();
 
         sleep(3000);
-
-
-
 
         while (!isStarted()) {
             telemetry.addData("ringnum", pipeline.returnNum());
@@ -90,7 +88,7 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
 //                robot.backLeft.getCurrentPosition(),
 //                robot.backRight.getCurrentPosition());
 
-        imuTurn2(-6, 0.2, imuStart);
+        imuTurn2(-5, 0.2, imuStart);
 
         robot.shooter.setPosition(0.6);
         sleep(1000);
@@ -203,7 +201,7 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
                     robot.backLeft.getCurrentPosition(),
                     robot.backRight.getCurrentPosition());
 
-        } else if (numberOfRings == 1) {
+        } else if (numberOfRings == 1 && secondRound) {
 
             encoderTurnDuplicateVel(90, 2, 10,
                     robot.frontLeft.getCurrentPosition(),
@@ -291,10 +289,59 @@ public class AutoCollectRingsWobble extends CommonAutoFunctions {
                     robot.backRight.getCurrentPosition());
 
 
+        } else if (numberOfRings == 1 && !secondRound) {
+            robot.shooterOne.setVelocity(0, AngleUnit.DEGREES);
+
+            encoderTurnDuplicateVel(-10, 2, 10,
+                    robot.frontLeft.getCurrentPosition(),
+                    robot.frontRight.getCurrentPosition(),
+                    robot.backLeft.getCurrentPosition(),
+                    robot.backRight.getCurrentPosition());
+
+            globalHeading = 0;
+
+            driveToYPos(wobbleGoalPos[1], 3,
+                    robot.frontLeft.getCurrentPosition(),
+                    robot.frontRight.getCurrentPosition(),
+                    robot.backLeft.getCurrentPosition(),
+                    robot.backRight.getCurrentPosition());
+
+            driveToXPos(wobbleGoalPos[0], 3,
+                    robot.frontLeft.getCurrentPosition(),
+                    robot.frontRight.getCurrentPosition(),
+                    robot.backLeft.getCurrentPosition(),
+                    robot.backRight.getCurrentPosition());
+
+            encoderTurnDuplicateVel(180, 2, 10,
+                    robot.frontLeft.getCurrentPosition(),
+                    robot.frontRight.getCurrentPosition(),
+                    robot.backLeft.getCurrentPosition(),
+                    robot.backRight.getCurrentPosition());
+
+            robot.wobbleGoal.setPower(1);
+            sleep(1000);
+            robot.wobbleGoal.setPower(0);
+            robot.servoWobbleGoal.setPosition(1.2);
+            sleep(500);
+            robot.wobbleGoal.setPower(-1);
+            sleep(500);
+            robot.wobbleGoal.setPower(0);
+
+            encoderTurnDuplicateVel(-90, 2, 10,
+                    robot.frontLeft.getCurrentPosition(),
+                    robot.frontRight.getCurrentPosition(),
+                    robot.backLeft.getCurrentPosition(),
+                    robot.backRight.getCurrentPosition());
+
+            encoderDriveByInchesVel(24, 2, 10,
+                    robot.frontLeft.getCurrentPosition(),
+                    robot.frontRight.getCurrentPosition(),
+                    robot.backLeft.getCurrentPosition(),
+                    robot.backRight.getCurrentPosition());
         }
 
         stop();
-
+        
     }
 
 }

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.usrtestarea.rishi;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -22,6 +23,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
+@Disabled
 @Autonomous(name="RingDetector", group="SimpleAuto")
 public class RingDetector extends LinearOpMode {
     OpenCvInternalCamera Webcam;
@@ -39,7 +41,9 @@ public class RingDetector extends LinearOpMode {
         pipeline = new SkystoneDeterminationPipeline();
         Webcam.setPipeline(pipeline);
 
+
         Webcam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+        Webcam.pauseViewport();
 
         Webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -79,8 +83,8 @@ public class RingDetector extends LinearOpMode {
 
         Mat hsv = new Mat();
         Mat thresholded_orange = new Mat();
-        Size size = new Size(352, 198);
-        Rect roi = new Rect(0, 50, 352, 148);
+//        Size size = new Size(352, 198);
+//        Rect roi = new Rect(0, 50, 352, 148);
 
         List<MatOfPoint> contours;
         Rect bounding_rect = new Rect();
@@ -91,8 +95,8 @@ public class RingDetector extends LinearOpMode {
         public volatile NumberOfRings rings = NumberOfRings.zero;
 
         public Mat processFrame(Mat input) {
-            Imgproc.resize(input, input, size);
-            input = new Mat(input.clone(), roi);
+//            Imgproc.resize(input, input, size);
+//            input = new Mat(input.clone(), roi);
 
             /* color conversion and thresholding */
             Imgproc.cvtColor(input, hsv, Imgproc.COLOR_RGB2HSV, 3);
@@ -116,8 +120,8 @@ public class RingDetector extends LinearOpMode {
                 }
 
                 /* draw the bounding rect if it is large enough */
-                if (largest_area > 100)
-                    Imgproc.rectangle(input, bounding_rect.tl(), bounding_rect.br(), new Scalar(0, 255, 0), 3);
+//                if (largest_area > 100)
+//                    Imgproc.rectangle(input, bounding_rect.tl(), bounding_rect.br(), new Scalar(0, 255, 0), 3);
 
             }
 

@@ -40,10 +40,10 @@ public class NewRobot
     public Servo servoWobbleGoal;           /* p5 */
 
     /* i2c -- distance sensors */
-    public DistanceSensor distFL = null;    /* p0 */
-    public DistanceSensor distFR = null;    /* p1 */
-    public DistanceSensor distBL = null;    /* p2 */
-    public DistanceSensor distBR = null;    /* p3 */
+    public DistanceSensor distRBL = null;    /* p0 */
+    public DistanceSensor distRBT = null;    /* p1 */
+    public DistanceSensor distRFL = null;    /* p2 */
+    public DistanceSensor distRFT = null;    /* p3 */
 
 
     /* REV Control Hub */
@@ -57,10 +57,10 @@ public class NewRobot
     public Servo shooter;                   /* p5 */
 
     /* i2c -- distance sensors on sides */
-    public DistanceSensor distLF = null;    /* p0 */
-    public DistanceSensor distRF = null;    /* p1 */
-    public DistanceSensor distLB = null;    /* p2 */
-    public DistanceSensor distRB = null;    /* p3 */
+    public DistanceSensor distLFL = null;    /* p0 */
+    public DistanceSensor distLFT = null;    /* p1 */
+    public DistanceSensor distLBL = null;    /* p2 */
+    public DistanceSensor distLBT = null;    /* p3 */
 
     /* imu */
     public BNO055IMU imu;
@@ -92,27 +92,27 @@ public class NewRobot
     /* if you want to init them all at once use this */
     public void initAllDistanceSensors()
     {
-        distFL = hwmap.get(DistanceSensor.class, "FL");
-        distFR = hwmap.get(DistanceSensor.class, "FR");
-        distBL = hwmap.get(DistanceSensor.class, "BL");
-        distBR = hwmap.get(DistanceSensor.class, "BR");
+        distRBL = hwmap.get(DistanceSensor.class, "RBL");
+        distRBT = hwmap.get(DistanceSensor.class, "RBT");
+        distRFL = hwmap.get(DistanceSensor.class, "RFL");
+        distRFL = hwmap.get(DistanceSensor.class, "RFL");
 
-        distLF = hwmap.get(DistanceSensor.class, "LF");
-        distRF = hwmap.get(DistanceSensor.class, "RF");
-        distLB = hwmap.get(DistanceSensor.class, "LB");
-        distRB = hwmap.get(DistanceSensor.class, "RB");
+        distLFL = hwmap.get(DistanceSensor.class, "LFL");
+        distLFT = hwmap.get(DistanceSensor.class, "LFT");
+        distLBL = hwmap.get(DistanceSensor.class, "LBL");
+        distLBT = hwmap.get(DistanceSensor.class, "LBT");
     }
 
     public void initAllServos()
     {
-        shooter = hwmap.get(Servo.class, "shooter");
+        shooter = hwmap.get(Servo.class, "shooterTilt");
         servoWobbleGoal = hwmap.get(Servo.class, "servoWobbleGoal");
     }
 
     public void initMiscMotors()
     {
-        collector = hwmap.get(DcMotor.class, "collector");
-        shooterOne = hwmap.get(DcMotorEx.class, "shooterOne");
+//        collector = hwmap.get(DcMotor.class, "collector");
+//        shooterOne = hwmap.get(DcMotorEx.class, "shooterOne");
         wobbleGoal = hwmap.get(DcMotor.class, "wobbleGoal");
     }
 

@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.AutonomousRegionals;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.CommonAutoRegionals;
 import org.firstinspires.ftc.teamcode.NewRobot;
 
@@ -64,7 +66,73 @@ public class RegionalAutoOldPosTrack extends CommonAutoRegionals {
 
         telemetry.addLine("started");
 
-        stop();
+        // 57.9946168 degrees
+//        newrobot.frontLeft.setPower(0.5);
+//        newrobot.frontRight.setPower(-0.18);
+//        newrobot.backLeft.setPower(-0.18);
+//        newrobot.backRight.setPower(0.5);
+
+//        newrobot.frontLeft.setPower(0.5);
+//        newrobot.frontRight.setPower(-0.18);
+//        newrobot.backLeft.setPower(-0.18);
+//        newrobot.backRight.setPower(0.5);
+
+        imuRead();
+
+        newrobot.frontLeft.setPower(0.5);
+        newrobot.frontRight.setPower(0);
+        newrobot.backLeft.setPower(0);
+        newrobot.backRight.setPower(0.5);
+
+        sleep(2000);
+
+        newrobot.frontLeft.setPower(0);
+        newrobot.frontRight.setPower(0);
+        newrobot.backLeft.setPower(0);
+        newrobot.backRight.setPower(0);
+
+
+        imuTurn(-180, 0.5, imuStart);
+
+        globalCoordinates[0] = 36;
+        globalCoordinates[1] = 42;
+        globalHeading = 0;
+
+        newrobot.shooter.setPosition(0.6);
+        sleep(1000);
+        newrobot.shooter.setPosition(0.2);
+        sleep(1000);
+        newrobot.shooter.setPosition(0.6);
+        sleep(1000);
+        newrobot.shooter.setPosition(0.2);
+        sleep(1000);
+        newrobot.shooter.setPosition(0.6);
+        sleep(1000);
+        newrobot.shooter.setPosition(0.2);
+        sleep(1000);
+        newrobot.shooter.setPosition(0.6);
+
+        driveToYPos(51, 3,
+                newrobot.frontLeft.getCurrentPosition(),
+                newrobot.frontRight.getCurrentPosition(),
+                newrobot.backLeft.getCurrentPosition(),
+                newrobot.backRight.getCurrentPosition());
+
+        newrobot.shooter.setPosition(0.6);
+        sleep(1000);
+        newrobot.shooter.setPosition(0.2);
+        sleep(1000);
+        newrobot.shooter.setPosition(0.6);
+        sleep(1000);
+        newrobot.shooter.setPosition(0.2);
+        sleep(1000);
+        newrobot.shooter.setPosition(0.6);
+        sleep(1000);
+        newrobot.shooter.setPosition(0.2);
+        sleep(1000);
+        newrobot.shooter.setPosition(0.6);
+
+
 
     }
 
