@@ -55,6 +55,7 @@ public class AutoOneRing extends LinearOpMode {
         /* servos */
         final Servo wobbleServo = hardwareMap.get(Servo.class, "servoWobbleGoal");
         final Servo shooterTilt = hardwareMap.get(Servo.class, "shooterTilt");
+        final Servo magazine = hardwareMap.get(Servo.class, "magazine");
 
         /* distance sensors */
         final Rev2mDistanceSensor rbl = hardwareMap.get(Rev2mDistanceSensor.class, "RBL");
@@ -99,14 +100,14 @@ public class AutoOneRing extends LinearOpMode {
 
         double[] wobbleGoalPos = {24, 84};
         if (numberOfRings == 0) {
-            wobbleGoalPos[0] = 24;
-            wobbleGoalPos[1] = 84;
+            wobbleGoalPos[0] = 56;
+            wobbleGoalPos[1] = 1;
         } else if (numberOfRings == 4) {
-            wobbleGoalPos[0] = 24;
-            wobbleGoalPos[1] = 132;
+            wobbleGoalPos[0] = 104;
+            wobbleGoalPos[1] = 1;
         } else if (numberOfRings == 1) {
-            wobbleGoalPos[0] = 48;
-            wobbleGoalPos[1] = 120;
+            wobbleGoalPos[0] = 80;
+            wobbleGoalPos[1] = 21;
         }
 
         phoneCam.stopStreaming();
@@ -121,13 +122,7 @@ public class AutoOneRing extends LinearOpMode {
                 .build();
 
         Trajectory toDropZoneOne_WobbleGoalOne = drive.trajectoryBuilder(toRingStack.end())
-                .splineTo(new Vector2d(80, 21), 0)
-                .build();
-        Trajectory toDropZoneTwo_WobbleGoalOne = drive.trajectoryBuilder(toRingStack.end())
-                .splineTo(new Vector2d(104, 45), 0)
-                .build();
-        Trajectory toDropZoneThree_WobbleGoalOne = drive.trajectoryBuilder(toRingStack.end())
-                .splineTo(new Vector2d(128, 21), 0)
+                .splineTo(new Vector2d(wobbleGoalPos[0], wobbleGoalPos[1]), 0)
                 .build();
 
         Trajectory collectWobbleGoal = drive.trajectoryBuilder(toDropZoneOne_WobbleGoalOne.end())
@@ -147,7 +142,21 @@ public class AutoOneRing extends LinearOpMode {
 
         drive.followTrajectory(toRingStack);
 
-        sleep(2000);
+        shooterOne.setPower(0.5);
+        shooterTwo.setPower(0.5);
+        magazine.setPosition(1);
+        sleep(1000);
+        magazine.setPosition(0.5);
+        sleep(1000);
+        magazine.setPosition(1);
+        sleep(1000);
+        magazine.setPosition(0.5);
+        sleep(1000);
+        magazine.setPosition(1);
+        sleep(1000);
+        magazine.setPosition(0.5);
+        sleep(1000);
+        magazine.setPosition(1);
 
         drive.followTrajectory(toDropZoneOne_WobbleGoalOne);
 
