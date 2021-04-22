@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.drive.opmode.SkystoneDeterminationPipeline;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -31,11 +32,13 @@ import java.util.List;
 /*
  * This is an example of a more complex path to really test the tuning.
  */
-@Autonomous(group = "ShootTest")
-public class ShootTest extends LinearOpMode {
+
+@Autonomous
+public class AutoFinal extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        ElapsedTime runtime = new ElapsedTime();
 
         /** control hub */
 
@@ -71,34 +74,35 @@ public class ShootTest extends LinearOpMode {
         double IN_POWER = 0.7;
 
         wobbleServo.setPosition(GRAB_POS);
+        shooterTilt.setPosition(0);
 
-//        OpenCvInternalCamera phoneCam;
-//        SkystoneDeterminationPipeline pipeline;
-//        int numberOfRings;
-//
-//        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-//        phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
-//        pipeline = new SkystoneDeterminationPipeline();
-//        phoneCam.setPipeline(pipeline);
-//
-//        phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.MAXIMIZE_EFFICIENCY);
-//        phoneCam.pauseViewport();
-//
-//        phoneCam.openCameraDevice();
-//        phoneCam.startStreaming(1280, 720, OpenCvCameraRotation.SIDEWAYS_LEFT);
-//
-//
-//        while (!isStarted()) {
-//            telemetry.addData("ringnum", pipeline.returnNum());
-//            telemetry.update();
-//        }
+        OpenCvInternalCamera phoneCam;
+        SkystoneDeterminationPipeline pipeline;
+        int numberOfRings;
+
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+        pipeline = new SkystoneDeterminationPipeline();
+        phoneCam.setPipeline(pipeline);
+
+        phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.MAXIMIZE_EFFICIENCY);
+        phoneCam.pauseViewport();
+
+        phoneCam.openCameraDevice();
+        phoneCam.startStreaming(1280, 720, OpenCvCameraRotation.SIDEWAYS_LEFT);
+
+
+        while (!isStarted()) {
+            telemetry.addData("ringnum", pipeline.returnNum());
+            telemetry.update();
+        }
 
         waitForStart();
 
         if (isStopRequested()) return;
 
-//        numberOfRings = pipeline.returnNum();
-        int numberOfRings = 1;
+        numberOfRings = pipeline.returnNum();
+        numberOfRings = 1;
 
         double[] wobbleGoalPos = {80, 21};
         if (numberOfRings == 0) {
@@ -112,8 +116,8 @@ public class ShootTest extends LinearOpMode {
             wobbleGoalPos[1] = 21;
         }
 
-//        phoneCam.stopStreaming();
-//        phoneCam.closeCameraDevice();
+        phoneCam.stopStreaming();
+        phoneCam.closeCameraDevice();
 
         telemetry.addLine("started");
 
@@ -121,6 +125,10 @@ public class ShootTest extends LinearOpMode {
 
         Trajectory toRingStack = drive.trajectoryBuilder(drive.getPoseEstimate())
                 .strafeTo(new Vector2d(28, 27))
+                .build();
+
+        Trajectory park = drive.trajectoryBuilder(drive.getPoseEstimate())
+                .strafeTo(new Vector2d(80, 27))
                 .build();
 
         Trajectory toDropZoneOne_WobbleGoalOne = drive.trajectoryBuilder(toRingStack.end())
@@ -140,29 +148,42 @@ public class ShootTest extends LinearOpMode {
 
         drive.followTrajectory(toRingStack);
 
-        shooterOne.setVelocity(-230, AngleUnit.DEGREES);
-        shooterTwo.setVelocity(-230, AngleUnit.DEGREES);
+        shooterTilt.setPosition(0);
+        shooterOne.setVelocity(-196, AngleUnit.DEGREES);
+        shooterTwo.setVelocity(-196, AngleUnit.DEGREES);
+        sleep(1000);
+        magazine.setPosition(1);
         sleep(2000);
-        magazine.setPosition(1);
-        sleep(1000);
         magazine.setPosition(0.5);
         sleep(1000);
         magazine.setPosition(1);
-        sleep(1000);
+        sleep(2000);
         magazine.setPosition(0.5);
         sleep(1000);
         magazine.setPosition(1);
-        sleep(1000);
+        sleep(2000);
         magazine.setPosition(0.5);
         sleep(1000);
         magazine.setPosition(1);
+
+        shooterOne.setVelocity(0, AngleUnit.DEGREES);
+        shooterTwo.setVelocity(0, AngleUnit.DEGREES);
+
+//        collector.setPower(-1);
 
         drive.followTrajectory(toDropZoneOne_WobbleGoalOne);
 
         moveMotorSec(wobbleGoal, OUT_POWER, 1500);
         wobbleServo.setPosition(OPEN_POS);
-        sleep(1000);
+        sleep(500);
         moveMotorSec(wobbleGoal, IN_POWER, 1500);
+
+//        drive.followTrajectory(toRingStack);
+//
+//        sleep(1000);
+//        magazine.setPosition(1);
+//        sleep(2000);
+//        magazine.setPosition(0.5);
 
         drive.followTrajectory(collectWobbleGoal);
 
@@ -174,8 +195,15 @@ public class ShootTest extends LinearOpMode {
 
         moveMotorSec(wobbleGoal, OUT_POWER, 1500);
         wobbleServo.setPosition(OPEN_POS);
-        sleep(1000);
+        sleep(500);
         moveMotorSec(wobbleGoal, IN_POWER, 1500);
+
+        drive.setMotorPowers(-1, -1, -1, -1);
+        sleep(250);
+        drive.setMotorPowers(0, 0, 0, 0);
+
+
+//        drive.followTrajectory(park);
     }
 
     public void moveMotorSec(DcMotorEx motor, double power, long runTime) {
@@ -191,96 +219,96 @@ public class ShootTest extends LinearOpMode {
         //I feel like a bug
     }
 
-    public class SkystoneDeterminationPipeline extends OpenCvPipeline {
-        private boolean showContours = true;
-        int ringnum = 0;
-
-        /* bounding rect and contours */
-        private List<MatOfPoint> contours = new ArrayList<>();
-        Rect bounding_rect_orange_global = new Rect();
-        private List<MatOfPoint> contours_orange = new ArrayList<>();
-        private Rect roi = new Rect(109, 0, 234, 198);
-
-        public synchronized void setShowCountours(boolean enabled) {
-            showContours = enabled;
-        }
-
-        public synchronized List<MatOfPoint> getContours() {
-            return contours;
-        }
-
-        double largest_area;
-        public Mat processFrame(Mat rgba) {
-
-            Size size = new Size(352, 198);
-            Imgproc.resize(rgba, rgba, size);
-            rgba = new Mat(rgba.clone(), roi);
-
-            /* bounding boxes */
-            Rect bounding_rect_orange = new Rect();
-
-            /* matricies: hsv, thresholded, and rgba/thresholded cropped */
-            Mat hsv = new Mat();
-            Mat grey = new Mat();
-            Mat thresholded_orange = new Mat();
-
-            /* change colorspace */
-            Imgproc.cvtColor(rgba, hsv, Imgproc.COLOR_RGB2HSV, 3);
-
-            /* threshold */
-            Core.inRange(hsv, new Scalar(15, 100, 40), new Scalar(35, 255, 255), thresholded_orange);
-
-            /* find contours */
-            contours_orange = new ArrayList<>();
-            Imgproc.findContours(thresholded_orange, contours_orange, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
-
-            /* create a bounding rect based on the largest contour */
-
-            if (showContours && !contours_orange.isEmpty()) {
-
-                largest_area = 0;
-                for (int i = 0; i < contours_orange.size(); i++) /* iterate through the contours */ {
-                    double area = Imgproc.contourArea(contours_orange.get(i));  /* get contour area */
-                    if (area > largest_area) {
-                        largest_area = area; /* save the largest contour area */
-
-                        /* get a bounding rectangle based on the largest contour */
-                        bounding_rect_orange = Imgproc.boundingRect(contours_orange.get(i));
-                    }
-                }
-
-                /* draw the contours and the bounding rect */
-                Imgproc.drawContours(rgba, contours_orange, -1, new Scalar(255, 255, 0), 1, 8);
-
-            }
-
-
-            bounding_rect_orange_global = bounding_rect_orange;
-
-
-            hsv.release();
-            thresholded_orange.release();
-            grey.release();
-
-
-            if (bounding_rect_orange_global.height == 0){
-                return rgba;
-            } else if(bounding_rect_orange_global.width / bounding_rect_orange_global.height > 2.5) {
-                ringnum = 1;
-            } else if (largest_area < 150) {
-                ringnum = 0;
-            }
-            else {
-                ringnum = 4;
-            }
-
-            /* return the rgba matrix */
-            return rgba;
-        }
-
-        public int returnNum() {
-            return ringnum;
-        }
-    }
+//    public class SkystoneDeterminationPipeline extends OpenCvPipeline {
+//        private boolean showContours = true;
+//        int ringnum = 0;
+//
+//        /* bounding rect and contours */
+//        private List<MatOfPoint> contours = new ArrayList<>();
+//        Rect bounding_rect_orange_global = new Rect();
+//        private List<MatOfPoint> contours_orange = new ArrayList<>();
+//        private Rect roi = new Rect(109, 0, 234, 198);
+//
+//        public synchronized void setShowCountours(boolean enabled) {
+//            showContours = enabled;
+//        }
+//
+//        public synchronized List<MatOfPoint> getContours() {
+//            return contours;
+//        }
+//
+//        double largest_area;
+//        public Mat processFrame(Mat rgba) {
+//
+//            Size size = new Size(352, 198);
+//            Imgproc.resize(rgba, rgba, size);
+//            rgba = new Mat(rgba.clone(), roi);
+//
+//            /* bounding boxes */
+//            Rect bounding_rect_orange = new Rect();
+//
+//            /* matricies: hsv, thresholded, and rgba/thresholded cropped */
+//            Mat hsv = new Mat();
+//            Mat grey = new Mat();
+//            Mat thresholded_orange = new Mat();
+//
+//            /* change colorspace */
+//            Imgproc.cvtColor(rgba, hsv, Imgproc.COLOR_RGB2HSV, 3);
+//
+//            /* threshold */
+//            Core.inRange(hsv, new Scalar(15, 100, 40), new Scalar(35, 255, 255), thresholded_orange);
+//
+//            /* find contours */
+//            contours_orange = new ArrayList<>();
+//            Imgproc.findContours(thresholded_orange, contours_orange, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+//
+//            /* create a bounding rect based on the largest contour */
+//
+//            if (showContours && !contours_orange.isEmpty()) {
+//
+//                largest_area = 0;
+//                for (int i = 0; i < contours_orange.size(); i++) /* iterate through the contours */ {
+//                    double area = Imgproc.contourArea(contours_orange.get(i));  /* get contour area */
+//                    if (area > largest_area) {
+//                        largest_area = area; /* save the largest contour area */
+//
+//                        /* get a bounding rectangle based on the largest contour */
+//                        bounding_rect_orange = Imgproc.boundingRect(contours_orange.get(i));
+//                    }
+//                }
+//
+//                /* draw the contours and the bounding rect */
+//                Imgproc.drawContours(rgba, contours_orange, -1, new Scalar(255, 255, 0), 1, 8);
+//
+//            }
+//
+//
+//            bounding_rect_orange_global = bounding_rect_orange;
+//
+//
+//            hsv.release();
+//            thresholded_orange.release();
+//            grey.release();
+//
+//
+//            if (bounding_rect_orange_global.height == 0){
+//                return rgba;
+//            } else if(bounding_rect_orange_global.width / bounding_rect_orange_global.height > 2.5) {
+//                ringnum = 1;
+//            } else if (largest_area < 150) {
+//                ringnum = 0;
+//            }
+//            else {
+//                ringnum = 4;
+//            }
+//
+//            /* return the rgba matrix */
+//            return rgba;
+//        }
+//
+//        public int returnNum() {
+//            return ringnum;
+//        }
+//    }
 }
 
