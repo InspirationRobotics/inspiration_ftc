@@ -91,7 +91,6 @@ public class AutoFinal extends LinearOpMode {
         phoneCam.openCameraDevice();
         phoneCam.startStreaming(1280, 720, OpenCvCameraRotation.SIDEWAYS_LEFT);
 
-
         while (!isStarted()) {
             telemetry.addData("ringnum", pipeline.returnNum());
             telemetry.update();
@@ -102,7 +101,8 @@ public class AutoFinal extends LinearOpMode {
         if (isStopRequested()) return;
 
         numberOfRings = pipeline.returnNum();
-        numberOfRings = 1;
+        telemetry.addData("final ring scan", numberOfRings);
+        telemetry.update();
 
         double[] wobbleGoalPos = {80, 21};
         if (numberOfRings == 0) {
@@ -135,14 +135,18 @@ public class AutoFinal extends LinearOpMode {
                 .splineTo(new Vector2d(wobbleGoalPos[0], wobbleGoalPos[1]), 0)
                 .build();
 
+        Trajectory toDropZoneOne_WobbleGoalTwo = drive.trajectoryBuilder(toRingStack.end())
+                .splineTo(new Vector2d(wobbleGoalPos[0] - 4, wobbleGoalPos[1]), 0)
+                .build();
+
         Trajectory collectWobbleGoal = drive.trajectoryBuilder(toDropZoneOne_WobbleGoalOne.end())
                 .lineToLinearHeading(new Pose2d(25.5, 13, Math.toRadians(145)))
-                .addDisplacementMarker(8, () -> {
-                    wobbleGoal.setPower(OUT_POWER);
-                })
-                .addDisplacementMarker(40, () -> {
-                    wobbleGoal.setPower(0);
-                })
+//                .addDisplacementMarker(8, () -> {
+//                    wobbleGoal.setPower(OUT_POWER);
+//                })
+//                .addDisplacementMarker(40, () -> {
+//                    wobbleGoal.setPower(0);
+//                })
                 .build();
 
 
@@ -176,7 +180,7 @@ public class AutoFinal extends LinearOpMode {
         moveMotorSec(wobbleGoal, OUT_POWER, 1500);
         wobbleServo.setPosition(OPEN_POS);
         sleep(500);
-        moveMotorSec(wobbleGoal, IN_POWER, 1500);
+        //moveMotorSec(wobbleGoal, IN_POWER, 1500);
 
 //        drive.followTrajectory(toRingStack);
 //
@@ -188,19 +192,25 @@ public class AutoFinal extends LinearOpMode {
         drive.followTrajectory(collectWobbleGoal);
 
         wobbleServo.setPosition(GRAB_POS);
-        sleep(1000);
+        sleep(800);
         moveMotorSec(wobbleGoal, IN_POWER, 1500);
 
-        drive.followTrajectory(toDropZoneOne_WobbleGoalOne);
+        drive.followTrajectory(toDropZoneOne_WobbleGoalTwo);
 
         moveMotorSec(wobbleGoal, OUT_POWER, 1500);
         wobbleServo.setPosition(OPEN_POS);
         sleep(500);
-        moveMotorSec(wobbleGoal, IN_POWER, 1500);
+        moveMotorSec(wobbleGoal, IN_POWER, 1000);
 
-        drive.setMotorPowers(-1, -1, -1, -1);
-        sleep(250);
-        drive.setMotorPowers(0, 0, 0, 0);
+        if (numberOfRings == 1) {
+            drive.setMotorPowers(-1, -1, -1, -1);
+            sleep(250);
+            drive.setMotorPowers(0, 0, 0, 0);
+        } else if (numberOfRings == 4) {
+            drive.setMotorPowers(-1, -1, -1, -1);
+            sleep(250);
+            drive.setMotorPowers(0, 0, 0, 0);
+        }
 
 
 //        drive.followTrajectory(park);
