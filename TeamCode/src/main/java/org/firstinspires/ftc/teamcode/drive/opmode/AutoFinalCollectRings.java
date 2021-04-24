@@ -11,30 +11,18 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.drive.opmode.SkystoneDeterminationPipeline;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
-import org.opencv.core.Size;
-import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
-import org.openftc.easyopencv.OpenCvPipeline;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /*
  * This is an example of a more complex path to really test the tuning.
  */
 
 @Autonomous
-public class AutoFinal extends LinearOpMode {
+public class AutoFinalCollectRings extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -106,13 +94,13 @@ public class AutoFinal extends LinearOpMode {
 
         double[] wobbleGoalPos = {80, 21};
         if (numberOfRings == 0) {
-            wobbleGoalPos[0] = 56;
+            wobbleGoalPos[0] = 57;
             wobbleGoalPos[1] = 1;
         } else if (numberOfRings == 4) {
-            wobbleGoalPos[0] = 104;
+            wobbleGoalPos[0] = 105;
             wobbleGoalPos[1] = 1;
         } else if (numberOfRings == 1) {
-            wobbleGoalPos[0] = 80;
+            wobbleGoalPos[0] = 81;
             wobbleGoalPos[1] = 21;
         }
 
@@ -124,15 +112,18 @@ public class AutoFinal extends LinearOpMode {
         drive.setPoseEstimate(new Pose2d(0,29.5,0));
 
         Trajectory toRingStack = drive.trajectoryBuilder(drive.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(28, 24, Math.toRadians(-3)))
+                .lineToLinearHeading(new Pose2d(28, 25, Math.toRadians(-2)))
+                .addDisplacementMarker(8, () -> {
+                    shooterTilt.setPosition(0);
+                })
                 .build();
 
         Trajectory toDropZoneOne_WobbleGoalOne = drive.trajectoryBuilder(toRingStack.end())
-                .splineTo(new Vector2d(wobbleGoalPos[0], wobbleGoalPos[1]), 0)
+                .lineToLinearHeading(new Pose2d(wobbleGoalPos[0], wobbleGoalPos[1], 0))
                 .build();
 
         Trajectory collectWobbleGoal = drive.trajectoryBuilder(toDropZoneOne_WobbleGoalOne.end())
-                .lineToLinearHeading(new Pose2d(25.5, 13, Math.toRadians(145)))
+                .lineToLinearHeading(new Pose2d(24, 12, Math.toRadians(155)))
 //                .addDisplacementMarker(8, () -> {
 //                    wobbleGoal.setPower(OUT_POWER);
 //                })
@@ -142,23 +133,21 @@ public class AutoFinal extends LinearOpMode {
                 .build();
 
         Trajectory toDropZoneOne_WobbleGoalTwo = drive.trajectoryBuilder(toRingStack.end())
-                .splineTo(new Vector2d(wobbleGoalPos[0] - 7, wobbleGoalPos[1] - 3), 0)
+                .lineToLinearHeading(new Pose2d(wobbleGoalPos[0]-12, wobbleGoalPos[1]-3, 0))
                 .build();
 
-        Trajectory park;
+        Trajectory park = drive.trajectoryBuilder(toDropZoneOne_WobbleGoalTwo.end())
+                .strafeTo(new Vector2d(70, 21))
+                .build();;
 
-        if (numberOfRings == 1 || numberOfRings == 4) {
-            park = drive.trajectoryBuilder(toDropZoneOne_WobbleGoalTwo.end())
-                    .strafeTo(new Vector2d(74, 32))
-                    .build();
-        } else {
+        if (numberOfRings == 0) {
             park = drive.trajectoryBuilder(toDropZoneOne_WobbleGoalTwo.end())
                     .strafeTo(new Vector2d(46, 22))
                     .build();
         }
 
         Trajectory finalize_park_zero_rings = drive.trajectoryBuilder(park.end())
-                .strafeTo(new Vector2d(74, 32))
+                .strafeTo(new Vector2d(70, 33))
                 .build();
 
         drive.followTrajectory(toRingStack);

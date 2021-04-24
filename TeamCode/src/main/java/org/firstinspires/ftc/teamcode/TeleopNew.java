@@ -61,7 +61,7 @@ public class TeleopNew extends OpMode {
             newrobot.shooterTilt.setPosition(0.4);
             tiltToggle = true;
         } else if (gamepad2.dpad_down && !gamepad2.dpad_up) {
-            newrobot.shooterTilt.setPosition(0.8);
+            newrobot.shooterTilt.setPosition(1);
             tiltToggle = false;
         }
         if (gamepad2.a && !gamepad2.b) {
