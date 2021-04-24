@@ -124,15 +124,11 @@ public class AutoFinal extends LinearOpMode {
         drive.setPoseEstimate(new Pose2d(0,29.5,0));
 
         Trajectory toRingStack = drive.trajectoryBuilder(drive.getPoseEstimate())
-                .strafeTo(new Vector2d(28, 24))
+                .lineToLinearHeading(new Pose2d(28, 24, Math.toRadians(-3)))
                 .build();
 
         Trajectory toDropZoneOne_WobbleGoalOne = drive.trajectoryBuilder(toRingStack.end())
                 .splineTo(new Vector2d(wobbleGoalPos[0], wobbleGoalPos[1]), 0)
-                .build();
-
-        Trajectory toDropZoneOne_WobbleGoalTwo = drive.trajectoryBuilder(toRingStack.end())
-                .splineTo(new Vector2d(wobbleGoalPos[0] - 4, wobbleGoalPos[1]), 0)
                 .build();
 
         Trajectory collectWobbleGoal = drive.trajectoryBuilder(toDropZoneOne_WobbleGoalOne.end())
@@ -145,8 +141,24 @@ public class AutoFinal extends LinearOpMode {
 //                })
                 .build();
 
-        Trajectory park = drive.trajectoryBuilder(toDropZoneOne_WobbleGoalTwo.end())
-                .strafeTo(new Vector2d(80, 27))
+        Trajectory toDropZoneOne_WobbleGoalTwo = drive.trajectoryBuilder(toRingStack.end())
+                .splineTo(new Vector2d(wobbleGoalPos[0] - 7, wobbleGoalPos[1] - 3), 0)
+                .build();
+
+        Trajectory park;
+
+        if (numberOfRings == 1 || numberOfRings == 4) {
+            park = drive.trajectoryBuilder(toDropZoneOne_WobbleGoalTwo.end())
+                    .strafeTo(new Vector2d(74, 32))
+                    .build();
+        } else {
+            park = drive.trajectoryBuilder(toDropZoneOne_WobbleGoalTwo.end())
+                    .strafeTo(new Vector2d(46, 22))
+                    .build();
+        }
+
+        Trajectory finalize_park_zero_rings = drive.trajectoryBuilder(park.end())
+                .strafeTo(new Vector2d(74, 32))
                 .build();
 
         drive.followTrajectory(toRingStack);
@@ -156,15 +168,15 @@ public class AutoFinal extends LinearOpMode {
         shooterTwo.setVelocity(-196, AngleUnit.DEGREES);
         sleep(1000);
         magazine.setPosition(1);
-        sleep(2000);
+        sleep(1000);
         magazine.setPosition(0.5);
         sleep(1000);
         magazine.setPosition(1);
-        sleep(2000);
+        sleep(1000);
         magazine.setPosition(0.5);
         sleep(1000);
         magazine.setPosition(1);
-        sleep(2000);
+        sleep(1000);
         magazine.setPosition(0.5);
         sleep(1000);
         magazine.setPosition(1);
@@ -193,20 +205,11 @@ public class AutoFinal extends LinearOpMode {
         sleep(500);
         moveMotorSec(wobbleGoal, IN_POWER, 1000);
 
-        if (numberOfRings == 1) {
-            drive.setMotorPowers(-1, -1, -1, -1);
-            sleep(250);
-            drive.setMotorPowers(0, 0, 0, 0);
-        } else if (numberOfRings == 4) {
-            drive.setMotorPowers(-1, -1, -1, -1);
-            sleep(500);
-            drive.setMotorPowers(0, 0, 0, 0);
-        } else if (numberOfRings == 0) {
-            drive.setMotorPowers(1, 1, 1, 1);
-            sleep(250);
-            drive.setMotorPowers(0, 0, 0, 0);
-        }
+        drive.followTrajectory(park);
 
+        if(numberOfRings == 0) {
+            drive.followTrajectory(finalize_park_zero_rings);
+        }
 //        drive.followTrajectory(park);
     }
 
