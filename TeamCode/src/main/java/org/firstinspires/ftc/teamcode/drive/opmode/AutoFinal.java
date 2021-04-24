@@ -124,11 +124,7 @@ public class AutoFinal extends LinearOpMode {
         drive.setPoseEstimate(new Pose2d(0,29.5,0));
 
         Trajectory toRingStack = drive.trajectoryBuilder(drive.getPoseEstimate())
-                .strafeTo(new Vector2d(28, 27))
-                .build();
-
-        Trajectory park = drive.trajectoryBuilder(drive.getPoseEstimate())
-                .strafeTo(new Vector2d(80, 27))
+                .strafeTo(new Vector2d(28, 24))
                 .build();
 
         Trajectory toDropZoneOne_WobbleGoalOne = drive.trajectoryBuilder(toRingStack.end())
@@ -149,6 +145,9 @@ public class AutoFinal extends LinearOpMode {
 //                })
                 .build();
 
+        Trajectory park = drive.trajectoryBuilder(toDropZoneOne_WobbleGoalTwo.end())
+                .strafeTo(new Vector2d(80, 27))
+                .build();
 
         drive.followTrajectory(toRingStack);
 
@@ -173,7 +172,6 @@ public class AutoFinal extends LinearOpMode {
         shooterOne.setVelocity(0, AngleUnit.DEGREES);
         shooterTwo.setVelocity(0, AngleUnit.DEGREES);
 
-//        collector.setPower(-1);
 
         drive.followTrajectory(toDropZoneOne_WobbleGoalOne);
 
@@ -181,13 +179,6 @@ public class AutoFinal extends LinearOpMode {
         wobbleServo.setPosition(OPEN_POS);
         sleep(500);
         //moveMotorSec(wobbleGoal, IN_POWER, 1500);
-
-//        drive.followTrajectory(toRingStack);
-//
-//        sleep(1000);
-//        magazine.setPosition(1);
-//        sleep(2000);
-//        magazine.setPosition(0.5);
 
         drive.followTrajectory(collectWobbleGoal);
 
@@ -208,10 +199,10 @@ public class AutoFinal extends LinearOpMode {
             drive.setMotorPowers(0, 0, 0, 0);
         } else if (numberOfRings == 4) {
             drive.setMotorPowers(-1, -1, -1, -1);
-            sleep(1000);
+            sleep(500);
             drive.setMotorPowers(0, 0, 0, 0);
         } else if (numberOfRings == 0) {
-            drive.setMotorPowers(-1, -1, -1, -1);
+            drive.setMotorPowers(1, 1, 1, 1);
             sleep(250);
             drive.setMotorPowers(0, 0, 0, 0);
         }
@@ -224,13 +215,12 @@ public class AutoFinal extends LinearOpMode {
 
         elapsedTime.reset();
 
-        while(opModeIsActive() && (elapsedTime.milliseconds() < runTime)) {
+        while (opModeIsActive() && (elapsedTime.milliseconds() < runTime)) {
             motor.setPower(power);
         }
 
         motor.setPower(0);
         //I feel like a bug
     }
-
 }
 
