@@ -10,13 +10,8 @@ public class TeleopNew extends OpMode {
 
     NewRobot newrobot = new NewRobot();
     public static final double STRAFE_SPEED = 0.5;
-    public static final double tiltPos = 1;
-    public static final double tiltRetractPos = 0;
-    public static final double magPos = 0.6;
-    public static final double magRetractPos = 0.2;
     public double shooterSpeed = 0;
     public boolean tiltToggle = false;
-    public boolean magToggle = false;
 
 
     @Override
@@ -54,7 +49,7 @@ public class TeleopNew extends OpMode {
         }
 
         if (gamepad1.y) {
-            shooterSpeed = -1;
+            shooterSpeed = -0.8;
             newrobot.shooterOne.setPower(shooterSpeed);
             newrobot.shooterTwo.setPower(shooterSpeed);
         }
@@ -64,12 +59,16 @@ public class TeleopNew extends OpMode {
             newrobot.shooterTwo.setPower(shooterSpeed);
         }
         if (gamepad2.dpad_up && !gamepad2.dpad_down) {
-            newrobot.shooterTilt.setPosition(0);
+            newrobot.shooterTilt.setPosition(0.4);
+            tiltToggle = true;
         } else if (gamepad2.dpad_down && !gamepad2.dpad_up) {
-            newrobot.shooterTilt.setPosition(1);
+            newrobot.shooterTilt.setPosition(0.8);
+            tiltToggle = false;
         }
         if (gamepad2.a && !gamepad2.b) {
-            newrobot.magazine.setPosition(0.5);
+            if(tiltToggle){
+                newrobot.magazine.setPosition(0.5);
+            }
         } else if (gamepad2.b && !gamepad2.a) {
             newrobot.magazine.setPosition(1);
         }
