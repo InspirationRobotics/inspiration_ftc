@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.NewRobot;
 
 @TeleOp(name = "TeleOp the Sequel")
@@ -49,14 +50,12 @@ public class TeleopNew extends OpMode {
         }
 
         if (gamepad1.y) {
-            shooterSpeed = -0.8;
-            newrobot.shooterOne.setPower(shooterSpeed);
-            newrobot.shooterTwo.setPower(shooterSpeed);
+            newrobot.shooterOne.setVelocity(-196, AngleUnit.DEGREES);
+            newrobot.shooterTwo.setVelocity(-196, AngleUnit.DEGREES);
         }
         if (gamepad1.x) {
-            shooterSpeed = 0;
-            newrobot.shooterOne.setPower(shooterSpeed);
-            newrobot.shooterTwo.setPower(shooterSpeed);
+            newrobot.shooterOne.setVelocity(0, AngleUnit.DEGREES);
+            newrobot.shooterTwo.setVelocity(0, AngleUnit.DEGREES);
         }
         if (gamepad2.dpad_up && !gamepad2.dpad_down) {
             newrobot.shooterTilt.setPosition(0.4);
