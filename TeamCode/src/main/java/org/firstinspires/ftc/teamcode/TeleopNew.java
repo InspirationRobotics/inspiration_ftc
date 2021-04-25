@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.NewRobot;
@@ -10,10 +11,11 @@ import org.firstinspires.ftc.teamcode.NewRobot;
 public class TeleopNew extends OpMode {
 
     NewRobot newrobot = new NewRobot();
-    public static final double STRAFE_SPEED = 0.5;
+    public static final double STRAFE_SPEED = 0.7;
     public double shooterSpeed = 0;
     public boolean tiltToggle = false;
 
+    Servo whisker;
 
     @Override
     public void init() {
@@ -21,8 +23,13 @@ public class TeleopNew extends OpMode {
         newrobot.initDrivetrain();
         newrobot.initAllServos();
         newrobot.initMiscMotors();
+        whisker = hardwareMap.servo.get("whisker");
     }
 
+    @Override
+    public void start() {
+        whisker.setPosition(1);
+    }
     @Override
     public void loop() {
         newrobot.frontLeft.setPower(-gamepad1.left_stick_y);
